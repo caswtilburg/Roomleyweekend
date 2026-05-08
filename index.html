@@ -316,22 +316,22 @@ function HomePage({ setCurrentPage, desktop }) {
   const navItems = NAV.filter(p => p.key !== 'home');
 
   const CountdownBar = ({ large }) => (
-    <div style={{ background: BLACK, display: 'grid', gridTemplateColumns: 'repeat(4,1fr)' }}>
+    <div style={{ background: TERRA, display: 'grid', gridTemplateColumns: 'repeat(4,1fr)' }}>
       {cd.map((item, i) => (
         <div key={item.l} style={{
           textAlign: 'center',
           padding: large ? '16px 8px' : '12px 8px',
-          borderRight: i < 3 ? '1px solid rgba(245,240,232,0.07)' : 'none',
+          borderRight: i < 3 ? '1px solid rgba(245,240,232,0.20)' : 'none',
         }}>
           <div style={{
             fontFamily: "'Barlow Condensed', sans-serif",
-            fontSize: large ? 40 : 30, fontWeight: 900, color: TERRA, lineHeight: 1,
+            fontSize: large ? 40 : 30, fontWeight: 900, color: BEIGE, lineHeight: 1,
             fontVariantNumeric: 'tabular-nums',
           }}>{String(item.v).padStart(2,'0')}</div>
           <div style={{
             fontFamily: "'Fragment Mono', monospace",
             fontSize: 7, letterSpacing: '0.2em', textTransform: 'uppercase',
-            color: 'rgba(245,240,232,0.24)', marginTop: 4,
+            color: 'rgba(245,240,232,0.70)', marginTop: 4,
           }}>{item.l}</div>
         </div>
       ))}
@@ -425,10 +425,10 @@ function HomePage({ setCurrentPage, desktop }) {
             }}/>
             <CountdownBar large={true}/>
             <div style={{
-              background: BLACK, padding: '10px 20px',
+              background: TERRA, padding: '10px 20px',
               fontFamily: "'Fragment Mono', monospace",
-              fontSize: 10, color: 'rgba(245,240,232,0.40)',
-              borderTop: '1px solid rgba(245,240,232,0.05)',
+              fontSize: 10, color: 'rgba(245,240,232,0.70)',
+              borderTop: '1px solid rgba(245,240,232,0.20)',
             }}>
               Zondag 28 juni · Zeker om 19u weer thuis.
             </div>
@@ -485,10 +485,10 @@ function HomePage({ setCurrentPage, desktop }) {
 
       <CountdownBar large={false}/>
       <div style={{
-        background: BLACK, padding: '10px 16px',
+        background: TERRA, padding: '10px 16px',
         fontFamily: "'Fragment Mono', monospace",
-        fontSize: 10, color: 'rgba(245,240,232,0.40)',
-        borderTop: '1px solid rgba(245,240,232,0.05)',
+        fontSize: 10, color: 'rgba(245,240,232,0.70)',
+        borderTop: '1px solid rgba(245,240,232,0.20)',
       }}>
         Zondag 28 juni · Zeker om 19u weer thuis.
       </div>
