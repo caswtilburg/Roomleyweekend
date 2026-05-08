@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8"/>
+<title>RMLY · Weekend 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23c44a2a'/><text x='1.5' y='13.5' font-family='Arial Black,sans-serif' font-size='13' font-weight='900' fill='%23f5f0e8'>R</text></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@900&family=Fragment+Mono&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;}
+html,body{margin:0;padding:0;height:100%;background:#111;}
+body{font-family:'DM Sans',system-ui,sans-serif;font-weight:400;}
+#root{height:100%;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(196,74,42,0.35);}
+details summary::-webkit-details-marker{display:none;}
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+// ─── Tokens ───────────────────────────────────────────────────────────────────
+const BLACK = '#111111';
+const TERRA = '#c44a2a';
+const BEIGE = '#f5f0e8';
+const DEEP  = '#0a0704';
+const PAPER = '#faf6ee';
+
+const NAV = [
+  { key: 'home',       label: 'Home',            sub: 'Overzicht' },
+  { key: 'programma',  label: 'Programma',        sub: '4 dagen, 3 nachten' },
+  { key: 'paklijst',   label: 'Paklijst',         sub: 'Wat neem je mee' },
+  { key: 'weer',       label: 'Weersverwachting', sub: '± 25 °C' },
+  { key: 'locatie',    label: 'Locatie',          sub: 'Adres & route' },
+];
+
+const NAMES = ['Daan','Cas','Bas','Hugo','Huub','Jordi','Bram','Lars','Max','Pepijn','Robin','Roel','Voerbak','Ruben','Sander','Sebas','Stijn'];
+
+// ─── Hooks ────────────────────────────────────────────────────────────────────
+function useIsDesktop() {
+  const [d, setD] = React.useState(() => window.innerWidth >= 768);
+  React.useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)');
+    const h = e => setD(e.matches);
+    mq.addEventListener('change', h);
+    return () => mq.removeEventListener('change', h);
+  }, []);
+  return d;
+}
+
+function useCountdown() {
+  const [now, setNow] = React.useState(new Date());
+  React.useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const target = new Date('2026-06-25T06:00:00+02:00');
+  const diff = Math.max(0, target - now);
+  return {
+    days:    Math.floor(diff / 86400000),
+    hours:   Math.floor((diff / 3600000) % 24),
+    minutes: Math.floor((diff / 60000) % 60),
+    seconds: Math.floor((diff / 1000) % 60),
+  };
+}
+
+// ─── Brand ────────────────────────────────────────────────────────────────────
+function Brand() {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+      <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 30, color: TERRA, lineHeight: 1 }}>R</div>
+      <div>
+        <div style={{
+          fontFamily: "'Barlow Condensed', sans-serif",
+          fontSize: 15, fontWeight: 900, letterSpacing: '0.10em',
+          textTransform: 'uppercase', color: BEIGE, lineHeight: 1,
+        }}>RMLY · <span style={{ color: TERRA }}>2026</span></div>
+        <div style={{
+          fontFamily: "'Fragment Mono', monospace",
+          fontSize: 8, color: 'rgba(245,240,232,0.28)', letterSpacing: '0.15em', marginTop: 2,
+        }}>25 — 28 · 06</div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Topbar ───────────────────────────────────────────────────────────────────
+function Topbar({ currentPage, setCurrentPage, desktop }) {
+  return (
+    <div style={{
+      background: BLACK,
+      padding: desktop ? '0 36px' : '0 20px',
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      height: desktop ? 52 : 48,
+      flexShrink: 0, position: 'relative', zIndex: 100,
+    }}>
+      <Brand/>
+      {desktop && (
+        <nav style={{ display: 'flex', gap: 28 }}>
+          {NAV.map(p => (
+            <button key={p.key} onClick={() => setCurrentPage(p.key)} style={{
+              appearance: 'none', border: 'none', background: 'transparent',
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontSize: 12, fontWeight: 900,
+              letterSpacing: '0.10em', textTransform: 'uppercase',
+              color: currentPage === p.key ? TERRA : 'rgba(245,240,232,0.32)',
+              cursor: 'pointer', padding: '4px 0', lineHeight: 1,
+              transition: 'color 120ms ease',
+            }}>{p.label}</button>
+          ))}
+        </nav>
+      )}
+    </div>
+  );
+}
+
+// ─── R Watermark ──────────────────────────────────────────────────────────────
+function RWatermark({ color, size }) {
+  const c = color || 'rgba(196,74,42,0.06)';
+  const s = size || 380;
+  return (
+    <div style={{
+      position: 'absolute', right: -20, bottom: -60,
+      fontFamily: "'Bebas Neue', sans-serif",
+      fontSize: s, lineHeight: 1, color: c,
+      pointerEvents: 'none', userSelect: 'none', zIndex: 0,
+    }}>R</div>
+  );
+}
+
+// ─── MaskedWord ───────────────────────────────────────────────────────────────
+function MaskedWord({ word, fontSize, revealedIdx, setRevealedIdx, onDark }) {
+  const textColor = onDark ? BEIGE : BLACK;
+  return (
+    <div style={{
+      fontFamily: "'Barlow Condensed', sans-serif",
+      fontWeight: 900, fontSize, lineHeight: 0.88,
+      textTransform: 'uppercase', color: textColor,
+      letterSpacing: '0.02em',
+      display: 'flex', flexWrap: 'wrap', gap: '0.02em',
+      userSelect: 'none',
+    }}>
+      {word.split('').map((ch, i) => {
+        const revealed = revealedIdx === i;
+        return (
+          <button key={i}
+            onClick={() => setRevealedIdx(revealed ? null : i)}
+            style={{
+              appearance: 'none', border: 0, padding: 0, margin: 0,
+              background: 'transparent', cursor: 'pointer',
+              fontFamily: 'inherit', fontWeight: 'inherit',
+              fontSize: 'inherit', lineHeight: 'inherit',
+              letterSpacing: 'inherit', color: 'inherit',
+              position: 'relative',
+              width: '0.60em', height: '0.88em',
+              display: 'inline-flex', alignItems: 'flex-end', justifyContent: 'center',
+              overflow: 'hidden',
+            }}>
+            <span style={{
+              position: 'absolute', inset: 0,
+              display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+              color: textColor,
+              opacity: revealed ? 1 : 0,
+              transform: revealed ? 'translateY(0)' : 'translateY(8%)',
+              transition: 'opacity 220ms ease, transform 280ms ease',
+            }}>{ch}</span>
+            <span style={{
+              position: 'absolute', inset: 0,
+              background: revealed ? 'transparent' : TERRA,
+              transform: revealed ? 'translateY(101%)' : 'translateY(0)',
+              transition: 'transform 320ms cubic-bezier(.7,0,.2,1)',
+            }}/>
+            {!revealed && (
+              <span style={{
+                position: 'absolute', inset: 0,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontFamily: "'Fragment Mono', monospace",
+                fontSize: '0.18em', fontWeight: 400, letterSpacing: '0.2em',
+                color: BEIGE, opacity: 0.5, pointerEvents: 'none',
+              }}>{String(i+1).padStart(2,'0')}</span>
+            )}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── Mobile back button ────────────────────────────────────────────────────────
+function MobileBack({ setCurrentPage }) {
+  return (
+    <button onClick={() => setCurrentPage('home')} style={{
+      appearance: 'none', border: 0,
+      background: 'transparent',
+      display: 'flex', alignItems: 'center', gap: 10,
+      padding: '0 0 16px 0',
+      marginBottom: 20,
+      borderBottom: '1px solid rgba(17,17,17,0.10)',
+      width: '100%', cursor: 'pointer', textAlign: 'left',
+    }}>
+      <span style={{ color: TERRA, fontFamily: "'Fragment Mono', monospace", fontSize: 20, lineHeight: 1 }}>←</span>
+      <span style={{
+        fontFamily: "'Fragment Mono', monospace", fontSize: 9,
+        letterSpacing: '0.3em', textTransform: 'uppercase', color: TERRA,
+      }}>Home</span>
+    </button>
+  );
+}
+
+// ─── Mobile nav buttons ────────────────────────────────────────────────────────
+function MobileNavButtons({ setCurrentPage, exclude }) {
+  const [pressed, setPressed] = React.useState(null);
+  const items = NAV.filter(p => p.key !== 'home' && p.key !== exclude);
+  const go = (key) => {
+    setPressed(key);
+    setTimeout(() => { setPressed(null); setCurrentPage(key); }, 180);
+  };
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div style={{
+        fontFamily: "'Fragment Mono', monospace",
+        fontSize: 8, letterSpacing: '0.35em', textTransform: 'uppercase',
+        color: 'rgba(17,17,17,0.38)', marginBottom: 4,
+      }}>━━ Navigatie</div>
+      {items.map(b => (
+        <button key={b.key} onClick={() => go(b.key)} style={{
+          appearance: 'none', width: '100%',
+          background: pressed === b.key ? 'rgba(196,74,42,0.10)' : PAPER,
+          border: `1px solid ${pressed === b.key ? TERRA : 'rgba(17,17,17,0.14)'}`,
+          color: BLACK, padding: '13px 16px',
+          display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer',
+          textAlign: 'left', transition: 'all 100ms ease',
+          transform: pressed === b.key ? 'scale(0.98)' : 'scale(1)',
+        }}>
+          <div style={{ flex: 1 }}>
+            <div style={{
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontSize: 20, fontWeight: 900, textTransform: 'uppercase',
+              letterSpacing: '0.04em', lineHeight: 1, color: BLACK, marginBottom: 2,
+            }}>{b.label}</div>
+            <div style={{
+              fontFamily: "'Fragment Mono', monospace",
+              fontSize: 10, color: 'rgba(17,17,17,0.42)',
+            }}>{b.sub}</div>
+          </div>
+          <div style={{ color: TERRA, fontFamily: "'Fragment Mono', monospace", fontSize: 14 }}>↗</div>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ─── PageLabel ────────────────────────────────────────────────────────────────
+function PageLabel({ children }) {
+  return (
+    <div style={{
+      fontFamily: "'Fragment Mono', monospace",
+      fontSize: 9, letterSpacing: '0.35em', textTransform: 'uppercase',
+      color: TERRA, marginBottom: 12,
+    }}>{children}</div>
+  );
+}
+
+// ─── Card (beige content card) ─────────────────────────────────────────────────
+function InfoCard({ children, style }) {
+  return (
+    <div style={{
+      background: PAPER,
+      border: '1px solid rgba(17,17,17,0.10)',
+      padding: '18px 20px',
+      ...style,
+    }}>{children}</div>
+  );
+}
+
+// ─── SubPage wrapper (desktop) ─────────────────────────────────────────────────
+function SubShell({ children, maxWidth }) {
+  const mw = maxWidth || 860;
+  return (
+    <div style={{
+      background: BEIGE, minHeight: '100%', position: 'relative', overflow: 'hidden',
+    }}>
+      <RWatermark color="rgba(196,74,42,0.06)" size={380}/>
+      <div style={{ maxWidth: mw, margin: '0 auto', padding: '52px 56px 80px', position: 'relative', zIndex: 1 }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// ─── HomePage ─────────────────────────────────────────────────────────────────
+function HomePage({ setCurrentPage, desktop }) {
+  const [revealedIdx, setRevealedIdx] = React.useState(null);
+  const [pressed, setPressed] = React.useState(null);
+  const { days, hours, minutes, seconds } = useCountdown();
+
+  const cd = [
+    { l: 'DAGEN', v: days },
+    { l: 'UUR',   v: hours },
+    { l: 'MIN',   v: minutes },
+    { l: 'SEC',   v: seconds },
+  ];
+
+  const go = (key) => {
+    setPressed(key);
+    setTimeout(() => { setPressed(null); setCurrentPage(key); }, 180);
+  };
+
+  const navItems = NAV.filter(p => p.key !== 'home');
+
+  const CountdownBar = ({ large }) => (
+    <div style={{ background: BLACK, display: 'grid', gridTemplateColumns: 'repeat(4,1fr)' }}>
+      {cd.map((item, i) => (
+        <div key={item.l} style={{
+          textAlign: 'center',
+          padding: large ? '16px 8px' : '12px 8px',
+          borderRight: i < 3 ? '1px solid rgba(245,240,232,0.07)' : 'none',
+        }}>
+          <div style={{
+            fontFamily: "'Barlow Condensed', sans-serif",
+            fontSize: large ? 40 : 30, fontWeight: 900, color: TERRA, lineHeight: 1,
+            fontVariantNumeric: 'tabular-nums',
+          }}>{String(item.v).padStart(2,'0')}</div>
+          <div style={{
+            fontFamily: "'Fragment Mono', monospace",
+            fontSize: 7, letterSpacing: '0.2em', textTransform: 'uppercase',
+            color: 'rgba(245,240,232,0.24)', marginTop: 4,
+          }}>{item.l}</div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const SoldiersBlock = ({ cols, size }) => (
+    <div style={{ background: DEEP, padding: desktop ? '52px 56px' : '32px 20px 44px', position: 'relative', overflow: 'hidden' }}>
+      <RWatermark color="rgba(196,74,42,0.07)" size={desktop ? 400 : 280}/>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <div style={{
+          fontFamily: "'Bebas Neue', sans-serif",
+          fontSize: size, color: TERRA, lineHeight: 0.9, marginBottom: 8,
+        }}>R</div>
+        <div style={{
+          fontFamily: "'Fragment Mono', monospace",
+          fontSize: 8, letterSpacing: '0.3em', textTransform: 'uppercase',
+          color: 'rgba(245,240,232,0.28)', marginBottom: 20,
+          paddingBottom: 16, borderBottom: '1px solid rgba(245,240,232,0.07)',
+        }}>Roomley Soldiers · {NAMES.length} man</div>
+        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols},1fr)`, gap: '7px 20px' }}>
+          {NAMES.map((n, i) => (
+            <div key={n} style={{ fontFamily: "'Fragment Mono', monospace", fontSize: 11, color: 'rgba(245,240,232,0.50)' }}>
+              <span style={{ color: TERRA, marginRight: 8 }}>{String(i+1).padStart(2,'0')}</span>{n}
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 36, paddingTop: 28, borderTop: '1px solid rgba(245,240,232,0.07)' }}>
+          <div style={{
+            fontFamily: "'Fragment Mono', monospace",
+            fontSize: 8, letterSpacing: '0.3em', textTransform: 'uppercase',
+            color: 'rgba(245,240,232,0.28)', marginBottom: 20,
+          }}>━━ Raad de bestemming · tik op de letters</div>
+          <MaskedWord
+            word="BOEDAPEST"
+            fontSize={desktop ? 76 : 52}
+            revealedIdx={revealedIdx}
+            setRevealedIdx={setRevealedIdx}
+            onDark={true}
+          />
+        </div>
+      </div>
+    </div>
+  );
+
+  if (desktop) {
+    return (
+      <div>
+        {/* Hero 50/50 */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+          {/* Left: terracotta */}
+          <div style={{
+            background: TERRA, padding: '52px 52px 48px',
+            display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
+            position: 'relative', overflow: 'hidden', minHeight: 500,
+          }}>
+            <div style={{
+              position: 'absolute', top: -60, left: -12,
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: 340, color: 'rgba(0,0,0,0.09)', lineHeight: 1,
+              pointerEvents: 'none', userSelect: 'none',
+            }}>R</div>
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <div style={{
+                fontFamily: "'Fragment Mono', monospace",
+                fontSize: 9, letterSpacing: '0.3em', textTransform: 'uppercase',
+                color: 'rgba(245,240,232,0.60)', marginBottom: 22,
+              }}>━━ Roomley Weekend · 25–28 juni 2026</div>
+              <div style={{
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontSize: 82, fontWeight: 900, textTransform: 'uppercase',
+                letterSpacing: '0.02em', lineHeight: 0.88,
+                color: BEIGE, marginBottom: 26,
+              }}>ERGENS<br/>IN EUROPA</div>
+              <div style={{
+                fontFamily: "'Fragment Mono', monospace",
+                fontSize: 11, color: 'rgba(245,240,232,0.70)',
+                lineHeight: 1.65, maxWidth: 380,
+              }}>
+                Roomley Soldiers — ergens in Europa staat een appartement op jullie te wachten. Vier dagen, één stad, 17 man. Meer hoeven jullie nu niet te weten. Kijk rond op deze site, pak in en zorg dat je op tijd bij de Mac staat op 25 juni.
+              </div>
+            </div>
+          </div>
+
+          {/* Right: photo + countdown */}
+          <div style={{ display: 'grid', gridTemplateRows: '1fr auto' }}>
+            <div style={{
+              backgroundImage: 'url(Hero.jpg)',
+              backgroundSize: 'cover', backgroundPosition: 'center',
+              backgroundColor: DEEP, minHeight: 380,
+            }}/>
+            <CountdownBar large={true}/>
+            <div style={{
+              background: BLACK, padding: '10px 20px',
+              fontFamily: "'Fragment Mono', monospace",
+              fontSize: 10, color: 'rgba(245,240,232,0.40)',
+              borderTop: '1px solid rgba(245,240,232,0.05)',
+            }}>
+              Zondag 28 juni · Zeker om 19u weer thuis.
+            </div>
+          </div>
+        </div>
+
+        <SoldiersBlock cols={6} size={68}/>
+      </div>
+    );
+  }
+
+  // Mobile
+  return (
+    <div style={{ background: BEIGE }}>
+      {/* Terracotta hero */}
+      <div style={{
+        background: TERRA, padding: '28px 22px 36px',
+        position: 'relative', overflow: 'hidden',
+      }}>
+        <div style={{
+          position: 'absolute', right: -20, bottom: -80,
+          fontFamily: "'Bebas Neue', sans-serif",
+          fontSize: 280, color: 'rgba(0,0,0,0.08)', lineHeight: 1,
+          pointerEvents: 'none', userSelect: 'none',
+        }}>R</div>
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{
+            fontFamily: "'Fragment Mono', monospace",
+            fontSize: 9, letterSpacing: '0.3em', textTransform: 'uppercase',
+            color: 'rgba(245,240,232,0.60)', marginBottom: 16,
+          }}>━━ Roomley Weekend · 25–28 juni 2026</div>
+          <div style={{
+            fontFamily: "'Barlow Condensed', sans-serif",
+            fontSize: 62, fontWeight: 900, textTransform: 'uppercase',
+            letterSpacing: '0.02em', lineHeight: 0.88,
+            color: BEIGE, marginBottom: 20,
+          }}>ERGENS<br/>IN EUROPA</div>
+          <div style={{
+            fontFamily: "'Fragment Mono', monospace",
+            fontSize: 11, color: 'rgba(245,240,232,0.70)', lineHeight: 1.6,
+          }}>
+            Vier dagen, één stad, 17 man. Meer hoeven jullie nu niet te weten.
+          </div>
+        </div>
+      </div>
+
+      {/* Hero photo */}
+      <div style={{
+        height: 220,
+        backgroundImage: 'url(Hero.jpg)',
+        backgroundSize: 'cover', backgroundPosition: 'center',
+        backgroundColor: DEEP,
+      }}/>
+
+      <CountdownBar large={false}/>
+      <div style={{
+        background: BLACK, padding: '10px 16px',
+        fontFamily: "'Fragment Mono', monospace",
+        fontSize: 10, color: 'rgba(245,240,232,0.40)',
+        borderTop: '1px solid rgba(245,240,232,0.05)',
+      }}>
+        Zondag 28 juni · Zeker om 19u weer thuis.
+      </div>
+
+      {/* Nav cards */}
+      <div style={{ padding: '28px 20px 20px', background: BEIGE }}>
+        <div style={{
+          fontFamily: "'Fragment Mono', monospace",
+          fontSize: 8, letterSpacing: '0.35em', textTransform: 'uppercase',
+          color: 'rgba(17,17,17,0.38)', marginBottom: 12,
+        }}>━━ Alles wat je moet weten</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {navItems.map(b => (
+            <button key={b.key} onClick={() => go(b.key)} style={{
+              appearance: 'none', width: '100%',
+              background: pressed === b.key ? 'rgba(196,74,42,0.10)' : PAPER,
+              border: `1px solid ${pressed === b.key ? TERRA : 'rgba(17,17,17,0.14)'}`,
+              color: BLACK, padding: '14px 18px',
+              display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer',
+              textAlign: 'left', transition: 'all 100ms ease',
+              transform: pressed === b.key ? 'scale(0.98)' : 'scale(1)',
+            }}>
+              <div style={{ flex: 1 }}>
+                <div style={{
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontSize: 22, fontWeight: 900, textTransform: 'uppercase',
+                  letterSpacing: '0.04em', lineHeight: 1, color: BLACK, marginBottom: 3,
+                }}>{b.label}</div>
+                <div style={{
+                  fontFamily: "'Fragment Mono', monospace",
+                  fontSize: 10, color: 'rgba(17,17,17,0.42)',
+                }}>{b.sub}</div>
+              </div>
+              <div style={{ color: TERRA, fontFamily: "'Fragment Mono', monospace", fontSize: 14 }}>↗</div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <SoldiersBlock cols={2} size={52}/>
+    </div>
+  );
+}
+
+// ─── ProgrammaPage ────────────────────────────────────────────────────────────
+function ProgrammaPage({ setCurrentPage, desktop }) {
+  const schedule = [
+    { day: 'Donderdag 25 juni', events: [
+      { time: '05:45',      desc: 'Vertrek vanaf de Mac in Udenhout. Zorg dat je op tijd bent.' },
+      { time: '05:45–08:00', desc: 'Rit richting een vliegveld dat net wat verder weg ligt dan je hoopt. Reken op ongeveer 2,5 uur rijden.' },
+      { time: '13:00',      desc: 'Aankomst en vervoer naar het appartement. Niet zomaar vervoer. Laten we zeggen dat de rit naar de accommodatie lijkt op Lars zijn 16e verjaardag.' },
+      { time: 'Middag',     desc: 'Inchecken, spullen droppen, oriënteren en doen alsof we een volwassen planning hebben.' },
+      { time: 'Avond',      desc: 'Typisch lokaal eten. Verwacht vlees, kruiden, stevige porties en iemand die zegt dat we rustig aan moeten doen.' },
+      { time: 'Later',      desc: 'De stad in. Eerste verkenning.' },
+    ]},
+    { day: 'Vrijdag 26 juni', events: [
+      { time: 'Ochtend',    desc: 'Mannenactiviteit. Klinkt spannend, is spannend, en nee: je hoeft niet in topconditie te zijn. Een vaste hand helpt wel.' },
+      { time: 'Middag',     desc: 'Opdracht in de stad. Teams, aanwijzingen, verwarring en waarschijnlijk iemand die veel te fanatiek wordt.' },
+      { time: 'Avond',      desc: 'Eten, indrinken en de stad verder testen op geschiktheid voor dertigers met zelfoverschatting.' },
+      { time: '01:00',      desc: 'Nachtprogramma met een oranje randje. Nederland speelt, wij kijken. Waar precies? Dat merk je vanzelf.' },
+    ]},
+    { day: 'Zaterdag 27 juni', events: [
+      { time: 'Ochtend',    desc: 'Rustig opstarten. Of doen alsof.' },
+      { time: 'Middag',     desc: 'Citytour, maar dan niet het soort waarbij je stil moet zijn en naar jaartallen moet luisteren. Er is vervoer, er is uitzicht en er is een reden waarom niemand zelf hoeft te sturen.' },
+      { time: 'Daarna',     desc: 'Chillen, eten, drinken, rondlopen, terrassen, slechte ideeën verzamelen en kijken wie nog fris genoeg oogt om geloofwaardig te liegen.' },
+      { time: 'Avond',      desc: 'Laatste avond. Geen ingewikkelde planning. Gewoon de stad in en kijken waar het eindigt.' },
+    ]},
+    { day: 'Zondag 28 juni', events: [
+      { time: 'Ochtend',    desc: "Terug naar huis. Waarschijnlijk te vroeg, waarschijnlijk te stil, waarschijnlijk met iemand die zweert dat hij 'dit nooit meer doet'." },
+    ]},
+  ];
+
+  const DayBlock = ({ block }) => (
+    <div style={{ marginBottom: 40 }}>
+      <div style={{
+        fontFamily: "'Barlow Condensed', sans-serif",
+        fontSize: desktop ? 18 : 20, fontWeight: 900, textTransform: 'uppercase',
+        letterSpacing: '0.06em', color: TERRA, lineHeight: 1.1,
+        paddingTop: 12, marginBottom: 20,
+        borderTop: `2px solid ${TERRA}`,
+      }}>{block.day}</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+        {block.events.map((ev, i) => (
+          <div key={i} style={{
+            display: 'grid',
+            gridTemplateColumns: desktop ? '100px 1fr' : '88px 1fr',
+            gap: 16, paddingBottom: 14, marginBottom: 14,
+            borderBottom: i < block.events.length - 1 ? '1px solid rgba(17,17,17,0.08)' : 'none',
+          }}>
+            <div style={{
+              fontFamily: "'Fragment Mono', monospace",
+              fontSize: 11, color: TERRA, lineHeight: 1.5, paddingTop: 1,
+            }}>{ev.time}</div>
+            <div style={{
+              fontSize: 14, lineHeight: 1.65, color: BLACK, fontWeight: 300,
+            }}>{ev.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  if (desktop) {
+    return (
+      <SubShell maxWidth={1020}>
+        <PageLabel>Programma</PageLabel>
+        <h1 style={{
+          fontFamily: "'Barlow Condensed', sans-serif",
+          fontSize: 60, fontWeight: 900, textTransform: 'uppercase',
+          letterSpacing: '0.02em', lineHeight: 0.9, color: BLACK,
+          margin: '0 0 12px 0',
+        }}>Vier dagen</h1>
+        <p style={{
+          fontSize: 15, lineHeight: 1.65, color: 'rgba(17,17,17,0.6)',
+          fontWeight: 300, margin: '0 0 48px 0',
+        }}>Wat staat ons te wachten? Een overzicht van uur voor uur.</p>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 52px' }}>
+          {schedule.map((block, i) => (<DayBlock key={i} block={block}/>))}
+        </div>
+      </SubShell>
+    );
+  }
+  return (
+    <div style={{ background: BEIGE, minHeight: '100vh', padding: '24px 20px 48px', position: 'relative', overflow: 'hidden' }}>
+      <RWatermark color="rgba(196,74,42,0.05)" size={280}/>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <MobileBack setCurrentPage={setCurrentPage}/>
+        <PageLabel>Programma</PageLabel>
+        <h1 style={{
+          fontFamily: "'Barlow Condensed', sans-serif",
+          fontSize: 52, fontWeight: 900, textTransform: 'uppercase',
+          letterSpacing: '0.02em', lineHeight: 0.9, color: BLACK,
+          margin: '0 0 10px 0',
+        }}>Vier dagen</h1>
+        <p style={{ fontSize: 13, lineHeight: 1.6, color: 'rgba(17,17,17,0.55)', fontWeight: 300, margin: '0 0 32px 0' }}>
+          Wat staat ons te wachten?
+        </p>
+        {schedule.map((block, i) => (<DayBlock key={i} block={block}/>))}
+        <div style={{ marginTop: 24 }}>
+          <MobileNavButtons setCurrentPage={setCurrentPage} exclude="programma"/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── PaklijstPage ─────────────────────────────────────────────────────────────
+function PaklijstPage({ setCurrentPage, desktop }) {
+  const meItems = [
+    { title: 'Paspoort of ID',                desc: 'Check of je geldig is.' },
+    { title: 'Zomerkleding',                  desc: "Korte broeken, shirts. Overdag zo'n 25 graden." },
+    { title: 'Lange broek',                   desc: 'Voor als we ergens naar binnen gaan waar ze moeilijk doen.' },
+    { title: 'Zonnebrand en zonnebril',       desc: '14 uur zon per dag. Je verbrand sneller dan je denkt.' },
+    { title: 'Goede schoenen',                desc: 'Je gaat veel lopen.' },
+    { title: 'Oplader en powerbank',          desc: 'Lange dagen.' },
+    { title: 'Handbagage',                    desc: 'Iedereen reist met handbagage.' },
+    { title: 'Paracetamol',                   desc: 'Niet voor als, maar voor wanneer.' },
+    { title: 'Oordoppen',                     desc: 'Voor als je bij Hugo op de kamer ligt.' },
+    { title: 'Slaapmasker',                   desc: 'Voor als je Roel heet.' },
+    { title: 'Zwembroek',                     desc: 'Wie weet.' },
+    { title: 'Meest rare zonnebril die je kan vinden', desc: 'Daarover later meer.' },
+  ];
+
+  const thuisItems = [
+    { title: 'Drugs',               desc: 'Nee. Gewoon nee.' },
+    { title: 'Laptop of werktelefoon', desc: 'Werken doen we later weer.' },
+    { title: 'Slechte zin',         desc: 'Laat thuis.' },
+    { title: 'Vrouwen',             desc: 'Op de heerres niet. Terugreis is op eigen kosten en eigen verantwoordelijkheid.' },
+    { title: 'Wapens',              desc: 'Die hebben ze daar genoeg.' },
+    { title: 'Kinderen',            desc: 'Laten we thuis.' },
+    { title: 'Grote koffer',        desc: 'Handbagage only. Zie hierboven.' },
+    { title: 'Cash',                desc: "Hier tellen euro's niet mee." },
+  ];
+
+  const Accordion = ({ label, items, accentColor, bgColor }) => (
+    <details style={{ border: `2px solid ${accentColor}`, background: bgColor }}>
+      <summary style={{
+        fontFamily: "'Barlow Condensed', sans-serif",
+        fontSize: desktop ? 20 : 22, fontWeight: 900, textTransform: 'uppercase',
+        letterSpacing: '0.04em', color: accentColor,
+        padding: '14px 18px', cursor: 'pointer', listStyle: 'none',
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      }}>
+        <span>{label}</span><span style={{ fontSize: 16 }}>▼</span>
+      </summary>
+      <div style={{ padding: '16px 18px', borderTop: `1px solid ${accentColor}`, display: 'flex', flexDirection: 'column', gap: 14 }}>
+        {items.map((item, i) => (
+          <div key={i}>
+            <div style={{
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontSize: 15, fontWeight: 900, textTransform: 'uppercase',
+              letterSpacing: '0.04em', color: BLACK, marginBottom: 3,
+            }}>{item.title}</div>
+            <div style={{
+              fontFamily: "'Fragment Mono', monospace",
+              fontSize: 11, lineHeight: 1.5, color: 'rgba(17,17,17,0.55)',
+            }}>{item.desc}</div>
+          </div>
+        ))}
+      </div>
+    </details>
+  );
+
+  const content = (
+    <>
+      <PageLabel>Paklijst</PageLabel>
+      <h1 style={{
+        fontFamily: "'Barlow Condensed', sans-serif",
+        fontSize: desktop ? 60 : 52, fontWeight: 900, textTransform: 'uppercase',
+        letterSpacing: '0.02em', lineHeight: 0.9, color: BLACK,
+        margin: '0 0 10px 0',
+      }}>Meenemen &<br/>thuislaten</h1>
+      <p style={{
+        fontSize: 15, lineHeight: 1.65, fontWeight: 300, color: 'rgba(17,17,17,0.6)',
+        margin: '0 0 32px 0',
+      }}>Vier dagen. Warm. Je hebt minder nodig dan je denkt.</p>
+
+      <div style={{
+        display: desktop ? 'grid' : 'flex',
+        gridTemplateColumns: desktop ? '1fr 1fr' : undefined,
+        flexDirection: desktop ? undefined : 'column',
+        gap: 16, marginBottom: 28,
+      }}>
+        <Accordion label="✓ Meenemen"   items={meItems}    accentColor="#1f8a5b" bgColor="#edf7f3"/>
+        <Accordion label="✕ Thuislaten" items={thuisItems} accentColor={TERRA}   bgColor="#fdf0ed"/>
+      </div>
+
+      <InfoCard style={{ marginBottom: 28 }}>
+        <div style={{
+          fontFamily: "'Barlow Condensed', sans-serif",
+          fontSize: 18, fontWeight: 900, textTransform: 'uppercase',
+          letterSpacing: '0.04em', color: BLACK, marginBottom: 16,
+          paddingBottom: 12, borderBottom: '1px solid rgba(17,17,17,0.10)',
+        }}>🧳 Handbagage — afmetingen</div>
+        <div style={{
+          fontFamily: "'Fragment Mono', monospace",
+          fontSize: 12, color: 'rgba(17,17,17,0.55)', marginBottom: 12,
+        }}>Moet onder de stoel voor je passen</div>
+        <div style={{
+          fontFamily: "'Barlow Condensed', sans-serif",
+          fontSize: desktop ? 36 : 28, fontWeight: 900,
+          textTransform: 'uppercase', letterSpacing: '0.05em',
+          color: TERRA, marginBottom: 14,
+        }}>40 × 30 × 20 cm</div>
+        <div style={{
+          borderTop: '1px solid rgba(17,17,17,0.10)', paddingTop: 12,
+          fontFamily: "'Fragment Mono', monospace",
+          fontSize: 11, lineHeight: 1.6, color: 'rgba(17,17,17,0.55)',
+        }}>
+          <strong style={{ color: BLACK }}>Vloeistoffen:</strong> Alleen in verpakkingen van max 100 ml. Alles samen in één transparante, hersluitbare plastic zak van max 1 liter.
+        </div>
+      </InfoCard>
+    </>
+  );
+
+  if (desktop) {
+    return (
+      <SubShell>
+        {content}
+      </SubShell>
+    );
+  }
+  return (
+    <div style={{ background: BEIGE, minHeight: '100vh', padding: '24px 20px 48px', position: 'relative', overflow: 'hidden' }}>
+      <RWatermark color="rgba(196,74,42,0.05)" size={280}/>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <MobileBack setCurrentPage={setCurrentPage}/>
+        {content}
+        <div style={{ marginTop: 28 }}>
+          <MobileNavButtons setCurrentPage={setCurrentPage} exclude="paklijst"/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── WeerPage ─────────────────────────────────────────────────────────────────
+function WeerPage({ setCurrentPage, desktop }) {
+  const [revealedIdx, setRevealedIdx] = React.useState(null);
+
+  const stats = [
+    { value: '26', unit: '°C', label: 'OVERDAG' },
+    { value: '15', unit: '°C', label: "'S NACHTS" },
+    { value: '14', unit: 'u',  label: 'ZON' },
+    { value: '22', unit: '%',  label: 'REGENKANS' },
+    { value: '66', unit: '%',  label: 'VOCHTIGHEID' },
+    { value: '16', unit: 'u',  label: 'DAGLICHT' },
+  ];
+
+  const content = (
+    <>
+      <PageLabel>Weerbericht</PageLabel>
+      <h1 style={{
+        fontFamily: "'Barlow Condensed', sans-serif",
+        fontSize: desktop ? 60 : 52, fontWeight: 900, textTransform: 'uppercase',
+        letterSpacing: '0.02em', lineHeight: 0.9, color: BLACK,
+        margin: '0 0 10px 0',
+      }}>Wat het wordt</h1>
+      <p style={{
+        fontSize: 15, lineHeight: 1.65, fontWeight: 300, color: 'rgba(17,17,17,0.6)',
+        margin: '0 0 32px 0', maxWidth: 540,
+      }}>
+        We zeggen niet waar we heen gaan. We zeggen wel hoe warm het daar is. Gemiddelden eind juni.
+      </p>
+
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: desktop ? 'repeat(6,1fr)' : 'repeat(3,1fr)',
+        gap: desktop ? 16 : 10, marginBottom: 28,
+      }}>
+        {stats.map((s, i) => (
+          <InfoCard key={i} style={{ textAlign: 'center', padding: desktop ? '20px 12px' : '14px 8px' }}>
+            <div style={{
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontSize: desktop ? 38 : 30, fontWeight: 900, color: TERRA, lineHeight: 1, marginBottom: 6,
+            }}>
+              {s.value}<span style={{ fontSize: desktop ? 20 : 16 }}>{s.unit}</span>
+            </div>
+            <div style={{
+              fontFamily: "'Fragment Mono', monospace",
+              fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase',
+              color: 'rgba(17,17,17,0.45)',
+            }}>{s.label}</div>
+          </InfoCard>
+        ))}
+      </div>
+
+      <div style={{
+        border: `1px solid ${TERRA}`, padding: '16px 20px', marginBottom: 32,
+        background: '#fdf0ed',
+      }}>
+        <p style={{
+          fontFamily: "'Fragment Mono', monospace",
+          fontSize: desktop ? 13 : 12, lineHeight: 1.65, color: BLACK, margin: 0,
+        }}>
+          Korte broek overdag, vestje voor 's avonds. Kans op een buitje, dat heb je overal.
+        </p>
+      </div>
+
+      <InfoCard>
+        <div style={{
+          fontFamily: "'Fragment Mono', monospace",
+          fontSize: 9, letterSpacing: '0.3em', textTransform: 'uppercase',
+          color: 'rgba(17,17,17,0.40)', marginBottom: 20,
+        }}>Raad de bestemming · tik op de letters</div>
+        <MaskedWord
+          word="MANCHESTER"
+          fontSize={desktop ? 68 : 44}
+          revealedIdx={revealedIdx}
+          setRevealedIdx={setRevealedIdx}
+          onDark={false}
+        />
+      </InfoCard>
+    </>
+  );
+
+  if (desktop) {
+    return (
+      <SubShell>
+        {content}
+      </SubShell>
+    );
+  }
+  return (
+    <div style={{ background: BEIGE, minHeight: '100vh', padding: '24px 20px 48px', position: 'relative', overflow: 'hidden' }}>
+      <RWatermark color="rgba(196,74,42,0.05)" size={280}/>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <MobileBack setCurrentPage={setCurrentPage}/>
+        {content}
+        <div style={{ marginTop: 28 }}>
+          <MobileNavButtons setCurrentPage={setCurrentPage} exclude="weer"/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── LocatiePage ──────────────────────────────────────────────────────────────
+function LocatiePage({ setCurrentPage, desktop }) {
+  const [revealedIdx, setRevealedIdx] = React.useState(null);
+
+  const content = (
+    <>
+      <PageLabel>Vertreklocatie</PageLabel>
+      <h1 style={{
+        fontFamily: "'Barlow Condensed', sans-serif",
+        fontSize: desktop ? 60 : 52, fontWeight: 900, textTransform: 'uppercase',
+        letterSpacing: '0.02em', lineHeight: 0.9, color: BLACK,
+        margin: '0 0 6px 0',
+      }}>McDonald's<br/><span style={{ color: TERRA }}>Udenhout</span></h1>
+      <h2 style={{
+        fontFamily: "'Barlow Condensed', sans-serif",
+        fontSize: desktop ? 40 : 34, fontWeight: 900, textTransform: 'uppercase',
+        letterSpacing: '0.02em', lineHeight: 1.1, color: BLACK,
+        margin: '0 0 20px 0',
+      }}>25 juni · <span style={{ color: TERRA }}>05:45</span></h2>
+      <p style={{
+        fontSize: 15, lineHeight: 1.65, fontWeight: 300, color: 'rgba(17,17,17,0.65)',
+        margin: '0 0 32px 0',
+      }}>Ja dat is vroeg, dat weten wij ook.....</p>
+
+      <div style={{
+        display: desktop ? 'grid' : 'flex',
+        gridTemplateColumns: desktop ? '1fr 1fr' : undefined,
+        flexDirection: desktop ? undefined : 'column',
+        gap: 16, marginBottom: 48,
+      }}>
+        <InfoCard>
+          <div style={{
+            fontFamily: "'Fragment Mono', monospace", fontSize: 9, letterSpacing: '0.25em',
+            textTransform: 'uppercase', color: TERRA, marginBottom: 16,
+          }}>4 auto's — chauffeurs</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 14px' }}>
+            {[['①','Cas'],['②','Voerbak'],['③','Robin'],['④','Huub']].map(([n,nm]) => (
+              <div key={nm} style={{
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontSize: 20, fontWeight: 900, textTransform: 'uppercase',
+                letterSpacing: '0.04em', color: BLACK,
+              }}>
+                <span style={{ color: TERRA, marginRight: 6 }}>{n}</span>{nm}
+              </div>
+            ))}
+          </div>
+        </InfoCard>
+        <InfoCard>
+          <div style={{
+            fontFamily: "'Fragment Mono', monospace", fontSize: 9, letterSpacing: '0.25em',
+            textTransform: 'uppercase', color: 'rgba(17,17,17,0.40)', marginBottom: 10,
+          }}>Ritafstand</div>
+          <div style={{
+            fontFamily: "'Barlow Condensed', sans-serif",
+            fontSize: desktop ? 40 : 32, fontWeight: 900, textTransform: 'uppercase',
+            letterSpacing: '0.02em', color: BLACK, lineHeight: 1,
+          }}>± 185 km</div>
+        </InfoCard>
+      </div>
+
+      <div style={{ marginBottom: 12 }}>
+        <div style={{
+          fontFamily: "'Fragment Mono', monospace",
+          fontSize: 9, letterSpacing: '0.3em', textTransform: 'uppercase',
+          color: 'rgba(17,17,17,0.40)', marginBottom: 20,
+        }}>━━ Raad de bestemming · tik op de letters</div>
+        <MaskedWord
+          word="KRAKAU"
+          fontSize={desktop ? 100 : 68}
+          revealedIdx={revealedIdx}
+          setRevealedIdx={setRevealedIdx}
+          onDark={false}
+        />
+        <div style={{
+          marginTop: 14, fontFamily: "'Fragment Mono', monospace",
+          fontSize: 10, color: 'rgba(17,17,17,0.40)', letterSpacing: '0.08em',
+        }}>Tik op de letters om meer te zien...</div>
+      </div>
+    </>
+  );
+
+  if (desktop) {
+    return (
+      <SubShell>
+        {content}
+      </SubShell>
+    );
+  }
+  return (
+    <div style={{ background: BEIGE, minHeight: '100vh', padding: '24px 20px 48px', position: 'relative', overflow: 'hidden' }}>
+      <RWatermark color="rgba(196,74,42,0.05)" size={280}/>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <MobileBack setCurrentPage={setCurrentPage}/>
+        {content}
+        <div style={{ marginTop: 32 }}>
+          <MobileNavButtons setCurrentPage={setCurrentPage} exclude="locatie"/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── App ──────────────────────────────────────────────────────────────────────
+const App = () => {
+  const [currentPage, setCurrentPage] = React.useState('home');
+  const desktop = useIsDesktop();
+  const props = { setCurrentPage, desktop };
+
+  const renderPage = () => {
+    switch(currentPage) {
+      case 'programma': return <ProgrammaPage {...props}/>;
+      case 'paklijst':  return <PaklijstPage  {...props}/>;
+      case 'weer':      return <WeerPage      {...props}/>;
+      case 'locatie':   return <LocatiePage   {...props}/>;
+      default:          return <HomePage      {...props}/>;
+    }
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100%', background: BLACK }}>
+      <Topbar currentPage={currentPage} setCurrentPage={setCurrentPage} desktop={desktop}/>
+      <div style={{ flex: 1 }}>{renderPage()}</div>
+    </div>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
