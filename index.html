@@ -94,28 +94,51 @@ function Brand() {
 // ─── Topbar ───────────────────────────────────────────────────────────────────
 function Topbar({ currentPage, setCurrentPage, desktop }) {
   return (
-    <div style={{
-      background: BLACK,
-      padding: desktop ? '0 36px' : '0 20px',
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      height: desktop ? 52 : 48,
-      flexShrink: 0, position: 'relative', zIndex: 100,
-    }}>
-      <Brand/>
-      {desktop && (
-        <nav style={{ display: 'flex', gap: 28 }}>
+    <div style={{ background: BLACK, flexShrink: 0, position: 'sticky', top: 0, zIndex: 100 }}>
+      {/* Brand row */}
+      <div style={{
+        padding: desktop ? '0 36px' : '0 20px',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        height: desktop ? 60 : 48,
+      }}>
+        <Brand/>
+        {desktop && (
+          <nav style={{ display: 'flex', gap: 28 }}>
+            {NAV.map(p => (
+              <button key={p.key} onClick={() => setCurrentPage(p.key)} style={{
+                appearance: 'none', border: 'none', background: 'transparent',
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontSize: 24, fontWeight: 900,
+                letterSpacing: '0.10em', textTransform: 'uppercase',
+                color: currentPage === p.key ? TERRA : 'rgba(245,240,232,0.32)',
+                cursor: 'pointer', padding: '4px 0', lineHeight: 1,
+                transition: 'color 120ms ease',
+              }}>{p.label}</button>
+            ))}
+          </nav>
+        )}
+      </div>
+      {/* Mobile nav row */}
+      {!desktop && (
+        <div style={{
+          display: 'flex', overflowX: 'auto',
+          borderTop: '1px solid rgba(245,240,232,0.07)',
+          scrollbarWidth: 'none',
+        }}>
           {NAV.map(p => (
             <button key={p.key} onClick={() => setCurrentPage(p.key)} style={{
               appearance: 'none', border: 'none', background: 'transparent',
               fontFamily: "'Barlow Condensed', sans-serif",
-              fontSize: 12, fontWeight: 900,
-              letterSpacing: '0.10em', textTransform: 'uppercase',
-              color: currentPage === p.key ? TERRA : 'rgba(245,240,232,0.32)',
-              cursor: 'pointer', padding: '4px 0', lineHeight: 1,
+              fontSize: 15, fontWeight: 900,
+              letterSpacing: '0.08em', textTransform: 'uppercase',
+              color: currentPage === p.key ? TERRA : 'rgba(245,240,232,0.35)',
+              cursor: 'pointer', padding: '10px 16px', lineHeight: 1,
+              whiteSpace: 'nowrap', flexShrink: 0,
+              borderBottom: currentPage === p.key ? `2px solid ${TERRA}` : '2px solid transparent',
               transition: 'color 120ms ease',
             }}>{p.label}</button>
           ))}
-        </nav>
+        </div>
       )}
     </div>
   );
@@ -316,12 +339,12 @@ function HomePage({ setCurrentPage, desktop }) {
   const navItems = NAV.filter(p => p.key !== 'home');
 
   const CountdownBar = ({ large }) => (
-    <div style={{ background: TERRA, display: 'grid', gridTemplateColumns: 'repeat(4,1fr)' }}>
+    <div style={{ background: BLACK, display: 'grid', gridTemplateColumns: 'repeat(4,1fr)' }}>
       {cd.map((item, i) => (
         <div key={item.l} style={{
           textAlign: 'center',
           padding: large ? '16px 8px' : '12px 8px',
-          borderRight: i < 3 ? '1px solid rgba(245,240,232,0.20)' : 'none',
+          borderRight: i < 3 ? '1px solid rgba(245,240,232,0.07)' : 'none',
         }}>
           <div style={{
             fontFamily: "'Barlow Condensed', sans-serif",
@@ -366,7 +389,7 @@ function HomePage({ setCurrentPage, desktop }) {
             color: 'rgba(245,240,232,0.28)', marginBottom: 20,
           }}>━━ Raad de bestemming · tik op de letters</div>
           <MaskedWord
-            word="BOEDAPEST"
+            word="TAPEBSDOE"
             fontSize={desktop ? 76 : 52}
             revealedIdx={revealedIdx}
             setRevealedIdx={setRevealedIdx}
@@ -417,18 +440,20 @@ function HomePage({ setCurrentPage, desktop }) {
           </div>
 
           {/* Right: photo + countdown */}
-          <div style={{ display: 'grid', gridTemplateRows: '1fr auto' }}>
-            <div style={{
-              backgroundImage: 'url(Hero.jpg)',
-              backgroundSize: 'cover', backgroundPosition: 'center',
-              backgroundColor: DEEP, minHeight: 380,
-            }}/>
+          <div style={{ display: 'grid', gridTemplateRows: 'auto auto auto' }}>
+            <video autoPlay muted loop playsInline style={{
+              width: '100%', height: 253,
+              objectFit: 'cover', objectPosition: 'center center',
+              display: 'block', backgroundColor: DEEP,
+            }}>
+              <source src="Video Tattoo snel.mp4" type="video/mp4"/>
+            </video>
             <CountdownBar large={true}/>
             <div style={{
-              background: TERRA, padding: '10px 20px',
+              background: BLACK, padding: '10px 20px',
               fontFamily: "'Fragment Mono', monospace",
               fontSize: 10, color: 'rgba(245,240,232,0.70)',
-              borderTop: '1px solid rgba(245,240,232,0.20)',
+              borderTop: '1px solid rgba(245,240,232,0.07)',
             }}>
               Zondag 28 juni · Zeker om 19u weer thuis.
             </div>
@@ -475,20 +500,21 @@ function HomePage({ setCurrentPage, desktop }) {
         </div>
       </div>
 
-      {/* Hero photo */}
-      <div style={{
-        height: 220,
-        backgroundImage: 'url(Hero.jpg)',
-        backgroundSize: 'cover', backgroundPosition: 'center',
+      {/* Hero video */}
+      <video autoPlay muted loop playsInline style={{
+        width: '100%', height: 220,
+        objectFit: 'cover', display: 'block',
         backgroundColor: DEEP,
-      }}/>
+      }}>
+        <source src="Video Tattoo snel.mp4" type="video/mp4"/>
+      </video>
 
       <CountdownBar large={false}/>
       <div style={{
-        background: TERRA, padding: '10px 16px',
+        background: BLACK, padding: '10px 16px',
         fontFamily: "'Fragment Mono', monospace",
         fontSize: 10, color: 'rgba(245,240,232,0.70)',
-        borderTop: '1px solid rgba(245,240,232,0.20)',
+        borderTop: '1px solid rgba(245,240,232,0.07)',
       }}>
         Zondag 28 juni · Zeker om 19u weer thuis.
       </div>
@@ -539,16 +565,16 @@ function ProgrammaPage({ setCurrentPage, desktop }) {
     { day: 'Donderdag 25 juni', events: [
       { time: '05:45',      desc: 'Vertrek vanaf de Mac in Udenhout. Zorg dat je op tijd bent.' },
       { time: '05:45–08:00', desc: 'Rit richting een vliegveld dat net wat verder weg ligt dan je hoopt. Reken op ongeveer 2,5 uur rijden.' },
-      { time: '13:00',      desc: 'Aankomst en vervoer naar het appartement. Niet zomaar vervoer. Laten we zeggen dat de rit naar de accommodatie lijkt op Lars zijn 16e verjaardag.' },
+      { time: '13:00',      desc: <span>Aankomst en vervoer naar het appartement. Niet zomaar vervoer. <a href="https://open.spotify.com/track/1uvyZBs4IZYRebHIB1747m?si=U2H609zMSCaM4VVn9QWsrQ" target="_blank" rel="noopener noreferrer" style={{ color: TERRA, textDecoration: 'none', borderBottom: `1px solid ${TERRA}` }}>🎵 Luister dit en vul zelf in</a></span> },
       { time: 'Middag',     desc: 'Inchecken, spullen droppen, oriënteren en doen alsof we een volwassen planning hebben.' },
       { time: 'Avond',      desc: 'Typisch lokaal eten. Verwacht vlees, kruiden, stevige porties en iemand die zegt dat we rustig aan moeten doen.' },
       { time: 'Later',      desc: 'De stad in. Eerste verkenning.' },
+      { time: '01:00',      desc: 'Nederland speelt. Aftrap om 01:00 uur. Wij kijken. Waar precies? Dat merk je vanzelf.' },
     ]},
     { day: 'Vrijdag 26 juni', events: [
       { time: 'Ochtend',    desc: 'Mannenactiviteit. Klinkt spannend, is spannend, en nee: je hoeft niet in topconditie te zijn. Een vaste hand helpt wel.' },
       { time: 'Middag',     desc: 'Opdracht in de stad. Teams, aanwijzingen, verwarring en waarschijnlijk iemand die veel te fanatiek wordt.' },
       { time: 'Avond',      desc: 'Eten, indrinken en de stad verder testen op geschiktheid voor dertigers met zelfoverschatting.' },
-      { time: '01:00',      desc: 'Nachtprogramma met een oranje randje. Nederland speelt, wij kijken. Waar precies? Dat merk je vanzelf.' },
     ]},
     { day: 'Zaterdag 27 juni', events: [
       { time: 'Ochtend',    desc: 'Rustig opstarten. Of doen alsof.' },
@@ -591,30 +617,49 @@ function ProgrammaPage({ setCurrentPage, desktop }) {
     </div>
   );
 
+  // ── Desktop: 50/50 split ──────────────────────────────────────────────────
   if (desktop) {
     return (
-      <SubShell maxWidth={1020}>
-        <PageLabel>Programma</PageLabel>
-        <h1 style={{
-          fontFamily: "'Barlow Condensed', sans-serif",
-          fontSize: 60, fontWeight: 900, textTransform: 'uppercase',
-          letterSpacing: '0.02em', lineHeight: 0.9, color: BLACK,
-          margin: '0 0 12px 0',
-        }}>Vier dagen</h1>
-        <p style={{
-          fontSize: 15, lineHeight: 1.65, color: 'rgba(17,17,17,0.6)',
-          fontWeight: 300, margin: '0 0 48px 0',
-        }}>Wat staat ons te wachten? Een overzicht van uur voor uur.</p>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 52px' }}>
-          {schedule.map((block, i) => (<DayBlock key={i} block={block}/>))}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 'calc(100vh - 60px)', alignItems: 'start' }}>
+        <div style={{ background: BEIGE, padding: '52px 56px 80px', position: 'relative', overflow: 'hidden' }}>
+          <RWatermark color="rgba(196,74,42,0.06)" size={380}/>
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <PageLabel>Programma</PageLabel>
+            <h1 style={{
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontSize: 60, fontWeight: 900, textTransform: 'uppercase',
+              letterSpacing: '0.02em', lineHeight: 0.9, color: BLACK,
+              margin: '0 0 12px 0',
+            }}>Vier dagen</h1>
+            <p style={{
+              fontSize: 15, lineHeight: 1.65, color: 'rgba(17,17,17,0.6)',
+              fontWeight: 300, margin: '0 0 48px 0',
+            }}>Wat staat ons te wachten? Een overzicht van uur voor uur.</p>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 52px' }}>
+              {schedule.map((block, i) => (<DayBlock key={i} block={block}/>))}
+            </div>
+          </div>
         </div>
-      </SubShell>
+        <img src="Hero.jpg" style={{ width: '100%', height: 'auto', display: 'block', backgroundColor: DEEP }}/>
+      </div>
     );
   }
+
+  // ── Mobiel: foto fixed, beige blokken scrollen eroverheen met tussenruimte ──
   return (
-    <div style={{ background: BEIGE, minHeight: '100vh', padding: '24px 20px 48px', position: 'relative', overflow: 'hidden' }}>
-      <RWatermark color="rgba(196,74,42,0.05)" size={280}/>
-      <div style={{ position: 'relative', zIndex: 1 }}>
+    <div style={{ position: 'relative', minHeight: '100vh' }}>
+      {/* Foto fixed achtergrond */}
+      <div style={{
+        position: 'fixed', top: 52, left: 0,
+        width: '100%', height: 'calc(100vh - 52px)',
+        backgroundImage: 'url(Hero.jpg)',
+        backgroundSize: 'cover', backgroundPosition: 'center',
+        zIndex: 1,
+      }}/>
+      {/* Spacer: toont foto bij openen */}
+      <div style={{ height: '42vh', position: 'relative', zIndex: 2 }}/>
+      {/* Header blok */}
+      <div style={{ position: 'relative', zIndex: 10, background: BEIGE, padding: '24px 20px 20px' }}>
         <MobileBack setCurrentPage={setCurrentPage}/>
         <PageLabel>Programma</PageLabel>
         <h1 style={{
@@ -623,14 +668,26 @@ function ProgrammaPage({ setCurrentPage, desktop }) {
           letterSpacing: '0.02em', lineHeight: 0.9, color: BLACK,
           margin: '0 0 10px 0',
         }}>Vier dagen</h1>
-        <p style={{ fontSize: 13, lineHeight: 1.6, color: 'rgba(17,17,17,0.55)', fontWeight: 300, margin: '0 0 32px 0' }}>
+        <p style={{ fontSize: 13, lineHeight: 1.6, color: 'rgba(17,17,17,0.55)', fontWeight: 300, margin: '0 0 4px 0' }}>
           Wat staat ons te wachten?
         </p>
-        {schedule.map((block, i) => (<DayBlock key={i} block={block}/>))}
-        <div style={{ marginTop: 24 }}>
-          <MobileNavButtons setCurrentPage={setCurrentPage} exclude="programma"/>
-        </div>
       </div>
+      {/* Dag blokken met tussenruimte zodat foto zichtbaar is */}
+      {schedule.map((block, i) => (
+        <React.Fragment key={i}>
+          {i > 0 && <div style={{ height: 40, position: 'relative', zIndex: 2 }}/>}
+          <div style={{ position: 'relative', zIndex: 10, background: BEIGE, padding: i === 0 ? '0 20px 8px' : '20px 20px 8px' }}>
+            <DayBlock block={block}/>
+          </div>
+        </React.Fragment>
+      ))}
+      {/* Nav blok */}
+      <div style={{ height: 40, position: 'relative', zIndex: 2 }}/>
+      <div style={{ position: 'relative', zIndex: 10, background: BEIGE, padding: '20px 20px 48px' }}>
+        <MobileNavButtons setCurrentPage={setCurrentPage} exclude="programma"/>
+      </div>
+      {/* Spacer onderaan: foto volledig zichtbaar bij einde scroll */}
+      <div style={{ height: 'calc(100vh - 52px)', position: 'relative', zIndex: 2 }}/>
     </div>
   );
 }
@@ -744,23 +801,46 @@ function PaklijstPage({ setCurrentPage, desktop }) {
     </>
   );
 
+  // ── Desktop: 50/50 split ──────────────────────────────────────────────────
   if (desktop) {
     return (
-      <SubShell>
-        {content}
-      </SubShell>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 'calc(100vh - 60px)', alignItems: 'start' }}>
+        <div style={{ background: BEIGE, padding: '52px 56px 80px', position: 'relative', overflow: 'hidden' }}>
+          <RWatermark color="rgba(196,74,42,0.06)" size={380}/>
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            {content}
+          </div>
+        </div>
+        <img src="Paklijst.jpg" style={{
+          width: '100%', height: 'auto',
+          display: 'block', backgroundColor: DEEP,
+        }}/>
+      </div>
     );
   }
+
+  // ── Mobiel: foto fixed, content scrolt eroverheen ─────────────────────────
   return (
-    <div style={{ background: BEIGE, minHeight: '100vh', padding: '24px 20px 48px', position: 'relative', overflow: 'hidden' }}>
-      <RWatermark color="rgba(196,74,42,0.05)" size={280}/>
-      <div style={{ position: 'relative', zIndex: 1 }}>
+    <div style={{ position: 'relative', minHeight: '100vh' }}>
+      <div style={{
+        position: 'fixed', top: 52, left: 0,
+        width: '100%', height: 'calc(100vh - 52px)',
+        backgroundImage: 'url(Paklijst.jpg)',
+        backgroundSize: 'cover', backgroundPosition: 'center',
+        zIndex: 1,
+      }}/>
+      <div style={{ height: '42vh', position: 'relative', zIndex: 2 }}/>
+      <div style={{
+        position: 'relative', zIndex: 10,
+        background: BEIGE, padding: '28px 20px 48px',
+      }}>
         <MobileBack setCurrentPage={setCurrentPage}/>
         {content}
         <div style={{ marginTop: 28 }}>
           <MobileNavButtons setCurrentPage={setCurrentPage} exclude="paklijst"/>
         </div>
       </div>
+      <div style={{ height: 'calc(100vh - 52px)', position: 'relative', zIndex: 2 }}/>
     </div>
   );
 }
@@ -778,56 +858,43 @@ function WeerPage({ setCurrentPage, desktop }) {
     { value: '16', unit: 'u',  label: 'DAGLICHT' },
   ];
 
-  const content = (
+  const StatGrid = ({ cols }) => (
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: `repeat(${cols},1fr)`,
+      gap: cols === 6 ? 16 : 10, marginBottom: 28,
+    }}>
+      {stats.map((s, i) => (
+        <InfoCard key={i} style={{ textAlign: 'center', padding: cols === 6 ? '20px 12px' : '14px 8px' }}>
+          <div style={{
+            fontFamily: "'Barlow Condensed', sans-serif",
+            fontSize: cols === 6 ? 38 : 28, fontWeight: 900, color: TERRA, lineHeight: 1, marginBottom: 6,
+          }}>
+            {s.value}<span style={{ fontSize: cols === 6 ? 20 : 15 }}>{s.unit}</span>
+          </div>
+          <div style={{
+            fontFamily: "'Fragment Mono', monospace",
+            fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase',
+            color: 'rgba(17,17,17,0.45)',
+          }}>{s.label}</div>
+        </InfoCard>
+      ))}
+    </div>
+  );
+
+  const AdviesBlock = ({ size }) => (
     <>
-      <PageLabel>Weerbericht</PageLabel>
-      <h1 style={{
-        fontFamily: "'Barlow Condensed', sans-serif",
-        fontSize: desktop ? 60 : 52, fontWeight: 900, textTransform: 'uppercase',
-        letterSpacing: '0.02em', lineHeight: 0.9, color: BLACK,
-        margin: '0 0 10px 0',
-      }}>Wat het wordt</h1>
-      <p style={{
-        fontSize: 15, lineHeight: 1.65, fontWeight: 300, color: 'rgba(17,17,17,0.6)',
-        margin: '0 0 32px 0', maxWidth: 540,
-      }}>
-        We zeggen niet waar we heen gaan. We zeggen wel hoe warm het daar is. Gemiddelden eind juni.
-      </p>
-
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: desktop ? 'repeat(6,1fr)' : 'repeat(3,1fr)',
-        gap: desktop ? 16 : 10, marginBottom: 28,
-      }}>
-        {stats.map((s, i) => (
-          <InfoCard key={i} style={{ textAlign: 'center', padding: desktop ? '20px 12px' : '14px 8px' }}>
-            <div style={{
-              fontFamily: "'Barlow Condensed', sans-serif",
-              fontSize: desktop ? 38 : 30, fontWeight: 900, color: TERRA, lineHeight: 1, marginBottom: 6,
-            }}>
-              {s.value}<span style={{ fontSize: desktop ? 20 : 16 }}>{s.unit}</span>
-            </div>
-            <div style={{
-              fontFamily: "'Fragment Mono', monospace",
-              fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase',
-              color: 'rgba(17,17,17,0.45)',
-            }}>{s.label}</div>
-          </InfoCard>
-        ))}
-      </div>
-
       <div style={{
         border: `1px solid ${TERRA}`, padding: '16px 20px', marginBottom: 32,
         background: '#fdf0ed',
       }}>
         <p style={{
           fontFamily: "'Fragment Mono', monospace",
-          fontSize: desktop ? 13 : 12, lineHeight: 1.65, color: BLACK, margin: 0,
+          fontSize: size, lineHeight: 1.65, color: BLACK, margin: 0,
         }}>
           Korte broek overdag, vestje voor 's avonds. Kans op een buitje, dat heb je overal.
         </p>
       </div>
-
       <InfoCard>
         <div style={{
           fontFamily: "'Fragment Mono', monospace",
@@ -835,7 +902,7 @@ function WeerPage({ setCurrentPage, desktop }) {
           color: 'rgba(17,17,17,0.40)', marginBottom: 20,
         }}>Raad de bestemming · tik op de letters</div>
         <MaskedWord
-          word="MANCHESTER"
+          word="EHTANSRCME"
           fontSize={desktop ? 68 : 44}
           revealedIdx={revealedIdx}
           setRevealedIdx={setRevealedIdx}
@@ -845,23 +912,80 @@ function WeerPage({ setCurrentPage, desktop }) {
     </>
   );
 
+  // ── Desktop: 50/50 split ──────────────────────────────────────────────────
   if (desktop) {
     return (
-      <SubShell>
-        {content}
-      </SubShell>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 'calc(100vh - 60px)', alignItems: 'start' }}>
+        {/* Links: content */}
+        <div style={{ background: BEIGE, padding: '52px 56px 80px', position: 'relative', overflow: 'hidden' }}>
+          <RWatermark color="rgba(196,74,42,0.06)" size={380}/>
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <PageLabel>Weerbericht</PageLabel>
+            <h1 style={{
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontSize: 60, fontWeight: 900, textTransform: 'uppercase',
+              letterSpacing: '0.02em', lineHeight: 0.9, color: BLACK,
+              margin: '0 0 10px 0',
+            }}>Wat het wordt</h1>
+            <p style={{
+              fontSize: 15, lineHeight: 1.65, fontWeight: 300, color: 'rgba(17,17,17,0.6)',
+              margin: '0 0 32px 0',
+            }}>
+              We zeggen niet waar we heen gaan. We zeggen wel hoe warm het daar is. Gemiddelden eind juni.
+            </p>
+            <StatGrid cols={6}/>
+            <AdviesBlock size={13}/>
+          </div>
+        </div>
+        {/* Rechts: foto full-height sticky */}
+        <img src="Weersverwachting.jpg" style={{
+          width: '100%', height: 'auto',
+          display: 'block', backgroundColor: DEEP,
+        }}/>
+      </div>
     );
   }
+
+  // ── Mobiel: foto fixed, content scrolt eroverheen ─────────────────────────
   return (
-    <div style={{ background: BEIGE, minHeight: '100vh', padding: '24px 20px 48px', position: 'relative', overflow: 'hidden' }}>
-      <RWatermark color="rgba(196,74,42,0.05)" size={280}/>
-      <div style={{ position: 'relative', zIndex: 1 }}>
+    <div style={{ position: 'relative', minHeight: '100vh' }}>
+      {/* Foto fixed achtergrond */}
+      <div style={{
+        position: 'fixed', top: 52, left: 0,
+        width: '100%', height: 'calc(100vh - 52px)',
+        backgroundImage: 'url(Weersverwachting.jpg)',
+        backgroundSize: 'cover', backgroundPosition: 'center',
+        zIndex: 1,
+      }}/>
+      {/* Spacer: toont foto bij openen */}
+      <div style={{ height: '42vh', position: 'relative', zIndex: 2 }}/>
+      {/* Content scrolt over foto */}
+      <div style={{
+        position: 'relative', zIndex: 10,
+        background: BEIGE, padding: '28px 20px 48px',
+      }}>
         <MobileBack setCurrentPage={setCurrentPage}/>
-        {content}
+        <PageLabel>Weerbericht</PageLabel>
+        <h1 style={{
+          fontFamily: "'Barlow Condensed', sans-serif",
+          fontSize: 52, fontWeight: 900, textTransform: 'uppercase',
+          letterSpacing: '0.02em', lineHeight: 0.9, color: BLACK,
+          margin: '0 0 10px 0',
+        }}>Wat het wordt</h1>
+        <p style={{
+          fontSize: 15, lineHeight: 1.65, fontWeight: 300, color: 'rgba(17,17,17,0.6)',
+          margin: '0 0 32px 0',
+        }}>
+          We zeggen niet waar we heen gaan. We zeggen wel hoe warm het daar is. Gemiddelden eind juni.
+        </p>
+        <StatGrid cols={2}/>
+        <AdviesBlock size={12}/>
         <div style={{ marginTop: 28 }}>
           <MobileNavButtons setCurrentPage={setCurrentPage} exclude="weer"/>
         </div>
       </div>
+      {/* Spacer onderaan: foto volledig zichtbaar bij einde scroll */}
+      <div style={{ height: 'calc(100vh - 52px)', position: 'relative', zIndex: 2 }}/>
     </div>
   );
 }
@@ -933,7 +1057,7 @@ function LocatiePage({ setCurrentPage, desktop }) {
           color: 'rgba(17,17,17,0.40)', marginBottom: 20,
         }}>━━ Raad de bestemming · tik op de letters</div>
         <MaskedWord
-          word="KRAKAU"
+          word="AKURAK"
           fontSize={desktop ? 100 : 68}
           revealedIdx={revealedIdx}
           setRevealedIdx={setRevealedIdx}
@@ -947,23 +1071,49 @@ function LocatiePage({ setCurrentPage, desktop }) {
     </>
   );
 
+  // ── Desktop: 50/50 split ──────────────────────────────────────────────────
   if (desktop) {
     return (
-      <SubShell>
-        {content}
-      </SubShell>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 'calc(100vh - 60px)', alignItems: 'start' }}>
+        <div style={{ background: BEIGE, padding: '52px 56px 80px', position: 'relative', overflow: 'hidden' }}>
+          <RWatermark color="rgba(196,74,42,0.06)" size={380}/>
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            {content}
+          </div>
+        </div>
+        <div style={{
+          position: 'sticky', top: 60,
+          height: 'calc(100vh - 60px)',
+          backgroundImage: 'url(Locatie.jpg)',
+          backgroundSize: 'cover', backgroundPosition: 'center',
+          backgroundColor: DEEP,
+        }}/>
+      </div>
     );
   }
+
+  // ── Mobiel: foto fixed, content scrolt eroverheen ─────────────────────────
   return (
-    <div style={{ background: BEIGE, minHeight: '100vh', padding: '24px 20px 48px', position: 'relative', overflow: 'hidden' }}>
-      <RWatermark color="rgba(196,74,42,0.05)" size={280}/>
-      <div style={{ position: 'relative', zIndex: 1 }}>
+    <div style={{ position: 'relative', minHeight: '100vh' }}>
+      <div style={{
+        position: 'fixed', top: 52, left: 0,
+        width: '100%', height: 'calc(100vh - 52px)',
+        backgroundImage: 'url(Locatie.jpg)',
+        backgroundSize: 'cover', backgroundPosition: 'center',
+        zIndex: 1,
+      }}/>
+      <div style={{ height: '42vh', position: 'relative', zIndex: 2 }}/>
+      <div style={{
+        position: 'relative', zIndex: 10,
+        background: BEIGE, padding: '28px 20px 48px',
+      }}>
         <MobileBack setCurrentPage={setCurrentPage}/>
         {content}
         <div style={{ marginTop: 32 }}>
           <MobileNavButtons setCurrentPage={setCurrentPage} exclude="locatie"/>
         </div>
       </div>
+      <div style={{ height: 'calc(100vh - 52px)', position: 'relative', zIndex: 2 }}/>
     </div>
   );
 }
@@ -972,6 +1122,9 @@ function LocatiePage({ setCurrentPage, desktop }) {
 const App = () => {
   const [currentPage, setCurrentPage] = React.useState('home');
   const desktop = useIsDesktop();
+
+  React.useEffect(() => { window.scrollTo(0, 0); }, [currentPage]);
+
   const props = { setCurrentPage, desktop };
 
   const renderPage = () => {
