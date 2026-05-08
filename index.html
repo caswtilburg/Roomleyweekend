@@ -449,23 +449,24 @@ function NameGate({ onChoose, onGuest }) {
   return (
     <div style={{
       position: 'fixed', inset: 0, background: DEEP, zIndex: 1000,
-      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-      padding: '32px 24px',
+      display: 'flex', flexDirection: 'column', alignItems: 'center',
+      justifyContent: 'flex-start', overflowY: 'auto',
+      padding: '40px 24px 40px',
     }}>
       <div style={{
         fontFamily: "'Fragment Mono', monospace",
         fontSize: 9, letterSpacing: '0.35em', textTransform: 'uppercase',
-        color: TERRA, marginBottom: 20,
+        color: TERRA, marginBottom: 16,
       }}>━━ Roomley Weekend · 25–28 juni 2026</div>
       <div style={{
         fontFamily: "'Barlow Condensed', sans-serif",
         fontSize: 56, fontWeight: 900, textTransform: 'uppercase',
         letterSpacing: '0.02em', lineHeight: 0.88, color: BEIGE,
-        marginBottom: 12, textAlign: 'center',
+        marginBottom: 10, textAlign: 'center',
       }}>Welke Roomley<br/>Soldier ben jij?</div>
       <div style={{
         fontFamily: "'Fragment Mono', monospace",
-        fontSize: 11, color: 'rgba(245,240,232,0.35)', marginBottom: 44,
+        fontSize: 11, color: 'rgba(245,240,232,0.35)', marginBottom: 28,
       }}>Kies je naam om verder te gaan</div>
       <div style={{
         display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
