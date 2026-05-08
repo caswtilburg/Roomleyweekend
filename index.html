@@ -34,14 +34,43 @@ const DEEP  = '#0a0704';
 const PAPER = '#faf6ee';
 
 const NAV = [
-  { key: 'home',       label: 'Home',            sub: 'Overzicht' },
-  { key: 'programma',  label: 'Programma',        sub: '4 dagen, 3 nachten' },
-  { key: 'paklijst',   label: 'Paklijst',         sub: 'Wat neem je mee' },
-  { key: 'weer',       label: 'Weersverwachting', sub: '± 25 °C' },
-  { key: 'locatie',    label: 'Locatie',          sub: 'Adres & route' },
+  { key: 'home',          label: 'Home',            sub: 'Overzicht' },
+  { key: 'programma',     label: 'Programma',        sub: '4 dagen, 3 nachten' },
+  { key: 'paklijst',      label: 'Paklijst',         sub: 'Wat neem je mee' },
+  { key: 'weer',          label: 'Weersverwachting', sub: '± 25 °C' },
+  { key: 'locatie',       label: 'Locatie',          sub: 'Adres & route' },
+  { key: 'kamerindeling', label: 'Kamerindeling',    sub: 'Wie slaapt waar' },
+  { key: 'betalingen',    label: 'Betalingen',        sub: '€ 480 p.p.' },
 ];
 
 const NAMES = ['Daan','Cas','Bas','Hugo','Huub','Jordi','Bram','Lars','Max','Pepijn','Robin','Roel','Voerbak','Ruben','Sander','Sebas','Stijn'];
+
+const MONTHS = ["Sep '25","Okt '25","Nov '25","Dec '25","Jan '26","Feb '26","Mrt '26","Apr '26","Mei '26","Jun '26"];
+const MONTH_KEYS = ['sep','okt','nov','dec','jan','feb','mrt','apr','mei','jun'];
+const PAYMENTS = [
+  { naam:'Cas',     sep:0,  okt:0,  nov:0,  dec:0,  jan:480,feb:0,  mrt:0,  apr:0,  mei:0,  jun:0, totaal:480, open:0   },
+  { naam:'Jordi',   sep:48, okt:0,  nov:0,  dec:0,  jan:0,  feb:432,mrt:0,  apr:0,  mei:0,  jun:0, totaal:480, open:0   },
+  { naam:'Stijn',   sep:0,  okt:0,  nov:0,  dec:0,  jan:480,feb:0,  mrt:0,  apr:0,  mei:0,  jun:0, totaal:480, open:0   },
+  { naam:'Sebas',   sep:0,  okt:0,  nov:0,  dec:0,  jan:480,feb:0,  mrt:0,  apr:0,  mei:0,  jun:0, totaal:480, open:0   },
+  { naam:'Lars',    sep:0,  okt:0,  nov:0,  dec:0,  jan:0,  feb:480,mrt:0,  apr:0,  mei:0,  jun:0, totaal:480, open:0   },
+  { naam:'Roel',    sep:48, okt:48, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:0,  jun:0, totaal:384, open:96  },
+  { naam:'Hugo',    sep:48, okt:48, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:0,  jun:0, totaal:384, open:96  },
+  { naam:'Huub',    sep:48, okt:48, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:0,  jun:0, totaal:384, open:96  },
+  { naam:'Robin',   sep:48, okt:48, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:0,  jun:0, totaal:384, open:96  },
+  { naam:'Ruben',   sep:48, okt:48, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:0,  jun:0, totaal:384, open:96  },
+  { naam:'Sander',  sep:0,  okt:96, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:0,  jun:0, totaal:384, open:96  },
+  { naam:'Voerbak', sep:0,  okt:96, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:0,  jun:0, totaal:384, open:96  },
+  { naam:'Max',     sep:0,  okt:48, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:48, jun:0, totaal:384, open:96  },
+  { naam:'Bram',    sep:0,  okt:0,  nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:48, jun:0, totaal:336, open:144 },
+  { naam:'Daan',    sep:0,  okt:0,  nov:0,  dec:0,  jan:240,feb:0,  mrt:0,  apr:0,  mei:0,  jun:0, totaal:240, open:240 },
+  { naam:'Bas',     sep:0,  okt:0,  nov:0,  dec:0,  jan:240,feb:0,  mrt:0,  apr:0,  mei:0,  jun:0, totaal:240, open:240 },
+  { naam:'Pepijn',  sep:0,  okt:0,  nov:0,  dec:0,  jan:240,feb:0,  mrt:0,  apr:0,  mei:0,  jun:0, totaal:240, open:240 },
+];
+
+const ROOMS = {
+  'Cas':    ['Hugo'],
+  'Hugo':   NAMES.filter(n => n !== 'Hugo'),
+};
 
 // ─── Hooks ────────────────────────────────────────────────────────────────────
 function useIsDesktop() {
@@ -71,6 +100,14 @@ function useCountdown() {
   };
 }
 
+// ─── Name hook ────────────────────────────────────────────────────────────────
+function usePlayerName() {
+  const [name, setName] = React.useState(() => localStorage.getItem('rmly_name') || null);
+  const choose = (n) => { localStorage.setItem('rmly_name', n); setName(n); };
+  const chooseGuest = () => { setName('Gast'); };
+  return [name, choose, chooseGuest];
+}
+
 // ─── Brand ────────────────────────────────────────────────────────────────────
 function Brand() {
   return (
@@ -93,6 +130,18 @@ function Brand() {
 
 // ─── Topbar ───────────────────────────────────────────────────────────────────
 function Topbar({ currentPage, setCurrentPage, desktop }) {
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: 'RMLY · Weekend 2026',
+        text: 'Roomley Weekend 2026 — 25–28 juni. Alles wat je moet weten:',
+        url: 'https://roomleyweekend.nl',
+      }).catch(() => {});
+    } else {
+      navigator.clipboard?.writeText('https://roomleyweekend.nl')
+        .then(() => alert('Link gekopieerd!'));
+    }
+  };
   return (
     <div style={{ background: BLACK, flexShrink: 0, position: 'sticky', top: 0, zIndex: 100 }}>
       {/* Brand row */}
@@ -103,7 +152,7 @@ function Topbar({ currentPage, setCurrentPage, desktop }) {
       }}>
         <Brand/>
         {desktop && (
-          <nav style={{ display: 'flex', gap: 28 }}>
+          <nav style={{ display: 'flex', gap: 28, alignItems: 'center' }}>
             {NAV.map(p => (
               <button key={p.key} onClick={() => setCurrentPage(p.key)} style={{
                 appearance: 'none', border: 'none', background: 'transparent',
@@ -115,29 +164,58 @@ function Topbar({ currentPage, setCurrentPage, desktop }) {
                 transition: 'color 120ms ease',
               }}>{p.label}</button>
             ))}
+            <button onClick={handleShare} style={{
+              appearance: 'none', background: TERRA, border: 'none',
+              fontFamily: "'Fragment Mono', monospace",
+              fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase',
+              color: BEIGE, cursor: 'pointer', padding: '7px 14px', lineHeight: 1,
+              transition: 'opacity 120ms ease',
+            }}>↗ Delen</button>
           </nav>
+        )}
+        {!desktop && (
+          <button onClick={handleShare} style={{
+            appearance: 'none', background: TERRA, border: 'none',
+            fontFamily: "'Fragment Mono', monospace",
+            fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase',
+            color: BEIGE, cursor: 'pointer', padding: '6px 12px', lineHeight: 1,
+          }}>↗ Delen</button>
         )}
       </div>
       {/* Mobile nav row */}
       {!desktop && (
-        <div style={{
-          display: 'flex', overflowX: 'auto',
-          borderTop: '1px solid rgba(245,240,232,0.07)',
-          scrollbarWidth: 'none',
-        }}>
-          {NAV.map(p => (
-            <button key={p.key} onClick={() => setCurrentPage(p.key)} style={{
-              appearance: 'none', border: 'none', background: 'transparent',
-              fontFamily: "'Barlow Condensed', sans-serif",
-              fontSize: 15, fontWeight: 900,
-              letterSpacing: '0.08em', textTransform: 'uppercase',
-              color: currentPage === p.key ? TERRA : 'rgba(245,240,232,0.35)',
-              cursor: 'pointer', padding: '10px 16px', lineHeight: 1,
-              whiteSpace: 'nowrap', flexShrink: 0,
-              borderBottom: currentPage === p.key ? `2px solid ${TERRA}` : '2px solid transparent',
-              transition: 'color 120ms ease',
-            }}>{p.label}</button>
-          ))}
+        <div style={{ position: 'relative', borderTop: '1px solid rgba(245,240,232,0.07)' }}>
+          <div style={{
+            display: 'flex', overflowX: 'auto',
+            scrollbarWidth: 'none',
+          }}>
+            {NAV.map(p => (
+              <button key={p.key} onClick={() => setCurrentPage(p.key)} style={{
+                appearance: 'none', border: 'none', background: 'transparent',
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontSize: 15, fontWeight: 900,
+                letterSpacing: '0.08em', textTransform: 'uppercase',
+                color: currentPage === p.key ? TERRA : 'rgba(245,240,232,0.35)',
+                cursor: 'pointer', padding: '10px 16px', lineHeight: 1,
+                whiteSpace: 'nowrap', flexShrink: 0,
+                borderBottom: currentPage === p.key ? `2px solid ${TERRA}` : '2px solid transparent',
+                transition: 'color 120ms ease',
+              }}>{p.label}</button>
+            ))}
+          </div>
+          {/* Swipe hint: gradient + pijltje */}
+          <div style={{
+            position: 'absolute', right: 0, top: 0, bottom: 0,
+            width: 48, pointerEvents: 'none',
+            background: 'linear-gradient(to right, transparent, rgba(17,17,17,0.95))',
+            display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
+            paddingRight: 8,
+          }}>
+            <span style={{
+              fontFamily: "'Fragment Mono', monospace",
+              fontSize: 11, color: 'rgba(245,240,232,0.45)',
+            }}>›</span>
+          </div>
         </div>
       )}
     </div>
@@ -280,6 +358,53 @@ function MobileNavButtons({ setCurrentPage, exclude }) {
   );
 }
 
+// ─── MobilePhotoBackground ────────────────────────────────────────────────────
+function MobilePhotoBackground({ src }) {
+  return (
+    <div style={{
+      position: 'fixed', top: 52, left: 0,
+      width: '100%', height: 'calc(100vh - 52px)',
+      backgroundImage: `url(${src})`,
+      backgroundSize: 'cover', backgroundPosition: 'center',
+      zIndex: 1, overflow: 'hidden',
+    }}>
+      <div style={{
+        position: 'absolute', bottom: -60, right: -20,
+        fontFamily: "'Bebas Neue', sans-serif",
+        fontSize: 390, lineHeight: 1,
+        color: 'rgba(245,240,232,0.35)',
+        pointerEvents: 'none', userSelect: 'none',
+      }}>R</div>
+    </div>
+  );
+}
+
+// ─── FadeIn ───────────────────────────────────────────────────────────────────
+function FadeIn({ children, delay, style }) {
+  const ref = React.useRef(null);
+  const [visible, setVisible] = React.useState(false);
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold: 0.1 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return (
+    <div ref={ref} style={{
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'translateY(0)' : 'translateY(22px)',
+      transition: `opacity 600ms ease ${delay || 0}ms, transform 600ms ease ${delay || 0}ms`,
+      ...style,
+    }}>
+      {children}
+    </div>
+  );
+}
+
 // ─── PageLabel ────────────────────────────────────────────────────────────────
 function PageLabel({ children }) {
   return (
@@ -318,8 +443,68 @@ function SubShell({ children, maxWidth }) {
   );
 }
 
+// ─── NameGate ─────────────────────────────────────────────────────────────────
+function NameGate({ onChoose, onGuest }) {
+  const [hovered, setHovered] = React.useState(null);
+  return (
+    <div style={{
+      position: 'fixed', inset: 0, background: DEEP, zIndex: 1000,
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+      padding: '32px 24px',
+    }}>
+      <div style={{
+        fontFamily: "'Fragment Mono', monospace",
+        fontSize: 9, letterSpacing: '0.35em', textTransform: 'uppercase',
+        color: TERRA, marginBottom: 20,
+      }}>━━ Roomley Weekend · 25–28 juni 2026</div>
+      <div style={{
+        fontFamily: "'Barlow Condensed', sans-serif",
+        fontSize: 56, fontWeight: 900, textTransform: 'uppercase',
+        letterSpacing: '0.02em', lineHeight: 0.88, color: BEIGE,
+        marginBottom: 12, textAlign: 'center',
+      }}>Welke Roomley<br/>Soldier ben jij?</div>
+      <div style={{
+        fontFamily: "'Fragment Mono', monospace",
+        fontSize: 11, color: 'rgba(245,240,232,0.35)', marginBottom: 44,
+      }}>Kies je naam om verder te gaan</div>
+      <div style={{
+        display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: 10, maxWidth: 420, width: '100%',
+      }}>
+        {NAMES.map(n => (
+          <button key={n} onClick={() => onChoose(n)}
+            onMouseEnter={() => setHovered(n)}
+            onMouseLeave={() => setHovered(null)}
+            style={{
+              appearance: 'none',
+              background: hovered === n ? TERRA : 'transparent',
+              border: `1px solid ${hovered === n ? TERRA : 'rgba(245,240,232,0.15)'}`,
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontSize: 22, fontWeight: 900, textTransform: 'uppercase',
+              letterSpacing: '0.04em', color: BEIGE,
+              padding: '13px 8px', cursor: 'pointer',
+              transition: 'all 140ms ease',
+            }}>{n}</button>
+        ))}
+      </div>
+      <button onClick={onGuest}
+        onMouseEnter={() => setHovered('gast')}
+        onMouseLeave={() => setHovered(null)}
+        style={{
+          appearance: 'none', marginTop: 20,
+          background: 'transparent',
+          border: `1px solid ${hovered === 'gast' ? 'rgba(245,240,232,0.40)' : 'rgba(245,240,232,0.12)'}`,
+          fontFamily: "'Fragment Mono', monospace",
+          fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase',
+          color: 'rgba(245,240,232,0.40)', padding: '10px 28px', cursor: 'pointer',
+          transition: 'all 140ms ease',
+        }}>Ik ben een gast</button>
+    </div>
+  );
+}
+
 // ─── HomePage ─────────────────────────────────────────────────────────────────
-function HomePage({ setCurrentPage, desktop }) {
+function HomePage({ setCurrentPage, desktop, playerName }) {
   const [revealedIdx, setRevealedIdx] = React.useState(null);
   const [pressed, setPressed] = React.useState(null);
   const { days, hours, minutes, seconds } = useCountdown();
@@ -339,7 +524,14 @@ function HomePage({ setCurrentPage, desktop }) {
   const navItems = NAV.filter(p => p.key !== 'home');
 
   const CountdownBar = ({ large }) => (
-    <div style={{ background: BLACK, display: 'grid', gridTemplateColumns: 'repeat(4,1fr)' }}>
+    <div style={{ background: BLACK }}>
+      <div style={{
+        fontFamily: "'Fragment Mono', monospace",
+        fontSize: large ? 13 : 11, letterSpacing: '0.12em', textTransform: 'uppercase',
+        color: 'rgba(245,240,232,0.75)', textAlign: 'center',
+        padding: large ? '14px 20px 4px' : '10px 16px 4px',
+      }}>Servus {playerName}, het avontuur kan bijna beginnen. Zolang duurt het nog voordat we gaan ↓</div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)' }}>
       {cd.map((item, i) => (
         <div key={item.l} style={{
           textAlign: 'center',
@@ -358,6 +550,7 @@ function HomePage({ setCurrentPage, desktop }) {
           }}>{item.l}</div>
         </div>
       ))}
+      </div>
     </div>
   );
 
@@ -377,7 +570,13 @@ function HomePage({ setCurrentPage, desktop }) {
         }}>Roomley Soldiers · {NAMES.length} man</div>
         <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols},1fr)`, gap: '7px 20px' }}>
           {NAMES.map((n, i) => (
-            <div key={n} style={{ fontFamily: "'Fragment Mono', monospace", fontSize: 11, color: 'rgba(245,240,232,0.50)' }}>
+            <div key={n} style={{
+              fontFamily: "'Fragment Mono', monospace", fontSize: 11,
+              color: n === playerName ? BEIGE : 'rgba(245,240,232,0.50)',
+              border: n === playerName ? `1px solid ${TERRA}` : '1px solid transparent',
+              padding: '2px 5px',
+              display: 'inline-flex', alignItems: 'center',
+            }}>
               <span style={{ color: TERRA, marginRight: 8 }}>{String(i+1).padStart(2,'0')}</span>{n}
             </div>
           ))}
@@ -434,13 +633,13 @@ function HomePage({ setCurrentPage, desktop }) {
                 fontSize: 11, color: 'rgba(245,240,232,0.70)',
                 lineHeight: 1.65, maxWidth: 380,
               }}>
-                Roomley Soldiers — ergens in Europa staat een appartement op jullie te wachten. Vier dagen, één stad, 17 man. Meer hoeven jullie nu niet te weten. Kijk rond op deze site, pak in en zorg dat je op tijd bij de Mac staat op 25 juni.
+                Roomley Soldiers — ergens in Europa staat een appartement op jullie te wachten. Vier dagen, één stad, 17 man. Meer hoeven jullie nu niet te weten. Kijk rond op deze site — er zijn genoeg hints verstopt om te raden waar we naartoe gaan. Pak in en zorg dat je op tijd bij de Mac staat op 25 juni.
               </div>
             </div>
           </div>
 
           {/* Right: photo + countdown */}
-          <div style={{ display: 'grid', gridTemplateRows: 'auto auto auto' }}>
+          <div style={{ display: 'grid', gridTemplateRows: 'auto auto' }}>
             <video autoPlay muted loop playsInline style={{
               width: '100%', height: 253,
               objectFit: 'cover', objectPosition: 'center center',
@@ -449,14 +648,6 @@ function HomePage({ setCurrentPage, desktop }) {
               <source src="Video Tattoo snel.mp4" type="video/mp4"/>
             </video>
             <CountdownBar large={true}/>
-            <div style={{
-              background: BLACK, padding: '10px 20px',
-              fontFamily: "'Fragment Mono', monospace",
-              fontSize: 10, color: 'rgba(245,240,232,0.70)',
-              borderTop: '1px solid rgba(245,240,232,0.07)',
-            }}>
-              Zondag 28 juni · Zeker om 19u weer thuis.
-            </div>
           </div>
         </div>
 
@@ -495,7 +686,7 @@ function HomePage({ setCurrentPage, desktop }) {
             fontFamily: "'Fragment Mono', monospace",
             fontSize: 11, color: 'rgba(245,240,232,0.70)', lineHeight: 1.6,
           }}>
-            Vier dagen, één stad, 17 man. Meer hoeven jullie nu niet te weten.
+            Vier dagen, één stad, 17 man. Meer hoeven jullie nu niet te weten — maar er zijn genoeg hints verstopt om te raden waar we naartoe gaan.
           </div>
         </div>
       </div>
@@ -510,14 +701,6 @@ function HomePage({ setCurrentPage, desktop }) {
       </video>
 
       <CountdownBar large={false}/>
-      <div style={{
-        background: BLACK, padding: '10px 16px',
-        fontFamily: "'Fragment Mono', monospace",
-        fontSize: 10, color: 'rgba(245,240,232,0.70)',
-        borderTop: '1px solid rgba(245,240,232,0.07)',
-      }}>
-        Zondag 28 juni · Zeker om 19u weer thuis.
-      </div>
 
       {/* Nav cards */}
       <div style={{ padding: '28px 20px 20px', background: BEIGE }}>
@@ -527,8 +710,9 @@ function HomePage({ setCurrentPage, desktop }) {
           color: 'rgba(17,17,17,0.38)', marginBottom: 12,
         }}>━━ Alles wat je moet weten</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {navItems.map(b => (
-            <button key={b.key} onClick={() => go(b.key)} style={{
+          {navItems.map((b, i) => (
+            <FadeIn key={b.key} delay={i * 80}>
+            <button onClick={() => go(b.key)} style={{
               appearance: 'none', width: '100%',
               background: pressed === b.key ? 'rgba(196,74,42,0.10)' : PAPER,
               border: `1px solid ${pressed === b.key ? TERRA : 'rgba(17,17,17,0.14)'}`,
@@ -550,11 +734,12 @@ function HomePage({ setCurrentPage, desktop }) {
               </div>
               <div style={{ color: TERRA, fontFamily: "'Fragment Mono', monospace", fontSize: 14 }}>↗</div>
             </button>
+            </FadeIn>
           ))}
         </div>
       </div>
 
-      <SoldiersBlock cols={2} size={52}/>
+      <FadeIn><SoldiersBlock cols={2} size={52}/></FadeIn>
     </div>
   );
 }
@@ -584,6 +769,7 @@ function ProgrammaPage({ setCurrentPage, desktop }) {
     ]},
     { day: 'Zondag 28 juni', events: [
       { time: 'Ochtend',    desc: "Terug naar huis. Waarschijnlijk te vroeg, waarschijnlijk te stil, waarschijnlijk met iemand die zweert dat hij 'dit nooit meer doet'." },
+      { time: '± 19:00',   desc: 'Einde dag zijn we zeker weer thuis.' },
     ]},
   ];
 
@@ -636,7 +822,9 @@ function ProgrammaPage({ setCurrentPage, desktop }) {
               fontWeight: 300, margin: '0 0 48px 0',
             }}>Wat staat ons te wachten? Een overzicht van uur voor uur.</p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 52px' }}>
-              {schedule.map((block, i) => (<DayBlock key={i} block={block}/>))}
+              {schedule.map((block, i) => (
+                <FadeIn key={i} delay={i * 80}><DayBlock block={block}/></FadeIn>
+              ))}
             </div>
           </div>
         </div>
@@ -649,13 +837,7 @@ function ProgrammaPage({ setCurrentPage, desktop }) {
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
       {/* Foto fixed achtergrond */}
-      <div style={{
-        position: 'fixed', top: 52, left: 0,
-        width: '100%', height: 'calc(100vh - 52px)',
-        backgroundImage: 'url(Hero.jpg)',
-        backgroundSize: 'cover', backgroundPosition: 'center',
-        zIndex: 1,
-      }}/>
+      <MobilePhotoBackground src="Hero.jpg"/>
       {/* Spacer: toont foto bij openen */}
       <div style={{ height: '42vh', position: 'relative', zIndex: 2 }}/>
       {/* Header blok */}
@@ -713,7 +895,7 @@ function PaklijstPage({ setCurrentPage, desktop }) {
     { title: 'Drugs',               desc: 'Nee. Gewoon nee.' },
     { title: 'Laptop of werktelefoon', desc: 'Werken doen we later weer.' },
     { title: 'Slechte zin',         desc: 'Laat thuis.' },
-    { title: 'Vrouwen',             desc: 'Op de heerres niet. Terugreis is op eigen kosten en eigen verantwoordelijkheid.' },
+    { title: 'Vrouwen',             desc: 'Op de heenreis niet. Terugreis is op eigen kosten en eigen verantwoordelijkheid.' },
     { title: 'Wapens',              desc: 'Die hebben ze daar genoeg.' },
     { title: 'Kinderen',            desc: 'Laten we thuis.' },
     { title: 'Grote koffer',        desc: 'Handbagage only. Zie hierboven.' },
@@ -767,6 +949,7 @@ function PaklijstPage({ setCurrentPage, desktop }) {
         display: desktop ? 'grid' : 'flex',
         gridTemplateColumns: desktop ? '1fr 1fr' : undefined,
         flexDirection: desktop ? undefined : 'column',
+        alignItems: 'start',
         gap: 16, marginBottom: 28,
       }}>
         <Accordion label="✓ Meenemen"   items={meItems}    accentColor="#1f8a5b" bgColor="#edf7f3"/>
@@ -822,13 +1005,7 @@ function PaklijstPage({ setCurrentPage, desktop }) {
   // ── Mobiel: foto fixed, content scrolt eroverheen ─────────────────────────
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
-      <div style={{
-        position: 'fixed', top: 52, left: 0,
-        width: '100%', height: 'calc(100vh - 52px)',
-        backgroundImage: 'url(Paklijst.jpg)',
-        backgroundSize: 'cover', backgroundPosition: 'center',
-        zIndex: 1,
-      }}/>
+      <MobilePhotoBackground src="Paklijst.jpg"/>
       <div style={{ height: '42vh', position: 'relative', zIndex: 2 }}/>
       <div style={{
         position: 'relative', zIndex: 10,
@@ -950,13 +1127,7 @@ function WeerPage({ setCurrentPage, desktop }) {
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
       {/* Foto fixed achtergrond */}
-      <div style={{
-        position: 'fixed', top: 52, left: 0,
-        width: '100%', height: 'calc(100vh - 52px)',
-        backgroundImage: 'url(Weersverwachting.jpg)',
-        backgroundSize: 'cover', backgroundPosition: 'center',
-        zIndex: 1,
-      }}/>
+      <MobilePhotoBackground src="Weersverwachting.jpg"/>
       {/* Spacer: toont foto bij openen */}
       <div style={{ height: '42vh', position: 'relative', zIndex: 2 }}/>
       {/* Content scrolt over foto */}
@@ -1095,13 +1266,7 @@ function LocatiePage({ setCurrentPage, desktop }) {
   // ── Mobiel: foto fixed, content scrolt eroverheen ─────────────────────────
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
-      <div style={{
-        position: 'fixed', top: 52, left: 0,
-        width: '100%', height: 'calc(100vh - 52px)',
-        backgroundImage: 'url(Locatie.jpg)',
-        backgroundSize: 'cover', backgroundPosition: 'center',
-        zIndex: 1,
-      }}/>
+      <MobilePhotoBackground src="Locatie.jpg"/>
       <div style={{ height: '42vh', position: 'relative', zIndex: 2 }}/>
       <div style={{
         position: 'relative', zIndex: 10,
@@ -1118,22 +1283,248 @@ function LocatiePage({ setCurrentPage, desktop }) {
   );
 }
 
+// ─── KamerindelingPage ────────────────────────────────────────────────────────
+function KamerindelingPage({ setCurrentPage, desktop, playerName }) {
+  const kamergenoten = ROOMS[playerName] || [];
+
+  const content = (
+    <>
+      <PageLabel>Kamerindeling</PageLabel>
+      <h1 style={{
+        fontFamily: "'Barlow Condensed', sans-serif",
+        fontSize: desktop ? 60 : 52, fontWeight: 900, textTransform: 'uppercase',
+        letterSpacing: '0.02em', lineHeight: 0.9, color: BLACK,
+        margin: '0 0 8px 0',
+      }}>{playerName},</h1>
+      <h2 style={{
+        fontFamily: "'Barlow Condensed', sans-serif",
+        fontSize: desktop ? 32 : 26, fontWeight: 900, textTransform: 'uppercase',
+        letterSpacing: '0.02em', lineHeight: 1.1, color: 'rgba(17,17,17,0.5)',
+        margin: '0 0 32px 0', fontWeight: 400,
+      }}>dit is jouw kamerindeling</h2>
+
+      <InfoCard style={{ marginBottom: 24 }}>
+        <div style={{
+          fontSize: 14, lineHeight: 1.7, fontWeight: 300, color: 'rgba(17,17,17,0.7)',
+          marginBottom: 24,
+        }}>
+          Je slaapt met de volgende personen op één kamer:
+        </div>
+        {kamergenoten.length > 0 ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {kamergenoten.map((naam, i) => (
+              <div key={i} style={{
+                display: 'flex', alignItems: 'center', gap: 14,
+                padding: '12px 16px',
+                background: PAPER,
+                border: `1px solid rgba(17,17,17,0.10)`,
+              }}>
+                <span style={{
+                  fontFamily: "'Fragment Mono', monospace",
+                  fontSize: 10, color: TERRA,
+                }}>{String(i+1).padStart(2,'0')}</span>
+                <span style={{
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontSize: 24, fontWeight: 900, textTransform: 'uppercase',
+                  letterSpacing: '0.04em', color: BLACK,
+                }}>{naam}</span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div style={{
+            fontFamily: "'Fragment Mono', monospace",
+            fontSize: 11, color: 'rgba(17,17,17,0.40)', fontStyle: 'italic',
+          }}>Kamerindeling volgt nog.</div>
+        )}
+      </InfoCard>
+    </>
+  );
+
+  if (desktop) {
+    return (
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 'calc(100vh - 60px)', alignItems: 'start' }}>
+        <div style={{ background: BEIGE, padding: '52px 56px 80px', position: 'relative', overflow: 'hidden' }}>
+          <RWatermark color="rgba(196,74,42,0.06)" size={380}/>
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            {content}
+          </div>
+        </div>
+        <img src="Slaapkamer.jpg" style={{ width: '100%', height: 'auto', display: 'block', backgroundColor: DEEP }}/>
+      </div>
+    );
+  }
+  return (
+    <div style={{ position: 'relative', minHeight: '100vh' }}>
+      <MobilePhotoBackground src="Slaapkamer.jpg"/>
+      <div style={{ height: '42vh', position: 'relative', zIndex: 2 }}/>
+      <div style={{ position: 'relative', zIndex: 10, background: BEIGE, padding: '28px 20px 48px' }}>
+        <MobileBack setCurrentPage={setCurrentPage}/>
+        {content}
+        <div style={{ marginTop: 28 }}>
+          <MobileNavButtons setCurrentPage={setCurrentPage} exclude="kamerindeling"/>
+        </div>
+      </div>
+      <div style={{ height: 'calc(100vh - 52px)', position: 'relative', zIndex: 2 }}/>
+    </div>
+  );
+}
+
+// ─── BetalingenPage ───────────────────────────────────────────────────────────
+function BetalingenPage({ setCurrentPage, desktop, playerName }) {
+  const fmt = (v) => v === 0 ? '—' : `€ ${v}`;
+  const thStyle = {
+    fontFamily: "'Fragment Mono', monospace",
+    fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase',
+    color: BEIGE, padding: '10px 10px',
+    fontWeight: 400, textAlign: 'center', whiteSpace: 'nowrap',
+  };
+  const tdStyle = {
+    padding: '10px 10px', textAlign: 'center',
+    borderBottom: '1px solid rgba(17,17,17,0.07)',
+  };
+
+  const content = (
+    <>
+      <PageLabel>Betalingen</PageLabel>
+      <h1 style={{
+        fontFamily: "'Barlow Condensed', sans-serif",
+        fontSize: desktop ? 60 : 52, fontWeight: 900, textTransform: 'uppercase',
+        letterSpacing: '0.02em', lineHeight: 0.9, color: BLACK,
+        margin: '0 0 8px 0',
+      }}>Overzicht</h1>
+      <p style={{
+        fontSize: 14, lineHeight: 1.65, fontWeight: 300, color: 'rgba(17,17,17,0.55)',
+        margin: '0 0 32px 0',
+      }}>Totaal per persoon: <strong style={{ color: BLACK }}>€ 480</strong></p>
+
+      {!desktop && (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 8,
+          marginBottom: 10,
+          fontFamily: "'Fragment Mono', monospace",
+          fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase',
+          color: TERRA,
+        }}>
+          <span>Swipe voor meer</span><span>→</span>
+        </div>
+      )}
+      <div style={{ position: 'relative' }}>
+        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: desktop ? 0 : 680 }}>
+          {/* Header */}
+          <thead>
+            <tr style={{ background: BLACK }}>
+              <th style={{ ...thStyle, textAlign: 'left', minWidth: 90 }}>Naam</th>
+              {MONTHS.map(m => (
+                <th key={m} style={thStyle}>{m}</th>
+              ))}
+              <th style={{ ...thStyle, color: BEIGE }}>Betaald</th>
+              <th style={{ ...thStyle, color: BEIGE }}>Open</th>
+            </tr>
+          </thead>
+          <tbody>
+            {PAYMENTS.map((p, i) => {
+              const isMe = p.naam === playerName;
+              const voldaan = p.open === 0;
+              return (
+                <tr key={p.naam} style={{
+                  background: i % 2 === 0 ? PAPER : BEIGE,
+                  outline: isMe ? `2px solid ${TERRA}` : 'none',
+                  outlineOffset: '-2px',
+                }}>
+                  <td style={{
+                    ...tdStyle, textAlign: 'left',
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontSize: 17, fontWeight: 900, textTransform: 'uppercase',
+                    letterSpacing: '0.04em',
+                    color: isMe ? TERRA : BLACK,
+                  }}>{p.naam}</td>
+                  {MONTH_KEYS.map(k => (
+                    <td key={k} style={{
+                      ...tdStyle,
+                      color: p[k] > 0 ? BLACK : 'rgba(17,17,17,0.22)',
+                      fontFamily: "'Fragment Mono', monospace",
+                      fontSize: 11,
+                    }}>{fmt(p[k])}</td>
+                  ))}
+                  <td style={{
+                    ...tdStyle,
+                    fontFamily: "'Fragment Mono', monospace", fontSize: 11,
+                    color: BLACK, fontWeight: 700,
+                  }}>€ {p.totaal}</td>
+                  <td style={{
+                    ...tdStyle,
+                    fontFamily: "'Fragment Mono', monospace", fontSize: 11,
+                    color: voldaan ? '#1f8a5b' : TERRA,
+                    fontWeight: 700,
+                  }}>{voldaan ? '✓' : `€ ${p.open}`}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+          </table>
+        </div>
+        {!desktop && (
+          <div style={{
+            position: 'absolute', right: 0, top: 0, bottom: 0,
+            width: 56, pointerEvents: 'none',
+            background: `linear-gradient(to right, transparent, ${BEIGE})`,
+            display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
+            paddingRight: 8,
+          }}>
+            <span style={{
+              fontFamily: "'Fragment Mono', monospace",
+              fontSize: 16, color: TERRA,
+            }}>›</span>
+          </div>
+        )}
+      </div>
+    </>
+  );
+
+  if (desktop) {
+    return (
+      <SubShell maxWidth={1200}>
+        {content}
+      </SubShell>
+    );
+  }
+  return (
+    <div style={{ background: BEIGE, minHeight: '100vh', padding: '24px 20px 48px', position: 'relative', overflow: 'hidden' }}>
+      <RWatermark color="rgba(196,74,42,0.05)" size={280}/>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <MobileBack setCurrentPage={setCurrentPage}/>
+        {content}
+        <div style={{ marginTop: 28 }}>
+          <MobileNavButtons setCurrentPage={setCurrentPage} exclude="betalingen"/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── App ──────────────────────────────────────────────────────────────────────
 const App = () => {
   const [currentPage, setCurrentPage] = React.useState('home');
   const desktop = useIsDesktop();
+  const [playerName, chooseName, chooseGuest] = usePlayerName();
 
   React.useEffect(() => { window.scrollTo(0, 0); }, [currentPage]);
 
-  const props = { setCurrentPage, desktop };
+  if (!playerName) return <NameGate onChoose={chooseName} onGuest={chooseGuest}/>;
+
+  const props = { setCurrentPage, desktop, playerName };
 
   const renderPage = () => {
     switch(currentPage) {
       case 'programma': return <ProgrammaPage {...props}/>;
       case 'paklijst':  return <PaklijstPage  {...props}/>;
       case 'weer':      return <WeerPage      {...props}/>;
-      case 'locatie':   return <LocatiePage   {...props}/>;
-      default:          return <HomePage      {...props}/>;
+      case 'locatie':        return <LocatiePage        {...props}/>;
+      case 'kamerindeling': return <KamerindelingPage {...props}/>;
+      case 'betalingen':    return <BetalingenPage    {...props}/>;
+      default:               return <HomePage           {...props}/>;
     }
   };
 
