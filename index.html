@@ -1697,6 +1697,7 @@ function BetalingenPage({ setCurrentPage, desktop, playerName }) {
 function PlaylistPage({ setCurrentPage, desktop }) {
   const PLAYLIST_ID = '0ktwOluR4aaZT5pDPdbjEo';
   const PLAYLIST_URL = 'https://open.spotify.com/playlist/0ktwOluR4aaZT5pDPdbjEo?si=fae44439132c4666&pt=b5d75ad2bf6e886711d86f10a46605b4';
+  const [refreshKey, setRefreshKey] = React.useState(() => Date.now());
 
   const content = (
     <>
@@ -1734,18 +1735,35 @@ function PlaylistPage({ setCurrentPage, desktop }) {
       </a>
 
       <iframe
+        key={refreshKey}
         src={`https://open.spotify.com/embed/playlist/${PLAYLIST_ID}?utm_source=generator&theme=0`}
         width="100%"
         height={desktop ? 500 : 420}
         frameBorder="0"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy"
         style={{ borderRadius: 0, display: 'block', marginBottom: 8 }}
       />
       <div style={{
-        fontFamily: "'Fragment Mono', monospace",
-        fontSize: 10, color: 'rgba(17,17,17,0.40)', letterSpacing: '0.1em',
-      }}>Playlist wordt live bijgewerkt · open Spotify om nummers toe te voegen</div>
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        gap: 12, flexWrap: 'wrap', marginTop: 4,
+      }}>
+        <div style={{
+          fontFamily: "'Fragment Mono', monospace",
+          fontSize: 10, color: 'rgba(17,17,17,0.40)', letterSpacing: '0.1em',
+          lineHeight: 1.6, flex: 1, minWidth: 200,
+        }}>Spotify laat een momentopname zien. Open Spotify voor de live lijst.</div>
+        <button
+          onClick={() => setRefreshKey(Date.now())}
+          style={{
+            appearance: 'none', background: 'transparent',
+            border: `1px solid rgba(17,17,17,0.20)`,
+            fontFamily: "'Fragment Mono', monospace",
+            fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase',
+            color: BLACK, cursor: 'pointer', padding: '7px 14px', lineHeight: 1,
+            flexShrink: 0,
+          }}
+        >↻ Vernieuwen</button>
+      </div>
     </>
   );
 
