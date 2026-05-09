@@ -251,21 +251,21 @@ function Topbar({ currentPage, setCurrentPage, desktop }) {
                 style={{
                   appearance: 'none', background: 'transparent', border: 'none',
                   borderBottom: '1px solid rgba(245,240,232,0.07)',
-                  padding: '20px 0', textAlign: 'left', cursor: 'pointer',
+                  padding: '13px 0', textAlign: 'left', cursor: 'pointer',
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                 }}
               >
                 <div>
                   <div style={{
                     fontFamily: "'Barlow Condensed', sans-serif",
-                    fontSize: 42, fontWeight: 900, textTransform: 'uppercase',
+                    fontSize: 28, fontWeight: 900, textTransform: 'uppercase',
                     letterSpacing: '0.04em', lineHeight: 1,
                     color: currentPage === p.key ? TERRA : BEIGE,
                   }}>{p.label}</div>
                   <div style={{
                     fontFamily: "'Fragment Mono', monospace",
-                    fontSize: 10, color: 'rgba(245,240,232,0.35)',
-                    letterSpacing: '0.15em', marginTop: 4,
+                    fontSize: 9, color: 'rgba(245,240,232,0.35)',
+                    letterSpacing: '0.15em', marginTop: 3,
                   }}>{p.sub}</div>
                 </div>
                 <span style={{ color: currentPage === p.key ? TERRA : 'rgba(245,240,232,0.20)', fontSize: 20 }}>›</span>
@@ -893,7 +893,7 @@ function HomePage({ setCurrentPage, desktop, playerName }) {
             fontFamily: "'Fragment Mono', monospace",
             fontSize: 11, color: 'rgba(245,240,232,0.70)', lineHeight: 1.6,
           }}>
-            Vier dagen, één stad, 17 man. Meer hoeven jullie nu niet te weten — maar er zijn genoeg hints verstopt om te raden waar we naartoe gaan.
+            Vier dagen, één stad, 17 man. Meer hoeven jullie nu niet te weten — maar er zijn genoeg hints verstopt om te raden waar we naartoe gaan. Kijk hier rond en voeg nummers toe aan de playlist. Houd de pagina in de gaten, morgen kan het anders zijn.
           </div>
         </div>
       </div>
