@@ -1698,6 +1698,16 @@ function PlaylistPage({ setCurrentPage, desktop }) {
   const PLAYLIST_ID = '0ktwOluR4aaZT5pDPdbjEo';
   const PLAYLIST_URL = 'https://open.spotify.com/playlist/0ktwOluR4aaZT5pDPdbjEo?si=fae44439132c4666&pt=b5d75ad2bf6e886711d86f10a46605b4';
   const [refreshKey, setRefreshKey] = React.useState(() => Date.now());
+  const [reloading, setReloading] = React.useState(false);
+
+  const handleRefresh = () => {
+    setReloading(true);
+    // Eerst iframe legen, daarna terug — forceert echte herlaad
+    setTimeout(() => {
+      setRefreshKey(Date.now());
+      setReloading(false);
+    }, 100);
+  };
 
   const content = (
     <>
@@ -1734,15 +1744,26 @@ function PlaylistPage({ setCurrentPage, desktop }) {
         ↗ Nummer toevoegen in Spotify
       </a>
 
-      <iframe
-        key={refreshKey}
-        src={`https://open.spotify.com/embed/playlist/${PLAYLIST_ID}?utm_source=generator&theme=0`}
-        width="100%"
-        height={desktop ? 500 : 420}
-        frameBorder="0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        style={{ borderRadius: 0, display: 'block', marginBottom: 8 }}
-      />
+      {reloading ? (
+        <div style={{
+          width: '100%', height: desktop ? 500 : 420,
+          background: BLACK, marginBottom: 8,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontFamily: "'Fragment Mono', monospace",
+          fontSize: 11, color: 'rgba(245,240,232,0.50)', letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+        }}>Vernieuwen…</div>
+      ) : (
+        <iframe
+          key={refreshKey}
+          src={`https://open.spotify.com/embed/playlist/${PLAYLIST_ID}?utm_source=generator&theme=0`}
+          width="100%"
+          height={desktop ? 500 : 420}
+          frameBorder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          style={{ borderRadius: 0, display: 'block', marginBottom: 8 }}
+        />
+      )}
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         gap: 12, flexWrap: 'wrap', marginTop: 4,
@@ -1751,9 +1772,9 @@ function PlaylistPage({ setCurrentPage, desktop }) {
           fontFamily: "'Fragment Mono', monospace",
           fontSize: 10, color: 'rgba(17,17,17,0.40)', letterSpacing: '0.1em',
           lineHeight: 1.6, flex: 1, minWidth: 200,
-        }}>Spotify laat een momentopname zien. Open Spotify voor de live lijst.</div>
+        }}>Spotify cachet de embed enkele minuten. Voor de live lijst: open Spotify zelf.</div>
         <button
-          onClick={() => setRefreshKey(Date.now())}
+          onClick={handleRefresh}
           style={{
             appearance: 'none', background: 'transparent',
             border: `1px solid rgba(17,17,17,0.20)`,
