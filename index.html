@@ -83,10 +83,10 @@ const PAYMENTS = [
   { naam:'Pepijn',  sep:0,  okt:0,  nov:0,  dec:0,  jan:240,feb:0,  mrt:0,  apr:0,  mei:0,  jun:0, totaal:240, open:240 },
 ];
 
-const ROOMS = {
-  'Cas':    ['Hugo'],
-  'Hugo':   NAMES.filter(n => n !== 'Hugo'),
-};
+const ROOMS = NAMES.reduce((acc, n) => {
+  acc[n] = n === 'Hugo' ? NAMES.filter(x => x !== 'Hugo') : ['Hugo'];
+  return acc;
+}, {});
 
 // ─── Hooks ────────────────────────────────────────────────────────────────────
 function useIsDesktop() {
@@ -671,7 +671,7 @@ function HomePage({ setCurrentPage, desktop, playerName }) {
     { q: 'Is het hotel goed?', a: 'Het is geen hotel.' },
     { q: 'Wat als ik iets vergeet?', a: 'Afhankelijk van wat het is: jammer of geen probleem.' },
     { q: 'Spreken ze er Engels?', a: 'Beter dan jij hun taal spreekt.' },
-    { q: 'Zijn er vegetarische opties?', a: 'Pizza met broccoli.' },
+    { q: 'Zijn er vegetarische opties?', a: 'Pizza met broccoli. Er is heel veel paprika in dit land.' },
     { q: 'Mogen we de bestemming al doorvertellen?', a: 'Nee.' },
     { q: 'Waarom staat er zo weinig in deze FAQ?', a: 'Dat is het punt.' },
   ];
