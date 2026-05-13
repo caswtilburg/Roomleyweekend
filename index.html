@@ -42,7 +42,8 @@ details summary::-webkit-details-marker{display:none;}
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-0XQ4VXXHYJ');
+  // Auto page_view uitschakelen - we sturen ze handmatig met de naam erbij
+  gtag('config', 'G-0XQ4VXXHYJ', { send_page_view: false });
 </script>
 </head>
 <body>
@@ -1833,6 +1834,20 @@ const App = () => {
       img.src = src;
     });
   }, []);
+
+  // Google Analytics: stuur pageview met naam bij elke navigatie
+  React.useEffect(() => {
+    if (typeof window.gtag === 'function' && playerName) {
+      window.gtag('set', { user_id: playerName });
+      window.gtag('set', 'user_properties', { gebruiker_naam: playerName });
+      window.gtag('event', 'page_view', {
+        page_path: '/' + currentPage,
+        page_title: 'RMLY · ' + currentPage,
+        page_location: window.location.origin + '/' + currentPage,
+        gebruiker_naam: playerName,
+      });
+    }
+  }, [currentPage, playerName]);
 
   if (!playerName) return <NameGate onChoose={chooseName} onGuest={chooseGuest}/>;
 
