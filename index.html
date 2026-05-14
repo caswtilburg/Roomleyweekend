@@ -62,6 +62,7 @@ details summary::-webkit-details-marker{display:none;}
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" crossorigin="anonymous"></script>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0XQ4VXXHYJ"></script>
 <script>
@@ -123,6 +124,37 @@ const ROOMS = NAMES.reduce((acc, n) => {
   return acc;
 }, {});
 
+// ─── Supabase ─────────────────────────────────────────────────────────────────
+const SUPABASE_URL = 'https://otyjujsmjhmanpgamiln.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_397BwbNn0MWNwOaIC0z7cg_LbNp_pMU';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const ADMIN_WW = 'casensebas';
+
+const DEFAULT_TEKSTEN = {
+  'home_label':          '━━ Roomley Weekend · 25–28 juni 2026',
+  'home_headline':       'ERGENS\nIN EUROPA',
+  'home_tekst_desktop':  'Roomley Soldiers — ergens in Europa staat een appartement op jullie te wachten. Vier dagen, één stad, 17 man. Meer hoeven jullie nu niet te weten. Kijk rond op deze site, voeg nummers toe aan de playlist en tel samen met ons af — er zijn genoeg hints verstopt om te raden waar we naartoe gaan. Houd de pagina in de gaten, morgen kan het anders zijn.',
+  'home_tekst_mobiel':   'Vier dagen, één stad, 17 man. Meer hoeven jullie nu niet te weten — maar er zijn genoeg hints verstopt om te raden waar we naartoe gaan. Kijk hier rond en voeg nummers toe aan de playlist. Houd de pagina in de gaten, morgen kan het anders zijn.',
+  'countdown_bericht':   'Servus {naam}, het avontuur kan bijna beginnen. Zolang duurt het nog voordat we gaan ↓',
+  'betalingen_subtitel': 'Totaal per persoon: € 480',
+  'faq_items': JSON.stringify([
+    { q: 'Gaan we vliegen?',                        a: 'Er is sprake van verticale verplaatsing.' },
+    { q: 'Moet ik sportief zijn?',                   a: 'Niet per se. Het helpt wel als je jezelf kunt verplaatsen.' },
+    { q: 'Is er cultuur?',                           a: 'Volgens de organisatie wel.' },
+    { q: 'Kan ik zondag nog iets plannen?',          a: 'Dat is optimistisch.' },
+    { q: 'Moet ik iets voorbereiden?',               a: 'Zorg dat je de meest bizarre bril mee neemt die je kunt vinden.' },
+    { q: 'Is er een dresscode?',                     a: 'Schone kleren worden gewaardeerd.' },
+    { q: 'Hoeveel slaap krijgen we?',               a: 'Dat is deels aan jezelf.' },
+    { q: 'Gaan we uit eten of zelf koken?',          a: 'De organisatie heeft geen schort ingepakt.' },
+    { q: 'Is het hotel goed?',                       a: 'Het is geen hotel.' },
+    { q: 'Wat als ik iets vergeet?',                 a: 'Afhankelijk van wat het is: jammer of geen probleem.' },
+    { q: 'Spreken ze er Engels?',                    a: 'Beter dan jij hun taal spreekt.' },
+    { q: 'Zijn er vegetarische opties?',             a: 'Pizza met broccoli. Er is heel veel paprika in dit land.' },
+    { q: 'Mogen we de bestemming al doorvertellen?', a: 'Nee.' },
+    { q: 'Waarom staat er zo weinig in deze FAQ?',   a: 'Dat is het punt.' },
+  ]),
+};
+
 // ─── Secret Bril ─────────────────────────────────────────────────────────────
 // Zet op false om de popup voor iedereen te verbergen
 const BRIL_POPUP_ACTIVE = true;
@@ -181,6 +213,33 @@ function usePlayerName() {
   const choose = (n) => { localStorage.setItem('rmly_name', n); setName(n); };
   const chooseGuest = () => { setName('Gast'); };
   return [name, choose, chooseGuest];
+}
+
+// ─── useTeksten ───────────────────────────────────────────────────────────────
+function useTeksten() {
+  const [teksten, setTeksten] = React.useState(DEFAULT_TEKSTEN);
+  React.useEffect(() => {
+    sb.from('teksten').select('*').then(({ data }) => {
+      if (data && data.length > 0) {
+        const overrides = {};
+        data.forEach(row => { overrides[row.sleutel] = row.waarde; });
+        setTeksten(prev => ({ ...prev, ...overrides }));
+      }
+    });
+  }, []);
+  const t = (key) => teksten[key] ?? DEFAULT_TEKSTEN[key] ?? '';
+  return [t, teksten, setTeksten];
+}
+
+// ─── useBetalingen ────────────────────────────────────────────────────────────
+function useBetalingen() {
+  const [data, setData] = React.useState(PAYMENTS);
+  React.useEffect(() => {
+    sb.from('betalingen').select('*').then(({ data: rows }) => {
+      if (rows && rows.length > 0) setData(rows);
+    });
+  }, []);
+  return [data, setData];
 }
 
 // ─── Brand ────────────────────────────────────────────────────────────────────
@@ -254,6 +313,12 @@ function Topbar({ currentPage, setCurrentPage, desktop }) {
                 color: BEIGE, cursor: 'pointer', padding: '7px 14px', lineHeight: 1,
                 transition: 'opacity 120ms ease',
               }}>↗ Delen</button>
+              <button onClick={() => setCurrentPage('admin')} style={{
+                appearance: 'none', background: 'transparent', border: 'none',
+                fontFamily: "'Fragment Mono', monospace",
+                fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase',
+                color: 'rgba(245,240,232,0.18)', cursor: 'pointer', padding: '7px 6px', lineHeight: 1,
+              }}>⚙</button>
             </nav>
           )}
           {!desktop && (
@@ -336,10 +401,21 @@ function Topbar({ currentPage, setCurrentPage, desktop }) {
           <div style={{
             marginTop: 32, paddingTop: 20,
             borderTop: '1px solid rgba(245,240,232,0.07)',
-            fontFamily: "'Fragment Mono', monospace",
-            fontSize: 9, color: 'rgba(245,240,232,0.25)',
-            letterSpacing: '0.2em', textTransform: 'uppercase',
-          }}>RMLY · Weekend 2026 · 25–28 juni</div>
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          }}>
+            <div style={{
+              fontFamily: "'Fragment Mono', monospace",
+              fontSize: 9, color: 'rgba(245,240,232,0.25)',
+              letterSpacing: '0.2em', textTransform: 'uppercase',
+            }}>RMLY · Weekend 2026 · 25–28 juni</div>
+            <button onClick={() => { setMenuOpen(false); navigate('admin'); }} style={{
+              appearance: 'none', background: 'transparent', border: 'none',
+              fontFamily: "'Fragment Mono', monospace",
+              fontSize: 9, color: 'rgba(245,240,232,0.18)',
+              letterSpacing: '0.15em', textTransform: 'uppercase',
+              cursor: 'pointer', padding: '4px 0',
+            }}>⚙ admin</button>
+          </div>
         </div>
       )}
     </>
@@ -667,7 +743,7 @@ function NameGate({ onChoose, onGuest }) {
 }
 
 // ─── HomePage ─────────────────────────────────────────────────────────────────
-function HomePage({ setCurrentPage, desktop, playerName }) {
+function HomePage({ setCurrentPage, desktop, playerName, t }) {
   const [revealedIdx, setRevealedIdx] = React.useState(null);
   const [pressed, setPressed] = React.useState(null);
   const [openFAQIdx, setOpenFAQIdx] = React.useState(null);
@@ -694,7 +770,7 @@ function HomePage({ setCurrentPage, desktop, playerName }) {
         fontSize: large ? 13 : 11, letterSpacing: '0.12em', textTransform: 'uppercase',
         color: 'rgba(245,240,232,0.75)', textAlign: 'center',
         padding: large ? '14px 20px 4px' : '10px 16px 4px',
-      }}>Servus {playerName}, het avontuur kan bijna beginnen. Zolang duurt het nog voordat we gaan ↓</div>
+      }}>{t('countdown_bericht').replace('{naam}', playerName)}</div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)' }}>
       {cd.map((item, i) => (
         <div key={item.l} style={{
@@ -718,22 +794,9 @@ function HomePage({ setCurrentPage, desktop, playerName }) {
     </div>
   );
 
-  const FAQ_ITEMS = [
-    { q: 'Gaan we vliegen?', a: 'Er is sprake van verticale verplaatsing.' },
-    { q: 'Moet ik sportief zijn?', a: 'Niet per se. Het helpt wel als je jezelf kunt verplaatsen.' },
-    { q: 'Is er cultuur?', a: 'Volgens de organisatie wel.' },
-    { q: 'Kan ik zondag nog iets plannen?', a: 'Dat is optimistisch.' },
-    { q: 'Moet ik iets voorbereiden?', a: 'Zorg dat je de meest bizarre bril mee neemt die je kunt vinden.' },
-    { q: 'Is er een dresscode?', a: 'Schone kleren worden gewaardeerd.' },
-    { q: 'Hoeveel slaap krijgen we?', a: 'Dat is deels aan jezelf.' },
-    { q: 'Gaan we uit eten of zelf koken?', a: 'De organisatie heeft geen schort ingepakt.' },
-    { q: 'Is het hotel goed?', a: 'Het is geen hotel.' },
-    { q: 'Wat als ik iets vergeet?', a: 'Afhankelijk van wat het is: jammer of geen probleem.' },
-    { q: 'Spreken ze er Engels?', a: 'Beter dan jij hun taal spreekt.' },
-    { q: 'Zijn er vegetarische opties?', a: 'Pizza met broccoli. Er is heel veel paprika in dit land.' },
-    { q: 'Mogen we de bestemming al doorvertellen?', a: 'Nee.' },
-    { q: 'Waarom staat er zo weinig in deze FAQ?', a: 'Dat is het punt.' },
-  ];
+  const FAQ_ITEMS = React.useMemo(() => {
+    try { return JSON.parse(t('faq_items')); } catch { return []; }
+  }, [t('faq_items')]);
 
   const SoldiersBlock = ({ cols, size }) => {
     const bgColor = desktop ? DEEP : BEIGE;
@@ -886,19 +949,20 @@ function HomePage({ setCurrentPage, desktop, playerName }) {
                 fontFamily: "'Fragment Mono', monospace",
                 fontSize: 9, letterSpacing: '0.3em', textTransform: 'uppercase',
                 color: 'rgba(245,240,232,0.60)', marginBottom: 22,
-              }}>━━ Roomley Weekend · 25–28 juni 2026</div>
+              }}>{t('home_label')}</div>
               <div style={{
                 fontFamily: "'Barlow Condensed', sans-serif",
                 fontSize: 82, fontWeight: 900, textTransform: 'uppercase',
                 letterSpacing: '0.02em', lineHeight: 0.88,
                 color: BEIGE, marginBottom: 26,
-              }}>ERGENS<br/>IN EUROPA</div>
+                whiteSpace: 'pre-line',
+              }}>{t('home_headline')}</div>
               <div style={{
                 fontFamily: "'Fragment Mono', monospace",
                 fontSize: 11, color: 'rgba(245,240,232,0.70)',
                 lineHeight: 1.65, maxWidth: 380,
               }}>
-                Roomley Soldiers — ergens in Europa staat een appartement op jullie te wachten. Vier dagen, één stad, 17 man. Meer hoeven jullie nu niet te weten. Kijk rond op deze site, voeg nummers toe aan de playlist en tel samen met ons af — er zijn genoeg hints verstopt om te raden waar we naartoe gaan. Houd de pagina in de gaten, morgen kan het anders zijn.
+                {t('home_tekst_desktop')}
               </div>
             </div>
           </div>
@@ -941,18 +1005,19 @@ function HomePage({ setCurrentPage, desktop, playerName }) {
             fontFamily: "'Fragment Mono', monospace",
             fontSize: 9, letterSpacing: '0.3em', textTransform: 'uppercase',
             color: 'rgba(245,240,232,0.60)', marginBottom: 16,
-          }}>━━ Roomley Weekend · 25–28 juni 2026</div>
+          }}>{t('home_label')}</div>
           <div style={{
             fontFamily: "'Barlow Condensed', sans-serif",
             fontSize: 62, fontWeight: 900, textTransform: 'uppercase',
             letterSpacing: '0.02em', lineHeight: 0.88,
             color: BEIGE, marginBottom: 20,
-          }}>ERGENS<br/>IN EUROPA</div>
+            whiteSpace: 'pre-line',
+          }}>{t('home_headline')}</div>
           <div style={{
             fontFamily: "'Fragment Mono', monospace",
             fontSize: 11, color: 'rgba(245,240,232,0.70)', lineHeight: 1.6,
           }}>
-            Vier dagen, één stad, 17 man. Meer hoeven jullie nu niet te weten — maar er zijn genoeg hints verstopt om te raden waar we naartoe gaan. Kijk hier rond en voeg nummers toe aan de playlist. Houd de pagina in de gaten, morgen kan het anders zijn.
+            {t('home_tekst_mobiel')}
           </div>
         </div>
       </div>
@@ -1608,7 +1673,7 @@ function KamerindelingPage({ setCurrentPage, desktop, playerName }) {
 }
 
 // ─── BetalingenPage ───────────────────────────────────────────────────────────
-function BetalingenPage({ setCurrentPage, desktop, playerName }) {
+function BetalingenPage({ setCurrentPage, desktop, playerName, betalingen, t }) {
   const fmt = (v) => v === 0 ? '—' : `€ ${v}`;
   const thStyle = {
     fontFamily: "'Fragment Mono', monospace",
@@ -1633,7 +1698,7 @@ function BetalingenPage({ setCurrentPage, desktop, playerName }) {
       <p style={{
         fontSize: 14, lineHeight: 1.65, fontWeight: 300, color: 'rgba(17,17,17,0.55)',
         margin: '0 0 32px 0',
-      }}>Totaal per persoon: <strong style={{ color: BLACK }}>€ 480</strong></p>
+      }}>{t('betalingen_subtitel').split('€').map((part, i) => i === 0 ? part : <React.Fragment key={i}><strong style={{ color: BLACK }}>€{part}</strong></React.Fragment>)}</p>
 
       {!desktop && (
         <div style={{
@@ -1665,7 +1730,7 @@ function BetalingenPage({ setCurrentPage, desktop, playerName }) {
             </tr>
           </thead>
           <tbody>
-            {PAYMENTS.map((p, i) => {
+            {betalingen.map((p, i) => {
               const isMe = p.naam === playerName;
               const voldaan = p.open === 0;
               const rowBg = i % 2 === 0 ? PAPER : BEIGE;
@@ -1864,6 +1929,361 @@ function PlaylistPage({ setCurrentPage, desktop }) {
           <MobileNavButtons setCurrentPage={setCurrentPage} exclude="playlist"/>
         </div>
       </div>
+    </div>
+  );
+}
+
+// ─── Admin: BetalingenEditor ──────────────────────────────────────────────────
+function BetalingenEditor({ betalingen, setBetalingen }) {
+  const [opslaan, setOpslaan] = React.useState({});
+
+  const updateVeld = (naam, veld, waarde) => {
+    setBetalingen(prev => prev.map(p => {
+      if (p.naam !== naam) return p;
+      const updated = { ...p, [veld]: Number(waarde) };
+      const betaald = MONTH_KEYS.reduce((sum, k) => sum + (Number(updated[k]) || 0), 0);
+      updated.totaal = betaald;
+      updated.open = Math.max(0, 480 - betaald);
+      return updated;
+    }));
+  };
+
+  const slaOp = async (naam) => {
+    const persoon = betalingen.find(p => p.naam === naam);
+    setOpslaan(prev => ({ ...prev, [naam]: 'laden' }));
+    const { error } = await sb.from('betalingen').upsert(persoon, { onConflict: 'naam' });
+    setOpslaan(prev => ({ ...prev, [naam]: error ? 'fout' : 'ok' }));
+    setTimeout(() => setOpslaan(prev => ({ ...prev, [naam]: null })), 2500);
+  };
+
+  const slaAllesOp = async () => {
+    setOpslaan({ _all: 'laden' });
+    for (const p of betalingen) {
+      await sb.from('betalingen').upsert(p, { onConflict: 'naam' });
+    }
+    setOpslaan({ _all: 'ok' });
+    setTimeout(() => setOpslaan({}), 2500);
+  };
+
+  return (
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 20 }}>
+        <button onClick={slaAllesOp} style={{
+          appearance: 'none',
+          background: opslaan._all === 'ok' ? '#1f8a5b' : TERRA,
+          border: 'none', color: BEIGE,
+          fontFamily: "'Barlow Condensed', sans-serif",
+          fontSize: 18, fontWeight: 900, textTransform: 'uppercase',
+          letterSpacing: '0.04em', padding: '10px 24px', cursor: 'pointer',
+        }}>
+          {opslaan._all === 'laden' ? 'Bezig...' : opslaan._all === 'ok' ? '✓ Alles opgeslagen' : 'Alles opslaan'}
+        </button>
+      </div>
+      {betalingen.map(p => (
+        <div key={p.naam} style={{
+          marginBottom: 16,
+          background: 'rgba(245,240,232,0.04)',
+          border: '1px solid rgba(245,240,232,0.09)',
+          padding: '14px 18px',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+            <div>
+              <span style={{
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontSize: 22, fontWeight: 900, textTransform: 'uppercase',
+                letterSpacing: '0.04em', color: BEIGE,
+              }}>{p.naam}</span>
+              <span style={{
+                fontFamily: "'Fragment Mono', monospace",
+                fontSize: 10,
+                color: p.open === 0 ? '#1f8a5b' : TERRA,
+                marginLeft: 14,
+              }}>
+                {p.open === 0 ? '✓ Voldaan' : `€ ${p.open} open`} · Betaald: € {p.totaal}
+              </span>
+            </div>
+            <button onClick={() => slaOp(p.naam)} style={{
+              appearance: 'none',
+              background: opslaan[p.naam] === 'ok' ? '#1f8a5b' : 'rgba(196,74,42,0.75)',
+              border: 'none', color: BEIGE,
+              fontFamily: "'Fragment Mono', monospace",
+              fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase',
+              padding: '7px 14px', cursor: 'pointer', flexShrink: 0,
+            }}>
+              {opslaan[p.naam] === 'laden' ? '...' : opslaan[p.naam] === 'ok' ? '✓' : 'Opslaan'}
+            </button>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 8 }}>
+            {MONTH_KEYS.map((k, idx) => (
+              <div key={k}>
+                <div style={{
+                  fontFamily: "'Fragment Mono', monospace",
+                  fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase',
+                  color: 'rgba(245,240,232,0.30)', marginBottom: 4,
+                }}>{MONTHS[idx]}</div>
+                <input
+                  type="number" min="0" step="48"
+                  value={p[k]}
+                  onChange={e => updateVeld(p.naam, k, e.target.value)}
+                  style={{
+                    width: '100%',
+                    background: p[k] > 0 ? 'rgba(196,74,42,0.15)' : 'rgba(245,240,232,0.06)',
+                    border: '1px solid rgba(245,240,232,0.10)',
+                    color: BEIGE,
+                    fontFamily: "'Fragment Mono', monospace",
+                    fontSize: 12, padding: '6px 8px',
+                    boxSizing: 'border-box', outline: 'none',
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─── Admin: TekstenEditor ─────────────────────────────────────────────────────
+function TekstenEditor({ teksten, setTeksten }) {
+  const [opslaan, setOpslaan] = React.useState({});
+
+  const LABELS = {
+    'home_label':          'Home — eyebrow (bovenlabel)',
+    'home_headline':       'Home — grote kop (\\n = nieuwe regel)',
+    'home_tekst_desktop':  'Home — intro tekst (desktop)',
+    'home_tekst_mobiel':   'Home — intro tekst (mobiel)',
+    'countdown_bericht':   'Countdown — bericht ({naam} wordt vervangen door de naam)',
+    'betalingen_subtitel': 'Betalingen — subtitel',
+    'faq_items':           'FAQ — vragen & antwoorden (JSON)',
+  };
+
+  const slaOp = async (sleutel) => {
+    setOpslaan(prev => ({ ...prev, [sleutel]: 'laden' }));
+    const { error } = await sb.from('teksten').upsert({ sleutel, waarde: teksten[sleutel] }, { onConflict: 'sleutel' });
+    setOpslaan(prev => ({ ...prev, [sleutel]: error ? 'fout' : 'ok' }));
+    setTimeout(() => setOpslaan(prev => ({ ...prev, [sleutel]: null })), 2500);
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {Object.keys(LABELS).map(sleutel => (
+        <div key={sleutel} style={{
+          background: 'rgba(245,240,232,0.04)',
+          border: '1px solid rgba(245,240,232,0.09)',
+          padding: '14px 18px',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 10, gap: 16 }}>
+            <div>
+              <div style={{
+                fontFamily: "'Fragment Mono', monospace",
+                fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase',
+                color: TERRA, marginBottom: 2,
+              }}>{LABELS[sleutel]}</div>
+              <div style={{
+                fontFamily: "'Fragment Mono', monospace",
+                fontSize: 8, color: 'rgba(245,240,232,0.22)',
+              }}>{sleutel}</div>
+            </div>
+            <button onClick={() => slaOp(sleutel)} style={{
+              appearance: 'none',
+              background: opslaan[sleutel] === 'ok' ? '#1f8a5b' : TERRA,
+              border: 'none', color: BEIGE,
+              fontFamily: "'Fragment Mono', monospace",
+              fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase',
+              padding: '7px 16px', cursor: 'pointer', flexShrink: 0,
+            }}>
+              {opslaan[sleutel] === 'laden' ? '...' : opslaan[sleutel] === 'ok' ? '✓ Opgeslagen' : 'Opslaan'}
+            </button>
+          </div>
+          <textarea
+            value={teksten[sleutel] || ''}
+            onChange={e => setTeksten(prev => ({ ...prev, [sleutel]: e.target.value }))}
+            rows={sleutel === 'faq_items' ? 10 : sleutel.includes('tekst') ? 4 : 2}
+            style={{
+              width: '100%',
+              background: 'rgba(245,240,232,0.07)',
+              border: '1px solid rgba(245,240,232,0.10)',
+              color: BEIGE,
+              fontFamily: sleutel === 'faq_items' ? "'Fragment Mono', monospace" : "'DM Sans', sans-serif",
+              fontSize: sleutel === 'faq_items' ? 11 : 13,
+              fontWeight: 300,
+              padding: '10px 12px',
+              boxSizing: 'border-box',
+              outline: 'none',
+              resize: 'vertical',
+              lineHeight: 1.55,
+            }}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─── Admin: WachtwoordEditor ──────────────────────────────────────────────────
+function WachtwoordEditor({ huidigWw }) {
+  const [oud, setOud] = React.useState('');
+  const [nieuw, setNieuw] = React.useState('');
+  const [bevestig, setBevestig] = React.useState('');
+  const [status, setStatus] = React.useState(null);
+
+  const slaOp = async () => {
+    if (oud !== huidigWw) { setStatus('Huidig wachtwoord klopt niet.'); return; }
+    if (nieuw.length < 4)  { setStatus('Nieuw wachtwoord moet minimaal 4 tekens zijn.'); return; }
+    if (nieuw !== bevestig){ setStatus('Wachtwoorden komen niet overeen.'); return; }
+    setStatus('laden');
+    const { error } = await sb.from('teksten').upsert(
+      { sleutel: 'admin_wachtwoord', waarde: nieuw },
+      { onConflict: 'sleutel' }
+    );
+    if (error) { setStatus('Fout bij opslaan. Probeer opnieuw.'); return; }
+    setStatus('ok');
+    setOud(''); setNieuw(''); setBevestig('');
+  };
+
+  const veldStyle = {
+    width: '100%',
+    background: 'rgba(245,240,232,0.07)',
+    border: '1px solid rgba(245,240,232,0.12)',
+    color: BEIGE,
+    fontFamily: "'Fragment Mono', monospace",
+    fontSize: 13, padding: '11px 14px',
+    boxSizing: 'border-box', outline: 'none',
+    marginBottom: 10,
+  };
+
+  return (
+    <div style={{ maxWidth: 440 }}>
+      <div style={{
+        fontFamily: "'Fragment Mono', monospace",
+        fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase',
+        color: 'rgba(245,240,232,0.40)', marginBottom: 20, lineHeight: 1.7,
+      }}>
+        Het wachtwoord wordt opgeslagen in Supabase.<br/>
+        Bij een wijziging wordt het nieuwe wachtwoord direct actief.
+      </div>
+
+      <div style={{ fontFamily: "'Fragment Mono', monospace", fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(245,240,232,0.30)', marginBottom: 5 }}>Huidig wachtwoord</div>
+      <input type="password" placeholder="••••••••" value={oud} onChange={e => { setOud(e.target.value); setStatus(null); }} style={veldStyle}/>
+
+      <div style={{ fontFamily: "'Fragment Mono', monospace", fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(245,240,232,0.30)', marginBottom: 5, marginTop: 6 }}>Nieuw wachtwoord</div>
+      <input type="password" placeholder="••••••••" value={nieuw} onChange={e => { setNieuw(e.target.value); setStatus(null); }} style={veldStyle}/>
+
+      <div style={{ fontFamily: "'Fragment Mono', monospace", fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(245,240,232,0.30)', marginBottom: 5 }}>Bevestig nieuw wachtwoord</div>
+      <input type="password" placeholder="••••••••" value={bevestig} onChange={e => { setBevestig(e.target.value); setStatus(null); }} onKeyDown={e => e.key === 'Enter' && slaOp()} style={veldStyle}/>
+
+      {status && status !== 'laden' && status !== 'ok' && (
+        <div style={{ fontFamily: "'Fragment Mono', monospace", fontSize: 10, color: TERRA, marginBottom: 10 }}>{status}</div>
+      )}
+      {status === 'ok' && (
+        <div style={{ fontFamily: "'Fragment Mono', monospace", fontSize: 10, color: '#1f8a5b', marginBottom: 10 }}>✓ Wachtwoord gewijzigd</div>
+      )}
+      <button onClick={slaOp} style={{
+        appearance: 'none',
+        background: status === 'ok' ? '#1f8a5b' : TERRA,
+        border: 'none', color: BEIGE,
+        fontFamily: "'Barlow Condensed', sans-serif",
+        fontSize: 20, fontWeight: 900, textTransform: 'uppercase',
+        letterSpacing: '0.04em', padding: '12px 28px', cursor: 'pointer', marginTop: 4,
+      }}>
+        {status === 'laden' ? 'Bezig...' : status === 'ok' ? '✓ Opgeslagen' : 'Wachtwoord wijzigen'}
+      </button>
+    </div>
+  );
+}
+
+// ─── AdminPage ────────────────────────────────────────────────────────────────
+function AdminPage({ setCurrentPage }) {
+  const [authed, setAuthed] = React.useState(false);
+  const [ww, setWw] = React.useState('');
+  const [fout, setFout] = React.useState(false);
+  const [tab, setTab] = React.useState('betalingen');
+  const [adminBet, setAdminBet] = React.useState(PAYMENTS);
+  const [adminTxt, setAdminTxt] = React.useState(DEFAULT_TEKSTEN);
+  const [laden, setLaden] = React.useState(false);
+  const [huidigWw, setHuidigWw] = React.useState(ADMIN_WW);
+  const [wwLaden, setWwLaden] = React.useState(true);
+
+  React.useEffect(() => {
+    sb.from('teksten').select('waarde').eq('sleutel', 'admin_wachtwoord').single()
+      .then(({ data }) => {
+        if (data?.waarde) setHuidigWw(data.waarde);
+        setWwLaden(false);
+      });
+  }, []);
+
+  const login = () => {
+    if (ww === huidigWw) { setAuthed(true); laadData(); }
+    else setFout(true);
+  };
+
+  const laadData = async () => {
+    setLaden(true);
+    const [{ data: b }, { data: tv }] = await Promise.all([
+      sb.from('betalingen').select('*').order('naam'),
+      sb.from('teksten').select('*'),
+    ]);
+    if (b && b.length > 0) setAdminBet(b);
+    if (tv && tv.length > 0) {
+      const obj = {};
+      tv.forEach(row => { obj[row.sleutel] = row.waarde; });
+      if (obj['admin_wachtwoord']) setHuidigWw(obj['admin_wachtwoord']);
+      setAdminTxt(prev => ({ ...prev, ...obj }));
+    }
+    setLaden(false);
+  };
+
+  const veldStyle = (err) => ({
+    width: '100%',
+    background: 'rgba(245,240,232,0.07)',
+    border: err ? `1px solid ${TERRA}` : '1px solid rgba(245,240,232,0.15)',
+    color: BEIGE, fontFamily: "'Fragment Mono', monospace",
+    fontSize: 13, padding: '12px 16px',
+    boxSizing: 'border-box', outline: 'none', marginBottom: 12,
+  });
+
+  if (!authed) return (
+    <div style={{ background: DEEP, minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 32 }}>
+      <div style={{ maxWidth: 360, width: '100%' }}>
+        <div style={{ fontFamily: "'Fragment Mono', monospace", fontSize: 9, letterSpacing: '0.35em', textTransform: 'uppercase', color: TERRA, marginBottom: 10 }}>━━ Roomley CMS</div>
+        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 52, fontWeight: 900, textTransform: 'uppercase', lineHeight: 0.9, color: BEIGE, marginBottom: 32 }}>Beheer<br/>Paneel</div>
+        <input type="password" placeholder="Wachtwoord" value={ww} disabled={wwLaden}
+          onChange={e => { setWw(e.target.value); setFout(false); }}
+          onKeyDown={e => e.key === 'Enter' && !wwLaden && login()}
+          style={veldStyle(fout)}
+        />
+        {wwLaden && <div style={{ fontFamily: "'Fragment Mono', monospace", fontSize: 9, color: 'rgba(245,240,232,0.30)', marginBottom: 8 }}>Laden...</div>}
+        {fout && <div style={{ fontFamily: "'Fragment Mono', monospace", fontSize: 10, color: TERRA, marginBottom: 12 }}>Onjuist wachtwoord</div>}
+        <button onClick={login} disabled={wwLaden} style={{ width: '100%', background: TERRA, border: 'none', color: BEIGE, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 22, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.04em', padding: '14px 0', cursor: 'pointer', marginBottom: 10, opacity: wwLaden ? 0.5 : 1 }}>Inloggen</button>
+        <button onClick={() => setCurrentPage('home')} style={{ width: '100%', background: 'transparent', border: 'none', color: 'rgba(245,240,232,0.18)', fontFamily: "'Fragment Mono', monospace", fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', padding: '10px 0', cursor: 'pointer' }}>← Terug naar de site</button>
+      </div>
+    </div>
+  );
+
+  return (
+    <div style={{ background: DEEP, minHeight: '100vh', padding: '32px 24px 80px' }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 32 }}>
+        <div>
+          <div style={{ fontFamily: "'Fragment Mono', monospace", fontSize: 9, letterSpacing: '0.35em', textTransform: 'uppercase', color: TERRA, marginBottom: 6 }}>━━ Roomley CMS · Beheer Paneel</div>
+          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 40, fontWeight: 900, textTransform: 'uppercase', lineHeight: 0.9, color: BEIGE }}>Betalingen<br/>&amp; Teksten</div>
+        </div>
+        <button onClick={() => setCurrentPage('home')} style={{ appearance: 'none', background: 'transparent', border: '1px solid rgba(245,240,232,0.15)', color: 'rgba(245,240,232,0.45)', fontFamily: "'Fragment Mono', monospace", fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', padding: '8px 14px', cursor: 'pointer', marginTop: 4 }}>← Terug</button>
+      </div>
+      <div style={{ display: 'flex', gap: 0, marginBottom: 28, borderBottom: '1px solid rgba(245,240,232,0.10)' }}>
+        {[{ key: 'betalingen', label: 'Betalingen' }, { key: 'teksten', label: 'Teksten' }, { key: 'instellingen', label: 'Instellingen' }].map(({ key, label }) => (
+          <button key={key} onClick={() => setTab(key)} style={{ appearance: 'none', background: 'transparent', border: 'none', borderBottom: tab === key ? `2px solid ${TERRA}` : '2px solid transparent', color: tab === key ? BEIGE : 'rgba(245,240,232,0.35)', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 22, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.04em', padding: '8px 24px 10px 0', cursor: 'pointer', marginBottom: -1 }}>{label}</button>
+        ))}
+      </div>
+      {laden ? (
+        <div style={{ fontFamily: "'Fragment Mono', monospace", fontSize: 11, color: 'rgba(245,240,232,0.35)' }}>Laden uit Supabase...</div>
+      ) : tab === 'betalingen' ? (
+        <BetalingenEditor betalingen={adminBet} setBetalingen={setAdminBet}/>
+      ) : tab === 'teksten' ? (
+        <TekstenEditor teksten={adminTxt} setTeksten={setAdminTxt}/>
+      ) : (
+        <WachtwoordEditor huidigWw={huidigWw}/>
+      )}
     </div>
   );
 }
@@ -2080,6 +2500,8 @@ const App = () => {
   const [currentPage, setCurrentPage] = React.useState('home');
   const desktop = useIsDesktop();
   const [playerName, chooseName, chooseGuest] = usePlayerName();
+  const [t, teksten, setTeksten] = useTeksten();
+  const [betalingen, setBetalingen] = useBetalingen();
 
   React.useEffect(() => { window.scrollTo(0, 0); }, [currentPage]);
 
@@ -2108,27 +2530,30 @@ const App = () => {
 
   if (!playerName) return <NameGate onChoose={chooseName} onGuest={chooseGuest}/>;
 
-  const props = { setCurrentPage, desktop, playerName };
+  const props = { setCurrentPage, desktop, playerName, t, betalingen };
 
   const renderPage = () => {
     switch(currentPage) {
-      case 'programma': return <ProgrammaPage {...props}/>;
-      case 'paklijst':  return <PaklijstPage  {...props}/>;
-      case 'weer':      return <WeerPage      {...props}/>;
+      case 'admin':          return <AdminPage         setCurrentPage={setCurrentPage}/>;
+      case 'programma':      return <ProgrammaPage     {...props}/>;
+      case 'paklijst':       return <PaklijstPage      {...props}/>;
+      case 'weer':           return <WeerPage          {...props}/>;
       case 'locatie':        return <LocatiePage        {...props}/>;
-      case 'kamerindeling': return <KamerindelingPage {...props}/>;
-      case 'betalingen':    return <BetalingenPage    {...props}/>;
-      case 'playlist':      return <PlaylistPage      {...props}/>;
+      case 'kamerindeling':  return <KamerindelingPage {...props}/>;
+      case 'betalingen':     return <BetalingenPage    {...props}/>;
+      case 'playlist':       return <PlaylistPage      {...props}/>;
       default:               return <HomePage           {...props}/>;
     }
   };
 
+  const isAdminPage = currentPage === 'admin';
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100%', background: BLACK }}>
-      <Topbar currentPage={currentPage} setCurrentPage={setCurrentPage} desktop={desktop}/>
-      <div style={{ flex: 1, paddingBottom: desktop ? 0 : 44 }}>{renderPage()}</div>
-      {!desktop && <BottomTabBar currentPage={currentPage} setCurrentPage={setCurrentPage}/>}
-      <BrilPopup playerName={playerName}/>
+      {!isAdminPage && <Topbar currentPage={currentPage} setCurrentPage={setCurrentPage} desktop={desktop}/>}
+      <div style={{ flex: 1, paddingBottom: desktop || isAdminPage ? 0 : 44 }}>{renderPage()}</div>
+      {!desktop && !isAdminPage && <BottomTabBar currentPage={currentPage} setCurrentPage={setCurrentPage}/>}
+      {!isAdminPage && <BrilPopup playerName={playerName}/>}
     </div>
   );
 };
