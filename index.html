@@ -32,6 +32,14 @@ details summary::-webkit-details-marker{display:none;}
     transform: translateY(0);
   }
 }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes brilPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
@@ -96,6 +104,30 @@ const ROOMS = NAMES.reduce((acc, n) => {
   acc[n] = n === 'Hugo' ? NAMES.filter(x => x !== 'Hugo') : ['Hugo'];
   return acc;
 }, {});
+
+// ─── Secret Bril ─────────────────────────────────────────────────────────────
+// Zet op false om de popup voor iedereen te verbergen
+const BRIL_POPUP_ACTIVE = true;
+// Wie koopt voor wie? (Pas hieronder de namen aan)
+const BRIL_PAIRS = {
+  'Cas':     'Sebas',
+  'Sebas':   'Cas',
+  'Pepijn':  'Bas',
+  'Bas':     'Stijn',
+  'Stijn':   'Huub',
+  'Huub':    'Lars',
+  'Lars':    'Voerbak',
+  'Voerbak': 'Daan',
+  'Daan':    'Robin',
+  'Robin':   'Jordi',
+  'Jordi':   'Sander',
+  'Sander':  'Hugo',
+  'Hugo':    'Bram',
+  'Bram':    'Ruben',
+  'Ruben':   'Max',
+  'Max':     'Roel',
+  'Roel':    'Pepijn',
+};
 
 // ─── Hooks ────────────────────────────────────────────────────────────────────
 function useIsDesktop() {
@@ -1818,6 +1850,213 @@ function PlaylistPage({ setCurrentPage, desktop }) {
   );
 }
 
+// ─── BrilPopup ────────────────────────────────────────────────────────────────
+function BrilPopup({ playerName }) {
+  const [closed, setClosed] = React.useState(false);
+  const [landed, setLanded] = React.useState(false);
+  const recipient = BRIL_PAIRS[playerName];
+
+  // Bouw de lijst met namen die over het rad heen scrollen (eindigt op recipient)
+  const spinList = React.useMemo(() => {
+    if (!recipient) return [];
+    const others = NAMES.filter(n => n !== playerName);
+    const arr = [];
+    for (let i = 0; i < 6; i++) {
+      arr.push(...[...others].sort(() => Math.random() - 0.5));
+    }
+    arr.push(recipient);
+    return arr;
+  }, [recipient, playerName]);
+
+  // Start de animatie kort na mount + track event naar GA
+  React.useEffect(() => {
+    if (!BRIL_POPUP_ACTIVE || closed || !recipient || playerName === 'Gast') return;
+    // Stuur een event naar Google Analytics: zo zie je wie de popup heeft gezien
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'bril_popup_shown', {
+        gebruiker_naam: playerName,
+        bril_voor: recipient,
+      });
+    }
+    const t = setTimeout(() => setLanded(true), 400);
+    return () => clearTimeout(t);
+  }, [closed, recipient, playerName]);
+
+  if (!BRIL_POPUP_ACTIVE || closed || !recipient || playerName === 'Gast') return null;
+
+  const ITEM_HEIGHT = 80;
+  const finalOffset = -(spinList.length - 1) * ITEM_HEIGHT;
+  const ALIEXPRESS_URL = 'https://nl.aliexpress.com/w/wholesale-gekke-brillen.html?g=y&SearchText=gekke+brillen&streamId=949908f5-dcbc-4df7-a041-09804be2313f&pr=-10';
+
+  return (
+    <div style={{
+      position: 'fixed', inset: 0,
+      background: 'radial-gradient(ellipse at center, rgba(196,74,42,0.18) 0%, rgba(0,0,0,0.94) 75%)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      zIndex: 9999, padding: 12,
+      animation: 'fadeIn 250ms ease',
+    }}>
+      <div style={{
+        background: BEIGE,
+        width: '100%', maxWidth: 440,
+        position: 'relative', textAlign: 'center',
+        maxHeight: '94vh', overflowY: 'auto',
+        boxShadow: '0 24px 60px rgba(0,0,0,0.55)',
+      }}>
+        {/* Header band in TERRA */}
+        <div style={{
+          background: TERRA, color: BEIGE,
+          padding: '14px 18px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        }}>
+          <span style={{
+            fontFamily: "'Fragment Mono', monospace",
+            fontSize: 10, letterSpacing: '0.28em', textTransform: 'uppercase',
+            display: 'flex', alignItems: 'center', gap: 8,
+          }}><span style={{ fontSize: 16 }}>🕶️</span> Geheime Opdracht</span>
+          <button onClick={() => setClosed(true)} aria-label="Sluit" style={{
+            background: 'none', border: 'none', cursor: 'pointer',
+            fontSize: 22, color: BEIGE, lineHeight: 1, padding: 0,
+            opacity: 0.85,
+          }}>✕</button>
+        </div>
+
+        {/* Body */}
+        <div style={{ padding: '26px 22px 22px' }}>
+          <p style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 14, lineHeight: 1.55, color: BLACK,
+            margin: '0 0 14px 0', fontWeight: 400,
+          }}>
+            Iedereen moet de meest rare bril meenemen voor een opdracht.
+          </p>
+          <div style={{
+            display: 'inline-block',
+            background: BLACK, color: BEIGE,
+            fontFamily: "'Barlow Condensed', sans-serif",
+            fontSize: 24, fontWeight: 900, letterSpacing: '0.05em',
+            padding: '6px 16px',
+            margin: '0 0 8px 0',
+          }}>MAX € 10,-</div>
+          <p style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 12, lineHeight: 1.5, color: 'rgba(17,17,17,0.55)',
+            margin: '0 0 24px 0', fontWeight: 300, fontStyle: 'italic',
+          }}>Inspiratie: AliExpress, Shein, etc.</p>
+
+          {/* Player call-out */}
+          <div style={{
+            fontFamily: "'Barlow Condensed', sans-serif",
+            fontSize: 22, fontWeight: 900, textTransform: 'uppercase',
+            letterSpacing: '0.02em', lineHeight: 1.15, color: BLACK,
+            marginBottom: 14,
+          }}>{playerName}, jij koopt de bril voor:</div>
+
+          {/* Dark slot-machine wheel */}
+          <div style={{
+            position: 'relative',
+            height: ITEM_HEIGHT,
+            overflow: 'hidden',
+            background: DEEP,
+            margin: '0 0 22px 0',
+            boxShadow: `inset 0 0 0 3px ${TERRA}, 0 8px 24px rgba(0,0,0,0.4)`,
+          }}>
+            {/* Pijl-indicators */}
+            <div style={{
+              position: 'absolute', top: '50%', left: 6, transform: 'translateY(-50%)',
+              width: 0, height: 0,
+              borderTop: '9px solid transparent',
+              borderBottom: '9px solid transparent',
+              borderLeft: `12px solid ${TERRA}`,
+              zIndex: 4,
+            }}/>
+            <div style={{
+              position: 'absolute', top: '50%', right: 6, transform: 'translateY(-50%)',
+              width: 0, height: 0,
+              borderTop: '9px solid transparent',
+              borderBottom: '9px solid transparent',
+              borderRight: `12px solid ${TERRA}`,
+              zIndex: 4,
+            }}/>
+            {/* Bovenste fade */}
+            <div style={{
+              position: 'absolute', top: 0, left: 0, right: 0, height: 22,
+              background: `linear-gradient(to bottom, ${DEEP} 0%, transparent 100%)`,
+              zIndex: 2, pointerEvents: 'none',
+            }}/>
+            {/* Onderste fade */}
+            <div style={{
+              position: 'absolute', bottom: 0, left: 0, right: 0, height: 22,
+              background: `linear-gradient(to top, ${DEEP} 0%, transparent 100%)`,
+              zIndex: 2, pointerEvents: 'none',
+            }}/>
+
+            <div style={{
+              transform: `translateY(${landed ? finalOffset : 0}px)`,
+              transition: 'transform 4.4s cubic-bezier(0.18, 0.85, 0.22, 1)',
+              willChange: 'transform',
+            }}>
+              {spinList.map((n, i) => {
+                const isWinner = i === spinList.length - 1;
+                return (
+                  <div key={i} style={{
+                    height: ITEM_HEIGHT,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontSize: 46, fontWeight: 900, textTransform: 'uppercase',
+                    letterSpacing: '0.03em', lineHeight: 1,
+                    color: isWinner && landed ? TERRA : BEIGE,
+                    textShadow: isWinner && landed ? `0 0 28px rgba(196,74,42,0.7)` : 'none',
+                    animation: isWinner && landed ? 'brilPulse 700ms ease 4.4s 2' : 'none',
+                  }}>{n}</div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* AliExpress CTA */}
+          <a
+            href={ALIEXPRESS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              gap: 10, width: '100%',
+              background: '#E62E04', color: '#fff',
+              fontFamily: "'Fragment Mono', monospace",
+              fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase',
+              padding: '15px 16px', textDecoration: 'none', fontWeight: 600,
+              marginBottom: 16,
+              boxShadow: '0 6px 18px rgba(230,46,4,0.35)',
+              transition: 'transform 120ms ease, box-shadow 120ms ease',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 8px 22px rgba(230,46,4,0.45)'; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 6px 18px rgba(230,46,4,0.35)'; }}
+          >
+            <span style={{ fontSize: 18 }}>🛒</span>
+            Bestel meteen op AliExpress
+            <span style={{ fontSize: 14 }}>↗</span>
+          </a>
+
+          <p style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 12, lineHeight: 1.5, color: 'rgba(17,17,17,0.55)',
+            margin: '0 0 18px 0', fontWeight: 300,
+          }}>Hou het <strong>geheim</strong>, zo idioot mogelijk.</p>
+
+          <button onClick={() => setClosed(true)} style={{
+            background: 'transparent', color: BLACK,
+            border: `1px solid rgba(17,17,17,0.25)`,
+            fontFamily: "'Fragment Mono', monospace",
+            fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase',
+            padding: '11px 28px', cursor: 'pointer',
+          }}>Sluiten</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── App ──────────────────────────────────────────────────────────────────────
 const App = () => {
   const [currentPage, setCurrentPage] = React.useState('home');
@@ -1871,6 +2110,7 @@ const App = () => {
       <Topbar currentPage={currentPage} setCurrentPage={setCurrentPage} desktop={desktop}/>
       <div style={{ flex: 1, paddingBottom: desktop ? 0 : 44 }}>{renderPage()}</div>
       {!desktop && <BottomTabBar currentPage={currentPage} setCurrentPage={setCurrentPage}/>}
+      <BrilPopup playerName={playerName}/>
     </div>
   );
 };
