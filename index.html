@@ -2496,12 +2496,31 @@ function BrilPopup({ playerName }) {
 }
 
 // ─── App ──────────────────────────────────────────────────────────────────────
+const PAGINAS = new Set(['home','programma','paklijst','weer','locatie','kamerindeling','betalingen','playlist']);
+const paginaVanHash = () => { const h = window.location.hash.slice(1); return PAGINAS.has(h) ? h : 'home'; };
+
 const App = () => {
-  const [currentPage, setCurrentPage] = React.useState('home');
+  const [currentPage, setCurrentPage] = React.useState(paginaVanHash);
   const desktop = useIsDesktop();
   const [playerName, chooseName, chooseGuest] = usePlayerName();
   const [t, teksten, setTeksten] = useTeksten();
   const [betalingen, setBetalingen] = useBetalingen();
+
+  // URL hash bijhouden bij paginawissel
+  React.useEffect(() => {
+    if (currentPage === 'admin') return;
+    const nieuweHash = currentPage === 'home' ? window.location.pathname : '#' + currentPage;
+    if (window.location.hash !== (currentPage === 'home' ? '' : '#' + currentPage)) {
+      history.pushState(null, '', nieuweHash);
+    }
+  }, [currentPage]);
+
+  // Browser terug/vooruit knop
+  React.useEffect(() => {
+    const onPop = () => setCurrentPage(paginaVanHash());
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
 
   React.useEffect(() => { window.scrollTo(0, 0); }, [currentPage]);
 
