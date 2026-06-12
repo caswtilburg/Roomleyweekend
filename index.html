@@ -2293,6 +2293,10 @@ function BrilPopup({ playerName }) {
   const [closed, setClosed] = React.useState(false);
   const [landed, setLanded] = React.useState(false);
   const recipient = BRIL_PAIRS[playerName];
+  const [homeLanding] = React.useState(() => {
+    const h = window.location.hash;
+    return h === '' || h === '#home';
+  });
 
   // Bouw de lijst met namen die over het rad heen scrollen (eindigt op recipient)
   const spinList = React.useMemo(() => {
@@ -2308,7 +2312,7 @@ function BrilPopup({ playerName }) {
 
   // Start de animatie kort na mount + track event naar GA
   React.useEffect(() => {
-    if (!BRIL_POPUP_ACTIVE || closed || !recipient || playerName === 'Gast') return;
+    if (!BRIL_POPUP_ACTIVE || closed || !recipient || playerName === 'Gast' || !homeLanding) return;
     // Stuur een event naar Google Analytics: zo zie je wie de popup heeft gezien
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'bril_popup_shown', {
@@ -2320,7 +2324,7 @@ function BrilPopup({ playerName }) {
     return () => clearTimeout(t);
   }, [closed, recipient, playerName]);
 
-  if (!BRIL_POPUP_ACTIVE || closed || !recipient || playerName === 'Gast') return null;
+  if (!BRIL_POPUP_ACTIVE || closed || !recipient || playerName === 'Gast' || !homeLanding) return null;
 
   const ITEM_HEIGHT = 80;
   const finalOffset = -(spinList.length - 1) * ITEM_HEIGHT;
