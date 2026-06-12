@@ -57,11 +57,16 @@
   #gangnav a.active{background:var(--accent); border-color:var(--accent); color:#1a1410; font-weight:700}
   #gangnav a.active b{color:#1a1410}
 
-  h2.gang{margin:20px 16px 8px; font-size:1.05rem; display:flex; align-items:center; gap:8px; scroll-margin-top:175px}
+  h2.gang{margin:20px 16px 0; font-size:1.05rem; display:flex; align-items:center; gap:8px; scroll-margin-top:175px}
   h2.gang .dot{width:10px;height:10px;border-radius:50%}
   h2.gang .count{color:var(--muted); font-weight:400; font-size:.8rem}
-  h2.gang .reikwijdte{margin-left:auto; font-size:.74rem; font-weight:600; padding:6px 11px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--muted); white-space:nowrap}
-  h2.gang .reikwijdte.aan{background:var(--accent2); border-color:var(--accent2); color:#1a1410}
+  h2.gang .bereik{margin-left:auto; font-size:.8rem; font-weight:700; color:var(--accent2); white-space:nowrap}
+  p.gangsub{margin:2px 16px 8px 34px; color:var(--muted); font-size:.78rem}
+
+  #verloop{margin-top:12px; padding-top:10px; border-top:1px solid var(--line); display:flex; justify-content:space-between; gap:4px; text-align:center; font-size:.72rem; color:var(--muted)}
+  #verloop .stap{flex:1}
+  #verloop .stap b{display:block; font-size:.82rem; color:var(--accent2); font-weight:700}
+  #verloop .pijl{align-self:center; color:var(--accent); font-size:.9rem}
 
   .cards{display:flex; flex-direction:column; gap:8px; margin:0 12px}
   .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 14px}
@@ -119,7 +124,7 @@
   <button class="ikoon" id="infoknop" title="Uitleg">&#8505;&#65039;</button>
 </div>
 
-<p class="hint">Kies je dome-temperatuur; je ziet per gang alleen recepten die daarop bereid worden.</p>
+<p class="hint">Op welke temperatuur ga je BBQ'en?</p>
 
 <div class="panel" id="temppanel">
   <div class="tempval"><span id="tval">180</span>&deg;C <small>&plusmn;15&deg;C</small></div>
@@ -132,6 +137,7 @@
     <button data-t="200">200&deg;</button>
     <button data-t="230">Grillen 230&deg;</button>
   </div>
+  <div id="verloop"></div>
 </div>
 
 <div class="toolrow">
@@ -230,7 +236,7 @@
   <div class="sheet">
     <h3>Zo werkt het <button class="sluit" data-sluit="info">&times;</button></h3>
     <p>Een kamado houdt &eacute;&eacute;n temperatuur urenlang vast, maar wisselen is lastig. Deze app vindt <b>voor-, bij-, hoofd- en nagerechten die allemaal op dezelfde dome-temperatuur</b> bereid worden &mdash; zo hoeft je BBQ niet te wisselen. Bij elk recept staat of het <b>direct</b> (boven de kolen) of <b>indirect</b> (met plaatsetter) is.</p>
-    <p>Opstoken kan altijd, afkoelen bijna niet. Daarom kun je bij <b>voorgerechten</b> op <b>"ook lager"</b> tikken (alles t/m jouw temperatuur) en bij <b>nagerechten</b> op <b>"ook hoger"</b> (alles vanaf jouw temperatuur).</p>
+    <p>De app volgt het verloop van je BBQ-avond: opstoken kan altijd, afkoelen bijna niet. Daarom zie je <b>voorgerechten t/m jouw temperatuur</b> (je kamado warmt nog op), <b>hoofd- en bijgerechten rond jouw temperatuur</b>, en <b>nagerechten vanaf jouw temperatuur</b> (na het eten stook je door).</p>
     <h4>&#11088; Favorieten &amp; eigen recepten</h4>
     <p>Favorieten en eigen recepten worden <b>op dit toestel</b> bewaard (niets wordt ge&uuml;pload). Filter met de <b>&#11088; Favorieten</b>-knop bovenaan; favorieten en eigen recepten staan altijd bovenaan hun gang.</p>
     <h4>&#128241; Op je beginscherm</h4>
@@ -271,8 +277,6 @@ const lees = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; 
 const zet = (k, v) => localStorage.setItem(k, JSON.stringify(v));
 let eigen = lees("kamado_eigen", []);
 let favorieten = new Set(lees("kamado_fav", []));
-let voorLager = lees("kamado_voorlager", false);   // voorgerechten: ook lager dan gekozen temp
-let naHoger = lees("kamado_nahoger", false);       // nagerechten: ook hoger dan gekozen temp
 
 let temp = 180, zoekterm = "";
 let soortFilter = new Set(), alleenFav = false, tijdFilter = null;
@@ -314,16 +318,18 @@ function zichtbaar(r){
   }
   return true;
 }
+// Het verloop van een BBQ-avond: de kamado warmt op (voorgerecht mag lager),
+// het hoofd- en bijgerecht bepalen de temperatuur, daarna stook je door (nagerecht mag hoger).
 function matchGangTemp(r, gangId){
-  if(gangId === "voor" && voorLager) return r.t[0] <= temp + TOL;   // op of onder de gekozen temp
-  if(gangId === "na" && naHoger) return r.t[1] >= temp - TOL;       // op of boven de gekozen temp
+  if(gangId === "voor") return r.t[0] <= temp + TOL;   // op of onder de gekozen temp
+  if(gangId === "na") return r.t[1] >= temp - TOL;     // op of boven de gekozen temp
   return matchTemp(r, temp);
 }
 function gefilterd(gangId){
-  // bij zoeken doorzoek je álle temperaturen; anders alleen rond de gekozen temperatuur
+  // bij zoeken doorzoek je álle temperaturen; anders volgens het avond-verloop
   let lijst = alleRecepten().filter(r => r.g === gangId && zichtbaar(r) && (zoekterm || matchGangTemp(r, gangId)));
   const rang = r => (r.b === "E" ? 0 : favorieten.has(r.u) ? 1 : 2);
-  if(gangId === "voor" && voorLager && !zoekterm){
+  if(gangId === "voor" && !zoekterm){
     // dichtst bij de gekozen temperatuur eerst, dan steeds lager
     lijst.sort((a,b) => rang(a) - rang(b) || b.t[0] - a.t[0] || a.n.localeCompare(b.n));
   } else {
@@ -395,16 +401,18 @@ function render(){
   }).join("");
 
   let html = "";
+  const UITLEG = {
+    voor: {bereik: t => `t/m ${t}°`, sub: "je kamado is nog aan het opwarmen, dus lager mag ook"},
+    bij:  {bereik: t => `rond ${t}°`, sub: "gaart naast je hoofdgerecht op dezelfde temperatuur"},
+    hoofd:{bereik: t => `rond ${t}°`, sub: "jouw gekozen temperatuur"},
+    na:   {bereik: t => `vanaf ${t}°`, sub: "na het hoofdgerecht stook je makkelijk door"}
+  };
   GANGEN.forEach(gang => {
     const lijst = gefilterd(gang.id);
-    let knop = "";
-    if(!zoekterm && gang.id === "voor"){
-      knop = `<button class="reikwijdte${voorLager?" aan":""}" data-act="vlager">${voorLager ? "✓ t/m " + temp + "°" : "ook lager ▾"}</button>`;
-    }
-    if(!zoekterm && gang.id === "na"){
-      knop = `<button class="reikwijdte${naHoger?" aan":""}" data-act="nhoger">${naHoger ? "✓ vanaf " + temp + "°" : "ook hoger ▴"}</button>`;
-    }
-    html += `<h2 class="gang" id="sec-${gang.id}"><span class="dot" style="background:${gang.kleur}"></span>${gang.naam} <span class="count">(${lijst.length})</span>${knop}</h2>`;
+    const u = UITLEG[gang.id];
+    const bereik = zoekterm ? "alle temperaturen" : u.bereik(temp);
+    html += `<h2 class="gang" id="sec-${gang.id}"><span class="dot" style="background:${gang.kleur}"></span>${gang.naam} <span class="count">(${lijst.length})</span><span class="bereik">${bereik}</span></h2>`;
+    html += `<p class="gangsub">${zoekterm ? "zoekresultaten voor “" + esc(zoekterm) + "”" : u.sub}</p>`;
     if(lijst.length === 0){
       html += `<p class="empty">Geen recepten gevonden rond ${temp}°C — schuif de temperatuur of pas filters aan.</p>`;
     } else {
@@ -424,18 +432,6 @@ $("result").addEventListener("click", e => {
   if(!el) return;
   const u = el.dataset.u ? decodeURIComponent(el.dataset.u) : null;
   if(el.dataset.act === "meer"){ toonAlles[el.dataset.g] = true; render(); }
-  if(el.dataset.act === "vlager"){
-    voorLager = !voorLager;
-    zet("kamado_voorlager", voorLager);
-    toast(voorLager ? `Voorgerechten t/m ${temp}°C — je kamado warmt daarna op` : `Voorgerechten alleen rond ${temp}°C`);
-    render();
-  }
-  if(el.dataset.act === "nhoger"){
-    naHoger = !naHoger;
-    zet("kamado_nahoger", naHoger);
-    toast(naHoger ? `Nagerechten vanaf ${temp}°C — stook je kamado erna op` : `Nagerechten alleen rond ${temp}°C`);
-    render();
-  }
   if(el.dataset.act === "fav"){
     favorieten.has(u) ? favorieten.delete(u) : favorieten.add(u);
     zet("kamado_fav", [...favorieten]);
@@ -475,12 +471,21 @@ $("bewaarknop").onclick = () => {
 };
 
 // ---------- temperatuur ----------
+function renderVerloop(){
+  $("verloop").innerHTML =
+    `<div class="stap"><b>t/m ${temp}°</b>🥗 voorgerecht</div>
+     <span class="pijl">›</span>
+     <div class="stap"><b>${temp}°</b>🍖 hoofd &amp; bij</div>
+     <span class="pijl">›</span>
+     <div class="stap"><b>vanaf ${temp}°</b>🍰 nagerecht</div>`;
+}
 function setTemp(t){
   temp = t;
   $("tval").textContent = t;
   $("tslider").value = t;
   document.querySelectorAll(".presets button").forEach(b => b.classList.toggle("active", +b.dataset.t === t));
   toonAlles = {};
+  renderVerloop();
   render();
 }
 $("tslider").addEventListener("input", e => setTemp(+e.target.value));
@@ -507,6 +512,7 @@ window.addEventListener("scroll", () => {
 // ---------- start ----------
 $("dbinfo").textContent = `${BASIS.length} recepten in de database`;
 renderFilters();
+renderVerloop();
 render();
 if(!lees("kamado_intro2", false)){
   zet("kamado_intro2", true);
