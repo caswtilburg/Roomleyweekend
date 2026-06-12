@@ -414,7 +414,7 @@ function render(){
     html += `<h2 class="gang" id="sec-${gang.id}"><span class="dot" style="background:${gang.kleur}"></span>${gang.naam} <span class="count">(${lijst.length})</span><span class="bereik">${bereik}</span></h2>`;
     html += `<p class="gangsub">${zoekterm ? "zoekresultaten voor “" + esc(zoekterm) + "”" : u.sub}</p>`;
     if(lijst.length === 0){
-      html += `<p class="empty">Geen recepten gevonden rond ${temp}°C — schuif de temperatuur of pas filters aan.</p>`;
+      html += `<p class="empty">Geen ${gang.naam.toLowerCase()} ${bereik} — schuif de temperatuur of pas je filters aan.</p>`;
     } else {
       const tonen = toonAlles[gang.id] ? lijst : lijst.slice(0, MAX_TONEN);
       html += `<div class="cards">` + tonen.map(kaart).join("") + `</div>`;
