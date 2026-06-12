@@ -5,10 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#13100c">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta property="og:title" content="Kamado Menu Planner">
-<meta property="og:description" content="Vind BBQ-recepten op dezelfde dome-temperatuur en stel je menu samen.">
-<title>Kamado Menu Planner</title>
+<meta property="og:title" content="Kamado BBQ Planner">
+<meta property="og:description" content="Vind BBQ-recepten op dezelfde dome-temperatuur, direct of indirect.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
+<title>Kamado BBQ Planner</title>
 <style>
   :root{
     --bg:#1a1410; --card:#262019; --card2:#332b21;
@@ -18,67 +20,61 @@
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
   html{scroll-behavior:smooth}
-  body{margin:0; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--text); padding-bottom:110px}
+  body{margin:0; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--text); padding-bottom:40px; -webkit-text-size-adjust:100%}
   button{font-family:inherit; cursor:pointer}
 
-  /* topbalk */
-  #topbar{position:sticky; top:0; z-index:15; background:rgba(19,16,12,.96); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding:12px 14px calc(10px); display:flex; align-items:center; gap:10px}
+  #topbar{position:sticky; top:0; z-index:15; background:rgba(19,16,12,.96); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding:12px 14px 10px; display:flex; align-items:center; gap:10px; padding-top:calc(12px + env(safe-area-inset-top))}
   #topbar .logo{font-weight:800; font-size:1.05rem; flex:1; letter-spacing:.3px}
   #topbar .logo span{color:var(--accent)}
-  #topbar .ikoon{background:var(--card); border:1px solid var(--line); color:var(--accent2); width:38px; height:38px; border-radius:11px; font-size:1.05rem; line-height:1}
+  #topbar .ikoon{background:var(--card); border:1px solid var(--line); color:var(--accent2); width:40px; height:40px; border-radius:11px; font-size:1.05rem; line-height:1}
 
-  .modes{display:flex; gap:8px; margin:12px 12px 0}
-  .modes button{flex:1; padding:11px 6px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--muted); font-size:.88rem}
-  .modes button.active{background:var(--accent); color:#1a1410; font-weight:700; border-color:var(--accent)}
-  .hint{margin:8px 16px 0; color:var(--muted); font-size:.78rem; text-align:center}
+  .hint{margin:10px 16px 0; color:var(--muted); font-size:.8rem; text-align:center}
 
   .panel{background:var(--card); margin:12px; border-radius:16px; padding:14px 16px; border:1px solid var(--line)}
   .tempval{text-align:center; font-size:2.2rem; font-weight:700; color:var(--accent2)}
   .tempval small{font-size:1rem; color:var(--muted); font-weight:400}
-  input[type=range]{width:100%; margin:10px 0 2px; accent-color:var(--accent); height:34px}
+  input[type=range]{width:100%; margin:10px 0 2px; accent-color:var(--accent); height:38px}
   .ticks{display:flex; justify-content:space-between; color:var(--muted); font-size:.72rem}
   .presets{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; justify-content:center}
-  .presets button{background:var(--card2); color:var(--text); border:1px solid var(--line); border-radius:999px; padding:8px 13px; font-size:.82rem}
+  .presets button{background:var(--card2); color:var(--text); border:1px solid var(--line); border-radius:999px; padding:9px 13px; font-size:.82rem}
   .presets button.active{background:var(--accent); border-color:var(--accent); color:#1a1410; font-weight:700}
 
   .toolrow{display:flex; gap:8px; margin:10px 12px 0}
-  .toolrow input[type=search]{flex:1; padding:11px 14px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--text); font-size:.95rem; min-width:0}
-  .toolrow button{background:var(--card2); border:1px solid var(--line); color:var(--accent2); border-radius:12px; padding:0 13px; font-size:.85rem; white-space:nowrap}
+  .toolrow input[type=search]{flex:1; padding:12px 14px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--text); font-size:16px; min-width:0}
+  .toolrow button{background:var(--card2); border:1px solid var(--line); color:var(--accent2); border-radius:12px; padding:0 14px; font-size:.85rem; white-space:nowrap}
 
   .filters{display:flex; gap:6px; margin:10px 12px 0; overflow-x:auto; padding-bottom:2px; scrollbar-width:none}
   .filters::-webkit-scrollbar{display:none}
-  .filters button{background:var(--card); border:1px solid var(--line); color:var(--muted); border-radius:999px; padding:7px 12px; font-size:.82rem; white-space:nowrap; flex-shrink:0}
+  .filters button{background:var(--card); border:1px solid var(--line); color:var(--muted); border-radius:999px; padding:8px 13px; font-size:.82rem; white-space:nowrap; flex-shrink:0}
   .filters button.active{background:var(--accent2); border-color:var(--accent2); color:#1a1410; font-weight:700}
 
-  /* gang-navigatie */
-  #gangnav{position:sticky; top:62px; z-index:14; display:flex; gap:6px; padding:8px 12px; background:rgba(26,20,16,.96); backdrop-filter:blur(8px); overflow-x:auto; scrollbar-width:none}
+  #gangnav{position:sticky; top:calc(62px + env(safe-area-inset-top)); z-index:14; display:flex; gap:6px; padding:8px 12px; background:rgba(26,20,16,.96); backdrop-filter:blur(8px); overflow-x:auto; scrollbar-width:none}
   #gangnav::-webkit-scrollbar{display:none}
-  #gangnav a{flex-shrink:0; text-decoration:none; color:var(--muted); font-size:.82rem; padding:7px 12px; border-radius:999px; border:1px solid var(--line); background:var(--card); white-space:nowrap}
+  #gangnav a{flex-shrink:0; text-decoration:none; color:var(--muted); font-size:.82rem; padding:8px 13px; border-radius:999px; border:1px solid var(--line); background:var(--card); white-space:nowrap}
   #gangnav a b{color:var(--text)}
 
-  h2.gang{margin:20px 16px 8px; font-size:1.05rem; display:flex; align-items:center; gap:8px; scroll-margin-top:115px}
+  h2.gang{margin:20px 16px 8px; font-size:1.05rem; display:flex; align-items:center; gap:8px; scroll-margin-top:125px}
   h2.gang .dot{width:10px;height:10px;border-radius:50%}
   h2.gang .count{color:var(--muted); font-weight:400; font-size:.8rem}
 
   .cards{display:flex; flex-direction:column; gap:8px; margin:0 12px}
   .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 14px}
-  .card .bovenste{display:flex; gap:10px; align-items:center}
+  .card .bovenste{display:flex; gap:10px}
   .card .info{flex:1; min-width:0}
   .card .title{font-weight:600; font-size:.95rem; line-height:1.3}
-  .card .meta{color:var(--muted); font-size:.78rem; margin-top:3px}
-  .card .temp{font-weight:700; color:var(--accent2); font-size:1.05rem; white-space:nowrap; text-align:right}
-  .card .temp small{display:block; color:var(--muted); font-weight:400; font-size:.68rem}
+  .card .besch{color:var(--muted); font-size:.8rem; line-height:1.4; margin-top:4px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+  .card .meta{color:var(--muted); font-size:.75rem; margin-top:5px}
+  .card .temp{font-weight:700; color:var(--accent2); font-size:1.05rem; white-space:nowrap; text-align:right; flex-shrink:0}
+  .card .temp small{display:block; color:var(--muted); font-weight:600; font-size:.7rem; text-transform:uppercase; letter-spacing:.4px}
   .card .acties{display:flex; gap:8px; margin-top:10px}
-  .card .acties > *{flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:9px 4px; border-radius:10px; border:1px solid var(--line); background:var(--card2); color:var(--text); font-size:.82rem; text-decoration:none}
+  .card .acties > *{flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:10px 4px; border-radius:10px; border:1px solid var(--line); background:var(--card2); color:var(--text); font-size:.84rem; text-decoration:none}
   .card .acties .fav.aan{color:gold; border-color:gold}
-  .card .acties .wis{flex:0 0 44px; color:var(--red)}
-  .card.inmenu{border-color:var(--accent); box-shadow:0 0 0 1px var(--accent)}
-  .card.inmenu .menuknop{background:var(--accent); color:#1a1410; font-weight:700; border-color:var(--accent)}
+  .card .acties .wis{flex:0 0 46px; color:var(--red)}
   .empty{color:var(--muted); font-size:.82rem; margin:0 16px; padding:10px 0}
-  .meer{margin:10px 12px 0; width:calc(100% - 24px); padding:10px; background:var(--card); border:1px dashed var(--line); color:var(--muted); border-radius:12px; font-size:.85rem}
+  .meer{margin:10px 12px 0; width:calc(100% - 24px); padding:12px; background:var(--card); border:1px dashed var(--line); color:var(--muted); border-radius:12px; font-size:.85rem}
 
   details.spiek{margin:14px 12px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:4px 14px}
-  details.spiek summary{padding:10px 0; font-weight:600; font-size:.92rem; cursor:pointer; color:var(--accent2)}
+  details.spiek summary{padding:12px 0; font-weight:600; font-size:.92rem; cursor:pointer; color:var(--accent2)}
   details.spiek table{width:100%; border-collapse:collapse; font-size:.82rem; margin-bottom:10px}
   details.spiek td{padding:5px 4px; border-top:1px solid var(--line)}
   details.spiek td:last-child{text-align:right; color:var(--accent2); font-weight:600; white-space:nowrap}
@@ -87,59 +83,37 @@
   footer{margin:20px 16px; color:var(--muted); font-size:.74rem; text-align:center; line-height:1.6}
   footer a{color:var(--accent2)}
 
-  /* menu-fab en paneel */
-  #menufab{position:fixed; left:12px; right:12px; bottom:calc(12px + env(safe-area-inset-bottom)); z-index:20; background:var(--accent); color:#1a1410; border:none; border-radius:16px; padding:14px; font-size:.95rem; font-weight:700; display:none; box-shadow:0 4px 20px rgba(0,0,0,.5)}
-  #menufab.show{display:block}
-  #menupaneel{position:fixed; inset:0; background:rgba(0,0,0,.65); display:none; align-items:flex-end; justify-content:center; z-index:30}
-  #menupaneel.show{display:flex}
+  .overlay{position:fixed; inset:0; background:rgba(0,0,0,.65); display:none; align-items:flex-end; justify-content:center; z-index:30}
+  .overlay.show{display:flex}
   .sheet{background:var(--card); border-radius:20px 20px 0 0; padding:18px 16px calc(18px + env(safe-area-inset-bottom)); width:100%; max-width:560px; max-height:88vh; overflow-y:auto}
   .sheet h3{margin:0 0 4px; display:flex; justify-content:space-between; align-items:center}
-  .sheet h3 .sluit{background:none; border:none; color:var(--muted); font-size:1.5rem; line-height:1; padding:4px}
+  .sheet h3 .sluit{background:none; border:none; color:var(--muted); font-size:1.6rem; line-height:1; padding:4px 8px}
   .sheet .sub{color:var(--muted); font-size:.8rem; margin:0 0 12px}
-  .menurij{display:flex; align-items:center; gap:10px; padding:10px 0; border-top:1px solid var(--line)}
-  .menurij .gnglabel{font-size:.72rem; font-weight:700; width:46px; flex-shrink:0}
-  .menurij .mnaam{flex:1; font-size:.88rem; min-width:0}
-  .menurij .mnaam a{color:var(--accent2); text-decoration:none; font-size:.76rem}
-  .menurij .mtemp{color:var(--accent2); font-weight:700; white-space:nowrap}
-  .menurij .mx{background:none; border:none; color:var(--red); font-size:1.2rem; padding:4px}
-  .verdict{margin:10px 0; font-size:.82rem; padding:10px 12px; border-radius:10px}
-  .verdict.ok{background:rgba(127,201,127,.12); color:var(--green)}
-  .verdict.warn{background:rgba(255,107,107,.12); color:var(--red)}
-  .sheet .acties{display:flex; gap:10px; margin-top:8px}
+  .sheet .acties{display:flex; gap:10px; margin-top:14px}
   .sheet .acties button{flex:1; padding:13px; border-radius:12px; border:none; font-size:.92rem}
   .primair{background:var(--accent); color:#1a1410; font-weight:700}
   .secundair{background:var(--card2); color:var(--text); border:1px solid var(--line) !important}
-
-  /* dialogen */
-  .overlay{position:fixed; inset:0; background:rgba(0,0,0,.65); display:none; align-items:flex-end; justify-content:center; z-index:30}
-  .overlay.show{display:flex}
   .overlay label{display:block; font-size:.8rem; color:var(--muted); margin:10px 0 4px}
-  .overlay input, .overlay select{width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card2); color:var(--text); font-size:.95rem}
+  .overlay input, .overlay select{width:100%; padding:11px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card2); color:var(--text); font-size:16px}
   .twee{display:flex; gap:10px}
   .twee > div{flex:1}
 
-  #info .sheet p{font-size:.85rem; line-height:1.55; color:var(--text)}
+  #info .sheet p{font-size:.85rem; line-height:1.55}
   #info .sheet p b{color:var(--accent2)}
   #info .sheet h4{margin:16px 0 4px; font-size:.9rem; color:var(--accent2)}
 
-  /* toast */
-  #toast{position:fixed; left:50%; transform:translateX(-50%) translateY(20px); bottom:90px; background:#0d0b08; color:var(--text); border:1px solid var(--accent); padding:11px 18px; border-radius:999px; font-size:.85rem; opacity:0; transition:all .25s; z-index:40; pointer-events:none; max-width:88vw; text-align:center}
+  #toast{position:fixed; left:50%; transform:translateX(-50%) translateY(20px); bottom:30px; background:#0d0b08; color:var(--text); border:1px solid var(--accent); padding:12px 18px; border-radius:999px; font-size:.85rem; opacity:0; transition:all .25s; z-index:40; pointer-events:none; max-width:88vw; text-align:center}
   #toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 
 <div id="topbar">
-  <div class="logo">&#128293; Kamado <span>Menu Planner</span></div>
-  <button class="ikoon" id="deelknop" title="Deel de app">&#128228;</button>
+  <div class="logo">&#128293; Kamado <span>BBQ Planner</span></div>
   <button class="ikoon" id="infoknop" title="Uitleg">&#8505;&#65039;</button>
 </div>
 
-<div class="modes">
-  <button id="modeVast" class="active">&#127777;&#65039; E&eacute;n temperatuur</button>
-  <button id="modeOp">&#128200; Opbouwend menu</button>
-</div>
-<p class="hint" id="modehint">Kies je dome-temperatuur; je ziet per gang alleen recepten die daarop bereid worden.</p>
+<p class="hint">Kies je dome-temperatuur; je ziet per gang alleen recepten die daarop bereid worden.</p>
 
 <div class="panel" id="temppanel">
   <div class="tempval"><span id="tval">180</span>&deg;C <small>&plusmn;15&deg;C</small></div>
@@ -156,7 +130,6 @@
 
 <div class="toolrow">
   <input type="search" id="zoek" placeholder="Zoek in 1000+ recepten...">
-  <button id="verras" title="Stel willekeurig menu samen">&#127922;</button>
   <button id="nieuw">&#65291; Recept</button>
 </div>
 
@@ -191,31 +164,18 @@
 </details>
 
 <footer>
-  Recepten &copy; <a href="https://bbq-junkie.nl" target="_blank" rel="noopener">bbq-junkie.nl</a> &amp; <a href="https://www.bbq-nl.com" target="_blank" rel="noopener">bbq-nl.com</a> &mdash; tik op een recept voor de volledige bereiding.<br>
+  Recepten &copy; <a href="https://bbq-junkie.nl" target="_blank" rel="noopener">bbq-junkie.nl</a> &amp; <a href="https://www.bbq-nl.com" target="_blank" rel="noopener">bbq-nl.com</a> &mdash; tik op &#128279; Recept voor de volledige bereiding.<br>
   <span id="dbinfo"></span>
 </footer>
-
-<button id="menufab">&#127869;&#65039; Mijn menu (<span id="menucount">0</span>) &mdash; bekijk &amp; deel</button>
-
-<div id="menupaneel" class="overlay">
-  <div class="sheet">
-    <h3>&#127869;&#65039; Mijn menu <button class="sluit" data-sluit="menupaneel">&times;</button></h3>
-    <p class="sub">In eetvolgorde. De check kijkt of je kamado alleen maar gelijk hoeft te blijven of op hoeft te stoken.</p>
-    <div id="menurijen"></div>
-    <div id="menuverdict"></div>
-    <div class="acties">
-      <button class="secundair" id="menuleeg">Leegmaken</button>
-      <button class="primair" id="menudeel">&#128228; Deel menu</button>
-    </div>
-  </div>
-</div>
 
 <div id="dlg" class="overlay">
   <div class="sheet">
     <h3>Eigen recept toevoegen <button class="sluit" data-sluit="dlg">&times;</button></h3>
-    <p class="sub">Bijvoorbeeld van een andere site. Wordt op dit toestel bewaard; deel via &#8505;&#65039; &rarr; exporteren.</p>
+    <p class="sub">Bijvoorbeeld van een andere site. Wordt op dit toestel bewaard.</p>
     <label>Naam *</label>
     <input id="f_naam" placeholder="bijv. Oma's beercan chicken">
+    <label>Korte omschrijving (smaak)</label>
+    <input id="f_besch" placeholder="bijv. Zoet-pittige kip met knoflook en citroen">
     <label>Link naar recept (mag leeg)</label>
     <input id="f_url" type="url" placeholder="https://...">
     <div class="twee">
@@ -249,7 +209,6 @@
         <select id="f_m">
           <option value="indirect">Indirect</option>
           <option value="direct">Direct</option>
-          <option value="direct + indirect">Direct + indirect</option>
           <option value="">Onbekend</option>
         </select></div>
     </div>
@@ -263,20 +222,11 @@
 <div id="info" class="overlay">
   <div class="sheet">
     <h3>Zo werkt het <button class="sluit" data-sluit="info">&times;</button></h3>
-    <p>Een kamado houdt &eacute;&eacute;n temperatuur urenlang vast, maar wisselen is lastig &mdash; vooral afkoelen. Deze app vindt daarom <b>voor-, bij-, hoofd- en nagerechten die op dezelfde dome-temperatuur</b> bereid worden, of een menu dat netjes <b>oploopt</b> in temperatuur.</p>
-    <h4>&#127869;&#65039; Menu samenstellen</h4>
-    <p>Tik bij een recept op <b>+ Menu</b>. Onderaan verschijnt een oranje balk met je menu; daar zie je of de temperaturen kloppen en deel je het geheel (bijv. via WhatsApp) met de eters.</p>
+    <p>Een kamado houdt &eacute;&eacute;n temperatuur urenlang vast, maar wisselen is lastig. Deze app vindt <b>voor-, bij-, hoofd- en nagerechten die allemaal op dezelfde dome-temperatuur</b> bereid worden &mdash; zo hoeft je BBQ niet te wisselen. Bij elk recept staat of het <b>direct</b> (boven de kolen) of <b>indirect</b> (met plaatsetter) is.</p>
     <h4>&#11088; Favorieten &amp; eigen recepten</h4>
-    <p>Favorieten en eigen recepten worden <b>op dit toestel</b> bewaard (niets wordt ge&uuml;pload). Gebruiken je vrienden de app ook, dan heeft ieder dus z'n eigen favorieten &mdash; wel zo handig. Filter erop met de <b>&#11088; Favorieten</b>-knop bovenaan.</p>
-    <h4>&#129309; Delen met vrienden</h4>
-    <p>Stuur ze gewoon de link van deze app (knop &#128228; bovenaan). Eigen recepten uitwisselen kan hieronder via exporteren &amp; importeren.</p>
-    <div class="acties">
-      <button class="secundair" id="exporteer">&#11015;&#65039; Exporteer eigen recepten</button>
-      <button class="secundair" id="importeerknop">&#11014;&#65039; Importeer</button>
-      <input type="file" id="importeer" accept=".json" style="display:none">
-    </div>
-    <h4>&#128260; Nieuwe recepten</h4>
-    <p>De receptenlijst wordt gebouwd vanaf bbq-junkie.nl en bbq-nl.com. Nieuwe recepten ophalen: draai <b>ververs.bat</b> in de app-map (alleen voor de beheerder).</p>
+    <p>Favorieten en eigen recepten worden <b>op dit toestel</b> bewaard (niets wordt ge&uuml;pload). Filter met de <b>&#11088; Favorieten</b>-knop bovenaan; favorieten en eigen recepten staan altijd bovenaan hun gang.</p>
+    <h4>&#128241; Op je beginscherm</h4>
+    <p>Zet de app op je telefoon: <b>iPhone</b> &rarr; deelknop in Safari &rarr; "Zet op beginscherm". <b>Android</b> &rarr; menu in Chrome &rarr; "App installeren".</p>
     <div class="acties"><button class="primair" data-sluit="info">Aan de slag &#128293;</button></div>
   </div>
 </div>
@@ -286,7 +236,7 @@
 <script src="recepten.js"></script>
 <script>
 "use strict";
-// r = {g: voor|bij|hoofd|na, n, t:[min,max] °C, tijd, m, s: soort, b: J|N|E, u: url}
+// r = {g: voor|bij|hoofd|na, n, t:[min,max] °C, tijd, m: direct|indirect|"", s: soort, b: J|N|E, u: url, d: omschrijving}
 const BASIS = window.RECEPTEN || [];
 
 const GANGEN = [
@@ -309,21 +259,18 @@ const TIJDOPTIES = [
 ];
 const TOL = 15, MAX_TONEN = 25;
 
-// ---------- opslag ----------
 const lees = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
 const zet = (k, v) => localStorage.setItem(k, JSON.stringify(v));
 let eigen = lees("kamado_eigen", []);
 let favorieten = new Set(lees("kamado_fav", []));
-let menu = lees("kamado_menu", {});
 
-let mode = "vast", temp = 180, zoekterm = "";
+let temp = 180, zoekterm = "";
 let soortFilter = new Set(), alleenFav = false, tijdFilter = null;
 let toonAlles = {};
 
 const $ = id => document.getElementById(id);
-const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 const alleRecepten = () => BASIS.concat(eigen);
-const perUrl = u => alleRecepten().find(r => r.u === u);
 
 function toast(msg){
   const t = $("toast");
@@ -351,13 +298,14 @@ function zichtbaar(r){
     if(m === null) return false;
     if(tijdFilter === -1 ? m <= 120 : m > tijdFilter) return false;
   }
-  if(zoekterm && !(r.n.toLowerCase().includes(zoekterm) || (BRON[r.b]||"").includes(zoekterm))) return false;
+  if(zoekterm){
+    const doel = (r.n + " " + (r.d||"")).toLowerCase();
+    if(!doel.includes(zoekterm) && !(BRON[r.b]||"").includes(zoekterm)) return false;
+  }
   return true;
 }
 function gefilterd(gangId){
-  let lijst = alleRecepten().filter(r => r.g === gangId && zichtbaar(r));
-  if(mode === "vast") lijst = lijst.filter(r => matchTemp(r, temp));
-  // eigen recepten en favorieten bovenaan, daarna oplopend op temperatuur
+  let lijst = alleRecepten().filter(r => r.g === gangId && zichtbaar(r) && matchTemp(r, temp));
   const rang = r => (r.b === "E" ? 0 : favorieten.has(r.u) ? 1 : 2);
   lijst.sort((a,b) => rang(a) - rang(b) || a.t[0] - b.t[0] || a.n.localeCompare(b.n));
   return lijst;
@@ -394,33 +342,32 @@ function renderFilters(){
 
 // ---------- lijst ----------
 function kaart(r){
-  const inmenu = menu[r.g] === r.u;
   const fav = favorieten.has(r.u);
   const so = SOORT[r.s || "overig"];
   const du = encodeURIComponent(r.u);
-  const link = (r.b !== "E" || r.u.startsWith("http"))
+  const link = r.u.startsWith("http")
     ? `<a href="${esc(r.u)}" target="_blank" rel="noopener">&#128279; Recept</a>`
     : `<span style="opacity:.4">&#128279; Geen link</span>`;
   const wis = r.b === "E" ? `<button class="wis" data-act="wis" data-u="${du}">&#128465;</button>` : "";
-  return `<div class="card${inmenu ? " inmenu" : ""}">
+  const besch = r.d ? `<div class="besch">${esc(r.d)}</div>` : "";
+  return `<div class="card">
     <div class="bovenste">
       <div class="info">
         <div class="title">${so.e} ${esc(r.n)}</div>
-        <div class="meta">${[r.tijd, r.m, BRON[r.b]].filter(Boolean).join(" · ")}</div>
+        ${besch}
+        <div class="meta">${[r.tijd, BRON[r.b]].filter(Boolean).join(" · ")}</div>
       </div>
-      <div class="temp">${tempLabel(r)}<small>dome</small></div>
+      <div class="temp">${tempLabel(r)}<small>${r.m || "&nbsp;"}</small></div>
     </div>
     <div class="acties">
       ${link}
       <button class="fav${fav?" aan":""}" data-act="fav" data-u="${du}">${fav?"★":"☆"} Favoriet</button>
-      <button class="menuknop" data-act="menu" data-u="${du}" data-g="${r.g}">${inmenu ? "✓ In menu" : "＋ Menu"}</button>
       ${wis}
     </div>
   </div>`;
 }
 
 function render(){
-  // gang-navigatie
   $("gangnav").innerHTML = GANGEN.map(g => {
     const n = gefilterd(g.id).length;
     return `<a href="#sec-${g.id}"><span style="color:${g.kleur}">&#9679;</span> ${g.kort} <b>${n}</b></a>`;
@@ -431,7 +378,7 @@ function render(){
     const lijst = gefilterd(gang.id);
     html += `<h2 class="gang" id="sec-${gang.id}"><span class="dot" style="background:${gang.kleur}"></span>${gang.naam} <span class="count">(${lijst.length})</span></h2>`;
     if(lijst.length === 0){
-      html += `<p class="empty">Geen recepten gevonden${mode==="vast" ? " rond " + temp + "°C — schuif de temperatuur of pas filters aan" : ""}.</p>`;
+      html += `<p class="empty">Geen recepten gevonden rond ${temp}°C — schuif de temperatuur of pas filters aan.</p>`;
     } else {
       const tonen = toonAlles[gang.id] ? lijst : lijst.slice(0, MAX_TONEN);
       html += `<div class="cards">` + tonen.map(kaart).join("") + `</div>`;
@@ -441,10 +388,8 @@ function render(){
     }
   });
   $("result").innerHTML = html;
-  renderMenuFab();
 }
 
-// eén klik-afhandelaar voor alle kaart-acties (geen inline strings, dus geen quote-problemen)
 $("result").addEventListener("click", e => {
   const el = e.target.closest("[data-act]");
   if(!el) return;
@@ -456,101 +401,14 @@ $("result").addEventListener("click", e => {
     toast(favorieten.has(u) ? "⭐ Toegevoegd aan favorieten" : "Verwijderd uit favorieten");
     render();
   }
-  if(el.dataset.act === "menu"){
-    const g = el.dataset.g;
-    if(menu[g] === u){ delete menu[g]; toast("Uit je menu gehaald"); }
-    else {
-      menu[g] = u;
-      const gang = GANGEN.find(x => x.id === g);
-      toast(`✓ ${gang.naam.slice(0,-2)} in je menu — bekijk onderaan ⤵️`);
-    }
-    zet("kamado_menu", menu);
-    render();
-  }
   if(el.dataset.act === "wis"){
     if(!confirm("Dit eigen recept verwijderen?")) return;
     eigen = eigen.filter(r => r.u !== u);
     zet("kamado_eigen", eigen);
-    for(const g in menu) if(menu[g] === u) delete menu[g];
-    zet("kamado_menu", menu);
     toast("Eigen recept verwijderd");
     render();
   }
 });
-
-// ---------- menu ----------
-function menuItems(){
-  return ["voor","bij","hoofd","na"].filter(g => menu[g] && perUrl(menu[g]));
-}
-function renderMenuFab(){
-  const n = menuItems().length;
-  $("menucount").textContent = n;
-  $("menufab").classList.toggle("show", n > 0);
-  document.body.style.paddingBottom = n > 0 ? "110px" : "30px";
-}
-function renderMenuPaneel(){
-  const items = menuItems();
-  $("menurijen").innerHTML = items.map(g => {
-    const r = perUrl(menu[g]);
-    const gang = GANGEN.find(x => x.id === g);
-    const link = r.u.startsWith("http") ? ` <a href="${esc(r.u)}" target="_blank" rel="noopener">openen ↗</a>` : "";
-    return `<div class="menurij">
-      <span class="gnglabel" style="color:${gang.kleur}">${gang.kort.toUpperCase()}</span>
-      <span class="mnaam">${esc(r.n)}${link}</span>
-      <span class="mtemp">${tempLabel(r)}</span>
-      <button class="mx" data-mg="${g}">&times;</button>
-    </div>`;
-  }).join("") || `<p class="sub">Je menu is nog leeg. Tik bij recepten op <b>＋ Menu</b>.</p>`;
-
-  // oordeel
-  const seq = [];
-  if(menu.voor && perUrl(menu.voor)) seq.push(perUrl(menu.voor).t);
-  const tegelijk = ["bij","hoofd"].filter(g => menu[g] && perUrl(menu[g])).map(g => perUrl(menu[g]).t);
-  let conflict = false;
-  if(tegelijk.length === 2){
-    const [a,b] = tegelijk;
-    if(a[0] > b[1] + TOL || b[0] > a[1] + TOL) conflict = true;
-    else seq.push([Math.max(a[0],b[0]), Math.min(a[1]+TOL, b[1]+TOL)]);
-  } else if(tegelijk.length === 1){ seq.push(tegelijk[0]); }
-  if(menu.na && perUrl(menu.na)) seq.push(perUrl(menu.na).t);
-
-  let ok = !conflict;
-  for(let i=1; ok && i<seq.length; i++){
-    if(seq[i][1] < seq[i-1][0] - TOL) ok = false;
-  }
-  $("menuverdict").innerHTML = items.length < 2 ? "" : (conflict
-    ? `<div class="verdict warn">⚠️ Je bij- en hoofdgerecht staan tegelijk op de bbq maar vragen heel verschillende temperaturen.</div>`
-    : ok
-    ? `<div class="verdict ok">✓ Dit menu kan op één kamado: de temperatuur blijft gelijk of loopt op.</div>`
-    : `<div class="verdict warn">⚠️ Een latere gang vraagt een lágere temperatuur — een kamado koelt traag af. Kies liever gelijk of oplopend.</div>`);
-}
-$("menufab").onclick = () => { renderMenuPaneel(); $("menupaneel").classList.add("show"); };
-$("menurijen").addEventListener("click", e => {
-  const b = e.target.closest("[data-mg]");
-  if(!b) return;
-  delete menu[b.dataset.mg];
-  zet("kamado_menu", menu);
-  renderMenuPaneel(); render();
-});
-$("menuleeg").onclick = () => { menu = {}; zet("kamado_menu", menu); renderMenuPaneel(); render(); };
-$("menudeel").onclick = async () => {
-  const items = menuItems();
-  if(!items.length){ toast("Je menu is nog leeg"); return; }
-  let tekst = "\u{1F525} Ons kamado-menu\n";
-  items.forEach(g => {
-    const r = perUrl(menu[g]);
-    const gang = GANGEN.find(x => x.id === g);
-    tekst += `\n${gang.kort}: ${r.n} (${tempLabel(r)}C)`;
-    if(r.u.startsWith("http")) tekst += `\n${r.u}`;
-  });
-  tekst += "\n\nGepland met de Kamado Menu Planner \u{1F525}";
-  if(navigator.share){
-    try { await navigator.share({text: tekst}); } catch {}
-  } else {
-    try { await navigator.clipboard.writeText(tekst); toast("Menu gekopieerd — plak het in WhatsApp"); }
-    catch { window.open("https://wa.me/?text=" + encodeURIComponent(tekst)); }
-  }
-};
 
 // ---------- dialogen ----------
 document.querySelectorAll("[data-sluit]").forEach(b => b.onclick = () => $(b.dataset.sluit).classList.remove("show"));
@@ -564,80 +422,18 @@ $("bewaarknop").onclick = () => {
   if(!naam || !t1){ toast("Vul minimaal een naam en temperatuur in"); return; }
   const t2 = parseInt($("f_t2").value, 10) || t1;
   const url = $("f_url").value.trim() || ("eigen:" + Date.now());
-  const gang = $("f_gang").value;
-  eigen.push({ g:gang, n:naam, s:$("f_soort").value,
+  eigen.push({ g:$("f_gang").value, n:naam, d:$("f_besch").value.trim(), s:$("f_soort").value,
     t:[Math.min(t1,t2), Math.max(t1,t2)], tijd:$("f_tijd").value.trim(),
     m:$("f_m").value, b:"E", u:url });
   zet("kamado_eigen", eigen);
-  ["f_naam","f_url","f_t1","f_t2","f_tijd"].forEach(id => $(id).value = "");
+  ["f_naam","f_besch","f_url","f_t1","f_t2","f_tijd"].forEach(id => $(id).value = "");
   $("dlg").classList.remove("show");
-  const past = mode !== "vast" || (Math.min(t1,t2) <= temp + TOL && Math.max(t1,t2) >= temp - TOL);
-  toast(past ? "✓ Recept opgeslagen" : `✓ Opgeslagen — zichtbaar rond ${t1}°C of in opbouwend menu`);
+  const past = Math.min(t1,t2) <= temp + TOL && Math.max(t1,t2) >= temp - TOL;
+  toast(past ? "✓ Recept opgeslagen — staat bovenaan zijn gang" : `✓ Opgeslagen — zichtbaar rond ${t1}°C`);
   render();
 };
 
-// app-link delen
-$("deelknop").onclick = async () => {
-  const url = location.href.split("#")[0];
-  if(navigator.share){
-    try { await navigator.share({title:"Kamado Menu Planner", text:"BBQ-recepten zoeken op dome-temperatuur \u{1F525}", url}); } catch {}
-  } else {
-    try { await navigator.clipboard.writeText(url); toast("Link gekopieerd — stuur 'm naar je vrienden"); }
-    catch { toast(url); }
-  }
-};
-
-// export / import eigen recepten
-$("exporteer").onclick = () => {
-  if(!eigen.length){ toast("Je hebt nog geen eigen recepten"); return; }
-  const blob = new Blob([JSON.stringify(eigen, null, 1)], {type:"application/json"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "kamado-eigen-recepten.json";
-  a.click();
-  URL.revokeObjectURL(a.href);
-  toast("Bestand gedownload — stuur het naar je vrienden");
-};
-$("importeerknop").onclick = () => $("importeer").click();
-$("importeer").addEventListener("change", e => {
-  const file = e.target.files[0];
-  if(!file) return;
-  const lezer = new FileReader();
-  lezer.onload = () => {
-    try {
-      const data = JSON.parse(lezer.result);
-      if(!Array.isArray(data)) throw 0;
-      let nieuw = 0;
-      data.forEach(r => {
-        if(r && r.n && r.t && r.g && !eigen.some(x => x.u === r.u)){
-          eigen.push({...r, b:"E"});
-          nieuw++;
-        }
-      });
-      zet("kamado_eigen", eigen);
-      toast(nieuw ? `✓ ${nieuw} recept(en) geïmporteerd` : "Geen nieuwe recepten in dit bestand");
-      render();
-    } catch { toast("Dit is geen geldig export-bestand"); }
-  };
-  lezer.readAsText(file);
-  e.target.value = "";
-});
-
-// ---------- verras me ----------
-$("verras").onclick = () => {
-  const kies = arr => arr[Math.floor(Math.random() * arr.length)];
-  menu = {};
-  GANGEN.forEach(gang => {
-    const lijst = gefilterd(gang.id);
-    if(lijst.length) menu[gang.id] = kies(lijst).u;
-  });
-  zet("kamado_menu", menu);
-  render();
-  if(menuItems().length){ renderMenuPaneel(); $("menupaneel").classList.add("show"); }
-  else toast("Geen recepten binnen je filters");
-};
-
-// ---------- temperatuur & modus ----------
+// ---------- temperatuur ----------
 function setTemp(t){
   temp = t;
   $("tval").textContent = t;
@@ -650,26 +446,12 @@ $("tslider").addEventListener("input", e => setTemp(+e.target.value));
 document.querySelectorAll(".presets button").forEach(b => b.addEventListener("click", () => setTemp(+b.dataset.t)));
 $("zoek").addEventListener("input", e => { zoekterm = e.target.value.toLowerCase().trim(); toonAlles = {}; render(); });
 
-$("modeVast").onclick = () => switchMode("vast");
-$("modeOp").onclick = () => switchMode("op");
-function switchMode(m){
-  mode = m;
-  $("modeVast").classList.toggle("active", m === "vast");
-  $("modeOp").classList.toggle("active", m === "op");
-  $("temppanel").style.display = m === "vast" ? "" : "none";
-  $("modehint").innerHTML = m === "vast"
-    ? "Kies je dome-temperatuur; je ziet per gang alleen recepten die daarop bereid worden."
-    : "Alle recepten, gesorteerd op temperatuur. Stel een menu samen dat per gang gelijk blijft of oploopt.";
-  toonAlles = {};
-  render();
-}
-
 // ---------- start ----------
 $("dbinfo").textContent = `${BASIS.length} recepten in de database`;
 renderFilters();
 render();
-if(!lees("kamado_intro", false)){
-  zet("kamado_intro", true);
+if(!lees("kamado_intro2", false)){
+  zet("kamado_intro2", true);
   setTimeout(() => $("info").classList.add("show"), 600);
 }
 </script>
