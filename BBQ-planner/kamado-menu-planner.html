@@ -43,17 +43,21 @@
   .toolrow input[type=search]{flex:1; padding:12px 14px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--text); font-size:16px; min-width:0}
   .toolrow button{background:var(--card2); border:1px solid var(--line); color:var(--accent2); border-radius:12px; padding:0 14px; font-size:.85rem; white-space:nowrap}
 
-  .filters{display:flex; gap:6px; margin:10px 12px 0; overflow-x:auto; padding-bottom:2px; scrollbar-width:none}
+  /* sticky blok onder de topbalk: gang-navigatie + filters blijven altijd bereikbaar */
+  #subhead{position:sticky; top:calc(61px + env(safe-area-inset-top)); z-index:14; background:rgba(26,20,16,.97); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding-bottom:8px}
+  .filters{display:flex; gap:6px; margin:8px 12px 0; overflow-x:auto; padding-bottom:2px; scrollbar-width:none}
   .filters::-webkit-scrollbar{display:none}
   .filters button{background:var(--card); border:1px solid var(--line); color:var(--muted); border-radius:999px; padding:8px 13px; font-size:.82rem; white-space:nowrap; flex-shrink:0}
   .filters button.active{background:var(--accent2); border-color:var(--accent2); color:#1a1410; font-weight:700}
 
-  #gangnav{position:sticky; top:calc(62px + env(safe-area-inset-top)); z-index:14; display:flex; gap:6px; padding:8px 12px; background:rgba(26,20,16,.96); backdrop-filter:blur(8px); overflow-x:auto; scrollbar-width:none}
+  #gangnav{display:flex; gap:6px; padding:8px 12px 0; overflow-x:auto; scrollbar-width:none}
   #gangnav::-webkit-scrollbar{display:none}
   #gangnav a{flex-shrink:0; text-decoration:none; color:var(--muted); font-size:.82rem; padding:8px 13px; border-radius:999px; border:1px solid var(--line); background:var(--card); white-space:nowrap}
   #gangnav a b{color:var(--text)}
+  #gangnav a.active{background:var(--accent); border-color:var(--accent); color:#1a1410; font-weight:700}
+  #gangnav a.active b{color:#1a1410}
 
-  h2.gang{margin:20px 16px 8px; font-size:1.05rem; display:flex; align-items:center; gap:8px; scroll-margin-top:125px}
+  h2.gang{margin:20px 16px 8px; font-size:1.05rem; display:flex; align-items:center; gap:8px; scroll-margin-top:175px}
   h2.gang .dot{width:10px;height:10px;border-radius:50%}
   h2.gang .count{color:var(--muted); font-weight:400; font-size:.8rem}
 
@@ -133,10 +137,11 @@
   <button id="nieuw">&#65291; Recept</button>
 </div>
 
-<div class="filters" id="filters"></div>
-<div class="filters" id="tijdfilters"></div>
-
-<nav id="gangnav"></nav>
+<div id="subhead">
+  <nav id="gangnav"></nav>
+  <div class="filters" id="filters"></div>
+  <div class="filters" id="tijdfilters"></div>
+</div>
 
 <div id="result"></div>
 
@@ -305,7 +310,8 @@ function zichtbaar(r){
   return true;
 }
 function gefilterd(gangId){
-  let lijst = alleRecepten().filter(r => r.g === gangId && zichtbaar(r) && matchTemp(r, temp));
+  // bij zoeken doorzoek je álle temperaturen; anders alleen rond de gekozen temperatuur
+  let lijst = alleRecepten().filter(r => r.g === gangId && zichtbaar(r) && (zoekterm || matchTemp(r, temp)));
   const rang = r => (r.b === "E" ? 0 : favorieten.has(r.u) ? 1 : 2);
   lijst.sort((a,b) => rang(a) - rang(b) || a.t[0] - b.t[0] || a.n.localeCompare(b.n));
   return lijst;
@@ -355,7 +361,7 @@ function kaart(r){
       <div class="info">
         <div class="title">${so.e} ${esc(r.n)}</div>
         ${besch}
-        <div class="meta">${[r.tijd, BRON[r.b]].filter(Boolean).join(" · ")}</div>
+        <div class="meta">⏱ ${r.tijd || "tijd onbekend"} · ${BRON[r.b]}</div>
       </div>
       <div class="temp">${tempLabel(r)}<small>${r.m || "&nbsp;"}</small></div>
     </div>
@@ -388,6 +394,7 @@ function render(){
     }
   });
   $("result").innerHTML = html;
+  updateGangSpy();
 }
 
 $("result").addEventListener("click", e => {
@@ -445,6 +452,23 @@ function setTemp(t){
 $("tslider").addEventListener("input", e => setTemp(+e.target.value));
 document.querySelectorAll(".presets button").forEach(b => b.addEventListener("click", () => setTemp(+b.dataset.t)));
 $("zoek").addEventListener("input", e => { zoekterm = e.target.value.toLowerCase().trim(); toonAlles = {}; render(); });
+
+// ---------- scroll-feedback: markeer de gang die je nu bekijkt ----------
+let spyTimer = null;
+function updateGangSpy(){
+  const grens = ($("subhead").getBoundingClientRect().bottom || 170) + 10;
+  let actief = GANGEN[0].id;
+  GANGEN.forEach(g => {
+    const sec = $("sec-" + g.id);
+    if(sec && sec.getBoundingClientRect().top <= grens) actief = g.id;
+  });
+  document.querySelectorAll("#gangnav a").forEach(a =>
+    a.classList.toggle("active", a.getAttribute("href") === "#sec-" + actief));
+}
+window.addEventListener("scroll", () => {
+  if(spyTimer) return;
+  spyTimer = requestAnimationFrame(() => { spyTimer = null; updateGangSpy(); });
+}, {passive:true});
 
 // ---------- start ----------
 $("dbinfo").textContent = `${BASIS.length} recepten in de database`;
