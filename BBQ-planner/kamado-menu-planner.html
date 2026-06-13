@@ -783,6 +783,8 @@ function toonTopwrap() {
 }
 function verbergTopwrap() {
   if (topVerborgen) return;
+  // openstaand filterpaneel dichtklappen zodra je naar de gerechten scrollt
+  if (filtersOpen) { filtersOpen = false; renderFilterPaneel(); }
   const h = topwrapEl.scrollHeight;
   if (h > 0) topwrapHoogte = h; // sla op vóór collapse; iOS geeft 0 na collapse
   topVerborgen = true;
