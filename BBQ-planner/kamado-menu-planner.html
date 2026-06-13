@@ -33,15 +33,12 @@ button{font-family:inherit;cursor:pointer}
 input,select{font-family:inherit}
 svg{display:block}
 
-/* ── STICKY WRAPPER (houdt brand+zoek+filter+tempbalk bij elkaar) ── */
-#stickyheader{
-  position:sticky;top:0;z-index:20;
-  background:var(--paper-50);
-  padding-top:env(safe-area-inset-top)
-}
+/* ── WRAPPER (niet zelf sticky — tempbalk is dat wel) ── */
+#stickyheader{background:var(--paper-50)}
 #topwrap{
   overflow:hidden;
   max-height:400px;
+  padding-top:env(safe-area-inset-top);
   transition:max-height .28s cubic-bezier(.2,.8,.2,1), opacity .22s
 }
 #topwrap.verborgen{max-height:0 !important;opacity:0}
@@ -79,8 +76,9 @@ svg{display:block}
 .chip-indirect.aan{background:#EBF3E8;border-color:#557E35;color:#3B5A25}
 #filterwis{display:none;margin-top:10px;font-size:12.5px;color:var(--ember-700);background:none;border:none;cursor:pointer;font-weight:700;padding:4px 0}
 
-/* ── TEMPBALK + GANGTABS (zit in sticky #stickyheader) ── */
+/* ── TEMPBALK + GANGTABS (eigen sticky element) ── */
 #tempbalk{
+  position:sticky;top:env(safe-area-inset-top);z-index:20;
   background:var(--paper-50);padding-top:8px;
   box-shadow:0 6px 14px -10px rgba(43,32,26,.4)
 }
