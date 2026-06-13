@@ -743,6 +743,7 @@ const topwrapEl = $('topwrap');
 let topVerborgen = false;
 let vorigeScrollY = 0;
 let scrollTimer = null;
+let topwrapHoogte = 0; // opgeslagen vóór inklappen, want scrollHeight = 0 na collapse
 
 function updateScrollHeader() {
   const cur = window.scrollY;
@@ -750,11 +751,12 @@ function updateScrollHeader() {
   vorigeScrollY = cur;
 
   if (delta > 4 && !topVerborgen && cur > 50) {
+    topwrapHoogte = topwrapEl.scrollHeight; // sla op vóór collapse
     topVerborgen = true;
     topwrapEl.classList.add('verborgen');
   } else if (delta < -2 && topVerborgen) {
     topVerborgen = false;
-    topwrapEl.style.maxHeight = topwrapEl.scrollHeight + 'px';
+    topwrapEl.style.maxHeight = (topwrapHoogte || 400) + 'px';
     topwrapEl.classList.remove('verborgen');
   }
 }
@@ -765,7 +767,11 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 function refreshTopHoogte() {
-  if (!topVerborgen) topwrapEl.style.maxHeight = topwrapEl.scrollHeight + 'px';
+  if (!topVerborgen) {
+    const h = topwrapEl.scrollHeight;
+    if (h > 0) topwrapHoogte = h;
+    topwrapEl.style.maxHeight = (topwrapHoogte || 400) + 'px';
+  }
 }
 
 // ── START ──
