@@ -741,29 +741,37 @@ $('spiek-ov').addEventListener('click', e=>{ if(e.target===$('spiek-ov')) sluitO
 // ── SCROLL: brand/zoek/filter verbergen bij scrollen omlaag, tonen bij omhoog ──
 const topwrapEl = $('topwrap');
 let topVerborgen = false;
-let vorigeScrollY = 0;
-let scrollTimer = null;
-let topwrapHoogte = 0; // opgeslagen vóór inklappen, want scrollHeight = 0 na collapse
+let vorigeScrollY = Math.max(0, window.scrollY || 0);
+let topwrapHoogte = 0;
+let rAfPending = false;
 
-function updateScrollHeader() {
-  const cur = window.scrollY;
+function toonTopwrap() {
+  if (!topVerborgen) return;
+  topVerborgen = false;
+  topwrapEl.style.maxHeight = (topwrapHoogte || 400) + 'px';
+  topwrapEl.classList.remove('verborgen');
+}
+function verbergTopwrap() {
+  if (topVerborgen) return;
+  const h = topwrapEl.scrollHeight;
+  if (h > 0) topwrapHoogte = h; // sla op vóór collapse; iOS geeft 0 na collapse
+  topVerborgen = true;
+  topwrapEl.classList.add('verborgen');
+}
+
+function onScroll() {
+  const cur = Math.max(0, window.scrollY || 0); // clamp: iOS rubber-band geeft negatief
   const delta = cur - vorigeScrollY;
   vorigeScrollY = cur;
-
-  if (delta > 4 && !topVerborgen && cur > 50) {
-    topwrapHoogte = topwrapEl.scrollHeight; // sla op vóór collapse
-    topVerborgen = true;
-    topwrapEl.classList.add('verborgen');
-  } else if (delta < -2 && topVerborgen) {
-    topVerborgen = false;
-    topwrapEl.style.maxHeight = (topwrapHoogte || 400) + 'px';
-    topwrapEl.classList.remove('verborgen');
-  }
+  if (Math.abs(delta) < 2) return; // negeer micro-bewegingen (iOS URL-balk)
+  if (delta > 0 && cur > 60) verbergTopwrap();
+  else if (delta < 0) toonTopwrap();
 }
 
 window.addEventListener('scroll', () => {
-  if (scrollTimer) return;
-  scrollTimer = requestAnimationFrame(() => { scrollTimer = null; updateScrollHeader(); });
+  if (rAfPending) return;
+  rAfPending = true;
+  requestAnimationFrame(() => { rAfPending = false; onScroll(); });
 }, { passive: true });
 
 function refreshTopHoogte() {
