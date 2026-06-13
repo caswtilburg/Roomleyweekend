@@ -3,245 +3,369 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#13100c">
+<meta name="theme-color" content="#FFFAF3">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta property="og:title" content="Kamado BBQ Planner">
-<meta property="og:description" content="Vind BBQ-recepten op dezelfde dome-temperatuur, direct of indirect.">
+<meta property="og:description" content="Vind BBQ-recepten binnen jouw temperatuurbereik, direct of indirect.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <title>Kamado BBQ Planner</title>
 <style>
-  :root{
-    --bg:#1a1410; --card:#262019; --card2:#332b21;
-    --text:#f3ece2; --muted:#a89a88; --accent:#ff7a1a; --accent2:#ffb347;
-    --green:#7fc97f; --red:#ff6b6b; --line:#3a322a;
-    --voor:#5ab0d6; --hoofd:#ff7a1a; --bij:#9acd68; --na:#d68ad6;
-  }
-  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
-  html{scroll-behavior:smooth}
-  body{margin:0; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--text); padding-bottom:40px; -webkit-text-size-adjust:100%}
-  button{font-family:inherit; cursor:pointer}
+:root {
+  --ember-600:#D14A18; --ember-700:#B23A12; --ember-400:#F2814A; --ember-100:#FBE3D3;
+  --char-900:#1B1410; --char-700:#3D2E24; --char-600:#5A4636;
+  --paper-50:#FFFAF3; --paper-100:#FBF3E7; --paper-200:#F3E8D6; --paper-300:#E7D8C0;
+  --sand-500:#A18B6E; --sand-600:#8A7055;
+  --voor:#3A8FB5; --bij:#557E35; --hoofd:#D14A18; --na:#A049AB;
+  --white:#FFFFFF;
+  --fd:'Bricolage Grotesque',system-ui,sans-serif;
+  --fb:'Hanken Grotesk',system-ui,sans-serif;
+  --fm:'Space Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--fb);background:var(--paper-50);color:var(--char-900);-webkit-text-size-adjust:100%;padding-bottom:env(safe-area-inset-bottom)}
+button{font-family:inherit;cursor:pointer}
+input,select{font-family:inherit}
+svg{display:block}
 
-  #topbar{position:sticky; top:0; z-index:15; background:rgba(19,16,12,.96); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding:12px 14px 10px; display:flex; align-items:center; gap:10px; padding-top:calc(12px + env(safe-area-inset-top))}
-  #topbar .logo{font-weight:800; font-size:1.05rem; flex:1; letter-spacing:.3px}
-  #topbar .logo span{color:var(--accent)}
-  #topbar .ikoon{background:var(--card); border:1px solid var(--line); color:var(--accent2); width:40px; height:40px; border-radius:11px; font-size:1.05rem; line-height:1}
+/* ── STICKY WRAPPER (houdt brand+zoek+filter+tempbalk bij elkaar) ── */
+#stickyheader{
+  position:sticky;top:0;z-index:20;
+  background:var(--paper-50);
+  padding-top:env(safe-area-inset-top)
+}
+#topwrap{
+  overflow:hidden;
+  max-height:400px;
+  transition:max-height .28s cubic-bezier(.2,.8,.2,1), opacity .22s
+}
+#topwrap.verborgen{max-height:0 !important;opacity:0}
 
-  .hint{margin:10px 16px 0; color:var(--muted); font-size:.8rem; text-align:center}
+/* ── BRAND HEADER ── */
+#brand{
+  padding:14px 18px 4px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px
+}
+.brand-logo{display:flex;align-items:center;gap:9px}
+.brand-vlam{width:28px;height:28px;border-radius:8px;background:var(--ember-600);display:grid;place-items:center;flex-shrink:0}
+.brand-naam{font-family:var(--fd);font-weight:800;font-size:17px;letter-spacing:-0.02em;white-space:nowrap}
+.brand-knoppen{display:flex;gap:8px;flex-shrink:0}
+.brand-knop{display:flex;align-items:center;gap:5px;border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:700;border:1px solid var(--paper-300);background:var(--white);color:var(--char-700);white-space:nowrap}
+#filterknop.actief{background:var(--ember-100);border-color:var(--ember-400);color:var(--ember-700)}
 
-  .panel{background:var(--card); margin:12px; border-radius:16px; padding:14px 16px; border:1px solid var(--line)}
-  .tempval{text-align:center; font-size:2.2rem; font-weight:700; color:var(--accent2)}
-  .tempval small{font-size:1rem; color:var(--muted); font-weight:400}
-  input[type=range]{width:100%; margin:10px 0 2px; accent-color:var(--accent); height:38px}
-  .ticks{display:flex; justify-content:space-between; color:var(--muted); font-size:.72rem}
-  .presets{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; justify-content:center}
-  .presets button{background:var(--card2); color:var(--text); border:1px solid var(--line); border-radius:999px; padding:9px 13px; font-size:.82rem}
-  .presets button.active{background:var(--accent); border-color:var(--accent); color:#1a1410; font-weight:700}
+/* ── ZOEKBALK (scrollt weg) ── */
+#zoekrij{padding:8px 18px 4px}
+.zoekwrap{display:flex;align-items:center;gap:9px;background:var(--white);border:1px solid var(--paper-200);border-radius:12px;padding:11px 13px}
+#zoek{flex:1;border:none;outline:none;background:none;font-size:14px;color:var(--char-900);min-width:0}
+#zoek::placeholder{color:var(--sand-500)}
+#zoekwis{border:none;background:none;color:var(--sand-500);font-size:18px;line-height:1;padding:0;display:none}
 
-  .toolrow{display:flex; gap:8px; margin:10px 12px 0}
-  .toolrow input[type=search]{flex:1; padding:12px 14px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--text); font-size:16px; min-width:0}
-  .toolrow button{background:var(--card2); border:1px solid var(--line); color:var(--accent2); border-radius:12px; padding:0 14px; font-size:.85rem; white-space:nowrap}
+/* ── FILTERPANEEL (scrollt weg, inklapbaar) ── */
+#filterpaneel{display:none;padding:8px 18px 12px;border-bottom:1px solid var(--paper-200);background:var(--white)}
+#filterpaneel.open{display:block}
+.f-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--sand-600);margin:10px 0 6px}
+.f-label:first-child{margin-top:0}
+.f-chips{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.f-chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;padding:8px 13px;border-radius:999px;font-size:13px;font-weight:600;white-space:nowrap;cursor:pointer;border:1px solid var(--paper-300);background:var(--white);color:var(--char-700)}
+.chip.aan{background:var(--char-900);border-color:var(--char-900);color:var(--paper-50);font-weight:700}
+.chip-fav.aan{background:#FBECC8;border-color:#E3A21C;color:#8A5D12}
+.chip-direct.aan{background:#FAECE8;border-color:var(--ember-600);color:var(--ember-700)}
+.chip-indirect.aan{background:#EBF3E8;border-color:#557E35;color:#3B5A25}
+#filterwis{display:none;margin-top:10px;font-size:12.5px;color:var(--ember-700);background:none;border:none;cursor:pointer;font-weight:700;padding:4px 0}
 
-  /* sticky blok onder de topbalk: gang-navigatie + filters blijven altijd bereikbaar */
-  #subhead{position:sticky; top:calc(61px + env(safe-area-inset-top)); z-index:14; background:rgba(26,20,16,.97); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding-bottom:8px}
-  .filters{display:flex; gap:6px; margin:8px 12px 0; overflow-x:auto; padding-bottom:2px; scrollbar-width:none}
-  .filters::-webkit-scrollbar{display:none}
-  .filters button{background:var(--card); border:1px solid var(--line); color:var(--muted); border-radius:999px; padding:8px 13px; font-size:.82rem; white-space:nowrap; flex-shrink:0}
-  .filters button.active{background:var(--accent2); border-color:var(--accent2); color:#1a1410; font-weight:700}
+/* ── TEMPBALK + GANGTABS (zit in sticky #stickyheader) ── */
+#tempbalk{
+  background:var(--paper-50);padding-top:8px;
+  box-shadow:0 6px 14px -10px rgba(43,32,26,.4)
+}
+#tempcard{
+  margin:0 18px;background:var(--char-900);border-radius:14px;
+  padding:11px 14px;display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;color:var(--paper-50);user-select:none;-webkit-user-select:none
+}
+.tc-links{display:flex;align-items:center;gap:11px}
+.tc-bereik{font-family:var(--fm);font-weight:700;font-size:18px;letter-spacing:-0.02em;line-height:1.05}
+.tc-hint{font-size:10.5px;color:#C9B49A;letter-spacing:0.02em;margin-top:2px}
+.tc-wijzig{font-size:12.5px;font-weight:600;color:#F8A878;display:flex;align-items:center;gap:5px;flex-shrink:0}
+#gangtabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:12px 18px}
+#gangtabs::-webkit-scrollbar{display:none}
+.gang-tab{display:flex;align-items:center;gap:7px;padding:9px 14px;border-radius:999px;white-space:nowrap;cursor:pointer;background:transparent;border:1.5px solid var(--paper-200);flex-shrink:0}
+.gang-tab.actief{background:var(--white);box-shadow:0 2px 8px rgba(43,32,26,.08)}
+.gang-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.gang-naam{font-size:13.5px;font-weight:600;color:var(--char-600)}
+.gang-tab.actief .gang-naam{font-weight:700;color:var(--char-900)}
+.gang-cnt{font-family:var(--fm);font-size:12px;font-weight:700;color:var(--sand-500)}
 
-  #gangnav{display:flex; gap:6px; padding:8px 12px 0; overflow-x:auto; scrollbar-width:none}
-  #gangnav::-webkit-scrollbar{display:none}
-  #gangnav a{flex-shrink:0; text-decoration:none; color:var(--muted); font-size:.82rem; padding:8px 13px; border-radius:999px; border:1px solid var(--line); background:var(--card); white-space:nowrap}
-  #gangnav a b{color:var(--text)}
-  #gangnav a.active{background:var(--accent); border-color:var(--accent); color:#1a1410; font-weight:700}
-  #gangnav a.active b{color:#1a1410}
+/* ── RECEPTENLIJST ── */
+#receptenlijst{padding:6px 18px 30px}
+.gang-kop{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2px}
+.gang-kop h2{font-family:var(--fd);font-size:20px;font-weight:800;letter-spacing:-0.02em;margin:0}
+.gang-kop-cnt{font-family:var(--fm);font-size:12px;color:var(--sand-500)}
+.gang-sub{font-size:12px;color:var(--sand-600);margin:0 0 12px}
+.kaarten{display:flex;flex-direction:column;gap:9px}
 
-  h2.gang{margin:20px 16px 0; font-size:1.05rem; display:flex; align-items:center; gap:8px; scroll-margin-top:175px}
-  h2.gang .dot{width:10px;height:10px;border-radius:50%}
-  h2.gang .count{color:var(--muted); font-weight:400; font-size:.8rem}
-  h2.gang .bereik{margin-left:auto; font-size:.8rem; font-weight:700; color:var(--accent2); white-space:nowrap}
-  p.gangsub{margin:2px 16px 8px 34px; color:var(--muted); font-size:.78rem}
+/* ── RECEPTKAART ── */
+.kaart{background:var(--white);border:1px solid var(--paper-200);border-radius:15px;padding:12px 14px;animation:kpfade .25s ease}
+@keyframes kpfade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.kaart-rij{display:flex;gap:12px}
+.kaart-icoon{width:42px;height:42px;border-radius:11px;background:var(--paper-100);display:grid;place-items:center;font-size:21px;flex-shrink:0}
+.kaart-tekst{flex:1;min-width:0}
+.kaart-naam{font-family:var(--fd);font-size:15px;font-weight:700;letter-spacing:-0.01em;color:var(--char-900);line-height:1.25}
+.kaart-besch{font-size:12px;color:var(--char-600);line-height:1.4;margin-top:3px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical}
+.kaart-meta{font-family:var(--fm);font-size:10.5px;color:var(--sand-500);margin-top:5px}
+.kaart-rechts{text-align:right;flex-shrink:0}
+.kaart-temp{font-family:var(--fm);font-weight:700;font-size:13.5px;color:var(--ember-700)}
+.kaart-methode{font-size:8.5px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--sand-500);margin-top:2px}
+.kaart-ster{border:none;background:none;cursor:pointer;font-size:18px;line-height:1;padding:0;margin-top:8px;display:block;margin-left:auto;color:var(--sand-500)}
+.kaart-ster.aan{color:#E3A21C}
+.kaart-acties{display:flex;gap:8px;margin-top:10px}
+.kaart-actie{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 4px;border-radius:10px;border:1px solid var(--paper-200);background:var(--paper-50);color:var(--char-700);font-size:13px;font-weight:600;text-decoration:none;cursor:pointer}
+.kaart-actie.wis{flex:0 0 44px;color:#C0341D;border-color:#FBE3D3;background:#FFF5F2}
+.leeg{font-size:13px;color:var(--sand-600);padding:14px 4px;text-align:center}
+.meer-knop{width:100%;margin-top:10px;padding:12px;border-radius:12px;border:1px solid var(--paper-300);background:var(--white);color:var(--char-700);font-size:13px;font-weight:600}
+.spiekknop{width:100%;margin-top:16px;padding:13px;border-radius:14px;border:1.5px dashed var(--paper-300);background:var(--white);color:var(--char-700);font-weight:600;font-size:13.5px;display:flex;align-items:center;justify-content:center;gap:8px}
 
-  #verloop{margin-top:12px; padding-top:10px; border-top:1px solid var(--line); display:flex; justify-content:space-between; gap:4px; text-align:center; font-size:.72rem; color:var(--muted)}
-  #verloop .stap{flex:1}
-  #verloop .stap b{display:block; font-size:.82rem; color:var(--accent2); font-weight:700}
-  #verloop .pijl{align-self:center; color:var(--accent); font-size:.9rem}
+/* ── OVERLAYS / BOTTOM SHEETS ── */
+.overlay{position:fixed;inset:0;background:rgba(20,14,10,.55);display:flex;align-items:flex-end;z-index:60;opacity:0;pointer-events:none;transition:opacity .2s}
+.overlay.open{opacity:1;pointer-events:auto}
+.sheet{width:100%;background:var(--white);border-radius:22px 22px 0 0;padding:8px 18px calc(24px + env(safe-area-inset-bottom));box-shadow:0 -10px 40px rgba(0,0,0,.15);transform:translateY(101%);transition:transform .28s cubic-bezier(.2,.8,.2,1);max-height:90vh;overflow-y:auto}
+.overlay.open .sheet{transform:none}
+.grip{width:40px;height:4px;border-radius:2px;background:var(--paper-300);margin:6px auto 14px}
+.sheet-kop{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.sheet-titel{font-family:var(--fd);font-size:18px;font-weight:800;letter-spacing:-0.02em;margin:0}
+.sheet-sluit{border:none;background:none;color:var(--sand-500);font-size:24px;line-height:1;padding:4px;cursor:pointer}
+.sheet-hint{font-size:12.5px;color:var(--sand-600);margin:0 0 14px}
 
-  .cards{display:flex; flex-direction:column; gap:8px; margin:0 12px}
-  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 14px}
-  .card .bovenste{display:flex; gap:10px}
-  .card .info{flex:1; min-width:0}
-  .card .title{font-weight:600; font-size:.95rem; line-height:1.3}
-  .card .besch{color:var(--muted); font-size:.8rem; line-height:1.4; margin-top:4px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
-  .card .meta{color:var(--muted); font-size:.75rem; margin-top:5px}
-  .card .temp{font-weight:700; color:var(--accent2); font-size:1.05rem; white-space:nowrap; text-align:right; flex-shrink:0}
-  .card .temp small{display:block; color:var(--muted); font-weight:600; font-size:.7rem; text-transform:uppercase; letter-spacing:.4px}
-  .card .acties{display:flex; gap:8px; margin-top:10px}
-  .card .acties > *{flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:10px 4px; border-radius:10px; border:1px solid var(--line); background:var(--card2); color:var(--text); font-size:.84rem; text-decoration:none}
-  .card .acties .fav.aan{color:gold; border-color:gold}
-  .card .acties .wis{flex:0 0 46px; color:var(--red)}
-  .empty{color:var(--muted); font-size:.82rem; margin:0 16px; padding:10px 0}
-  .meer{margin:10px 12px 0; width:calc(100% - 24px); padding:12px; background:var(--card); border:1px dashed var(--line); color:var(--muted); border-radius:12px; font-size:.85rem}
+/* ── DUBBELE SCHUIF ── */
+.bereikval{text-align:center;font-family:var(--fm);font-weight:700;font-size:34px;letter-spacing:-0.03em;color:var(--ember-600);margin-bottom:6px}
+.kp-range{position:relative;height:38px}
+.kp-rail{position:absolute;top:50%;left:0;right:0;height:6px;transform:translateY(-50%);border-radius:3px;background:#EADFCE}
+.kp-fill{position:absolute;top:50%;height:6px;transform:translateY(-50%);border-radius:3px;background:var(--ember-600)}
+.kp-range input[type=range]{position:absolute;top:0;left:0;width:100%;height:38px;margin:0;-webkit-appearance:none;appearance:none;background:none;pointer-events:none}
+.kp-range input[type=range]::-webkit-slider-runnable-track{background:none;border:none}
+.kp-range input[type=range]::-moz-range-track{background:none;border:none}
+.kp-range input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;pointer-events:auto;width:28px;height:28px;margin-top:5px;border-radius:50%;background:#fff;border:3px solid var(--ember-600);box-shadow:0 1px 6px rgba(0,0,0,.35);cursor:grab}
+.kp-range input[type=range]::-moz-range-thumb{pointer-events:auto;width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid var(--ember-600);box-shadow:0 1px 6px rgba(0,0,0,.35);cursor:grab}
+.ticks{display:flex;justify-content:space-between;font-family:var(--fm);font-size:10.5px;color:var(--sand-500);margin:2px 4px 16px}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.preset-chip{padding:9px 13px;border-radius:999px;font-size:12.5px;font-weight:600;border:1px solid var(--paper-300);background:var(--white);color:var(--char-700);cursor:pointer}
+.preset-chip.actief{background:var(--char-900);border-color:var(--char-900);color:var(--paper-50);font-weight:700}
+.klaar-knop{width:100%;padding:15px;border-radius:14px;border:none;background:var(--ember-600);color:#fff;font-weight:700;font-size:15px;cursor:pointer;margin-top:0}
 
-  details.spiek{margin:14px 12px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:4px 14px}
-  details.spiek summary{padding:12px 0; font-weight:600; font-size:.92rem; cursor:pointer; color:var(--accent2)}
-  details.spiek table{width:100%; border-collapse:collapse; font-size:.82rem; margin-bottom:10px}
-  details.spiek td{padding:5px 4px; border-top:1px solid var(--line)}
-  details.spiek td:last-child{text-align:right; color:var(--accent2); font-weight:600; white-space:nowrap}
-  details.spiek .kop td{color:var(--muted); font-weight:700; border-top:none; padding-top:12px}
+/* ── EIGEN RECEPT FORMULIER ── */
+.f-veld-label{display:block;font-size:12px;color:var(--sand-600);font-weight:600;margin:10px 0 4px}
+.f-veld{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--paper-300);background:var(--paper-50);color:var(--char-900);font-size:15px}
+.f-rij{display:flex;gap:10px}
+.f-rij>div{flex:1}
+.f-knoppen{display:flex;gap:10px;margin-top:14px}
+.f-knop{flex:1;padding:13px;border-radius:12px;font-size:14px;font-weight:600;border:none;cursor:pointer}
+.f-knop.primair{background:var(--ember-600);color:#fff;font-weight:700}
+.f-knop.sec{background:var(--paper-100);color:var(--char-700);border:1px solid var(--paper-300) !important}
 
-  footer{margin:20px 16px; color:var(--muted); font-size:.74rem; text-align:center; line-height:1.6}
-  footer a{color:var(--accent2)}
+/* ── SPIEKBRIEFJE ── */
+.spiek-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:10px}
+.spiek-tbl td{padding:6px 4px;border-top:1px solid var(--paper-200)}
+.spiek-tbl td:last-child{text-align:right;font-family:var(--fm);color:var(--ember-700);font-weight:700;white-space:nowrap}
+.spiek-tbl tr.kop td{color:var(--sand-600);font-weight:700;border-top:none;padding-top:14px;font-size:12px}
 
-  .overlay{position:fixed; inset:0; background:rgba(0,0,0,.65); display:none; align-items:flex-end; justify-content:center; z-index:30}
-  .overlay.show{display:flex}
-  .sheet{background:var(--card); border-radius:20px 20px 0 0; padding:18px 16px calc(18px + env(safe-area-inset-bottom)); width:100%; max-width:560px; max-height:88vh; overflow-y:auto}
-  .sheet h3{margin:0 0 4px; display:flex; justify-content:space-between; align-items:center}
-  .sheet h3 .sluit{background:none; border:none; color:var(--muted); font-size:1.6rem; line-height:1; padding:4px 8px}
-  .sheet .sub{color:var(--muted); font-size:.8rem; margin:0 0 12px}
-  .sheet .acties{display:flex; gap:10px; margin-top:14px}
-  .sheet .acties button{flex:1; padding:13px; border-radius:12px; border:none; font-size:.92rem}
-  .primair{background:var(--accent); color:#1a1410; font-weight:700}
-  .secundair{background:var(--card2); color:var(--text); border:1px solid var(--line) !important}
-  .overlay label{display:block; font-size:.8rem; color:var(--muted); margin:10px 0 4px}
-  .overlay input, .overlay select{width:100%; padding:11px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card2); color:var(--text); font-size:16px}
-  .twee{display:flex; gap:10px}
-  .twee > div{flex:1}
+/* ── TOAST ── */
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(14px);background:#0d0b08;color:var(--paper-50);border:1px solid var(--ember-400);padding:11px 18px;border-radius:999px;font-size:13px;font-weight:600;opacity:0;transition:all .22s;pointer-events:none;z-index:80;white-space:nowrap;max-width:88vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-  #info .sheet p{font-size:.85rem; line-height:1.55}
-  #info .sheet p b{color:var(--accent2)}
-  #info .sheet h4{margin:16px 0 4px; font-size:.9rem; color:var(--accent2)}
-
-  #toast{position:fixed; left:50%; transform:translateX(-50%) translateY(20px); bottom:30px; background:#0d0b08; color:var(--text); border:1px solid var(--accent); padding:12px 18px; border-radius:999px; font-size:.85rem; opacity:0; transition:all .25s; z-index:40; pointer-events:none; max-width:88vw; text-align:center}
-  #toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+footer{padding:12px 18px 20px;color:var(--sand-500);font-size:11.5px;text-align:center;line-height:1.6}
+footer a{color:var(--ember-600)}
 </style>
 </head>
 <body>
 
-<div id="topbar">
-  <div class="logo">&#128293; Kamado <span>BBQ Planner</span></div>
-  <button class="ikoon" id="infoknop" title="Uitleg">&#8505;&#65039;</button>
-</div>
-
-<p class="hint">Op welke temperatuur ga je BBQ'en?</p>
-
-<div class="panel" id="temppanel">
-  <div class="tempval"><span id="tval">180</span>&deg;C <small>&plusmn;15&deg;C</small></div>
-  <input type="range" id="tslider" min="80" max="250" step="5" value="180">
-  <div class="ticks"><span>80</span><span>120</span><span>165</span><span>210</span><span>250</span></div>
-  <div class="presets">
-    <button data-t="110">Low &amp; slow 110&deg;</button>
-    <button data-t="150">150&deg;</button>
-    <button data-t="180" class="active">180&deg;</button>
-    <button data-t="200">200&deg;</button>
-    <button data-t="230">Grillen 230&deg;</button>
+<div id="stickyheader">
+<div id="topwrap">
+<!-- BRAND HEADER -->
+<div id="brand">
+  <div class="brand-logo">
+    <div class="brand-vlam">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"/></svg>
+    </div>
+    <span class="brand-naam">Kamado planner</span>
   </div>
-  <div id="verloop"></div>
+  <div class="brand-knoppen">
+    <button class="brand-knop" id="filterknop">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+      <span id="filterknop-tekst">Filters</span>
+    </button>
+    <button class="brand-knop" id="nieuwknop">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Recept
+    </button>
+  </div>
 </div>
 
-<div class="toolrow">
-  <input type="search" id="zoek" placeholder="Zoek in 1000+ recepten...">
-  <button id="nieuw">&#65291; Recept</button>
+<!-- ZOEKBALK (scrollt weg) -->
+<div id="zoekrij">
+  <div class="zoekwrap">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--sand-500)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="search" id="zoek" placeholder="Zoek recept of smaak…" autocomplete="off">
+    <button id="zoekwis">×</button>
+  </div>
 </div>
 
-<div id="subhead">
-  <nav id="gangnav"></nav>
-  <div class="filters" id="filters"></div>
-  <div class="filters" id="tijdfilters"></div>
-</div>
+<!-- FILTERPANEEL (inklapbaar) -->
+<div id="filterpaneel"></div>
+</div><!-- /topwrap -->
 
-<div id="result"></div>
+<!-- TEMPBALK + GANGTABS -->
+<div id="tempbalk">
+  <div id="tempcard">
+    <div class="tc-links">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ember-400)" stroke-width="2" stroke-linecap="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"/></svg>
+      <div>
+        <div class="tc-bereik" id="tc-bereik">165–195°C</div>
+        <div class="tc-hint">jouw stookbereik · tik om te wijzigen</div>
+      </div>
+    </div>
+    <span class="tc-wijzig">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+      Wijzig
+    </span>
+  </div>
+  <div id="gangtabs"></div>
+</div><!-- /tempbalk -->
+</div><!-- /stickyheader -->
 
-<details class="spiek">
-  <summary>&#127777;&#65039; Spiekbriefje kerntemperaturen</summary>
-  <table>
-    <tr class="kop"><td>&#128004; Rund</td><td></td></tr>
-    <tr><td>Steak rare / medium rare</td><td>48&ndash;52&deg;C</td></tr>
-    <tr><td>Steak medium</td><td>55&ndash;58&deg;C</td></tr>
-    <tr><td>Brisket / pulled beef / short ribs</td><td>92&ndash;96&deg;C</td></tr>
-    <tr><td>Gehakt / burgers</td><td>68&ndash;71&deg;C</td></tr>
-    <tr class="kop"><td>&#128022; Varken</td><td></td></tr>
-    <tr><td>Varkenshaas / karbonade (ros&eacute;)</td><td>60&ndash;63&deg;C</td></tr>
-    <tr><td>Pulled pork</td><td>88&ndash;95&deg;C</td></tr>
-    <tr><td>Spareribs (bend test)</td><td>&plusmn;90&deg;C</td></tr>
-    <tr class="kop"><td>&#128020; Gevogelte</td><td></td></tr>
-    <tr><td>Kipfilet</td><td>72&ndash;74&deg;C</td></tr>
-    <tr><td>Kippendij / -poot / wings</td><td>78&ndash;85&deg;C</td></tr>
-    <tr class="kop"><td>&#128031; Vis</td><td></td></tr>
-    <tr><td>Zalm (glazig)</td><td>45&ndash;50&deg;C</td></tr>
-    <tr><td>Witvis</td><td>55&ndash;60&deg;C</td></tr>
-    <tr class="kop"><td>&#128017; Lam</td><td></td></tr>
-    <tr><td>Lamsrack (ros&eacute;)</td><td>54&ndash;58&deg;C</td></tr>
-  </table>
-</details>
+<!-- RECEPTENLIJST -->
+<div id="receptenlijst"></div>
 
 <footer>
-  Recepten &copy; <a href="https://bbq-junkie.nl" target="_blank" rel="noopener">bbq-junkie.nl</a> &amp; <a href="https://www.bbq-nl.com" target="_blank" rel="noopener">bbq-nl.com</a> &mdash; tik op &#128279; Recept voor de volledige bereiding.<br>
+  Recepten © <a href="https://bbq-junkie.nl" target="_blank" rel="noopener">bbq-junkie.nl</a> &amp; <a href="https://www.bbq-nl.com" target="_blank" rel="noopener">bbq-nl.com</a> — tik op 🔗 Recept voor de volledige bereiding.<br>
   <span id="dbinfo"></span>
 </footer>
 
-<div id="dlg" class="overlay">
+<!-- TEMP SHEET -->
+<div class="overlay" id="tempsheet-ov">
   <div class="sheet">
-    <h3>Eigen recept toevoegen <button class="sluit" data-sluit="dlg">&times;</button></h3>
-    <p class="sub">Bijvoorbeeld van een andere site. Wordt op dit toestel bewaard.</p>
-    <label>Naam *</label>
-    <input id="f_naam" placeholder="bijv. Oma's beercan chicken">
-    <label>Korte omschrijving (smaak)</label>
-    <input id="f_besch" placeholder="bijv. Zoet-pittige kip met knoflook en citroen">
-    <label>Link naar recept (mag leeg)</label>
-    <input id="f_url" type="url" placeholder="https://...">
-    <div class="twee">
-      <div><label>Gang</label>
-        <select id="f_gang">
+    <div class="grip"></div>
+    <div class="sheet-kop">
+      <h3 class="sheet-titel">Stooktemperatuur</h3>
+      <button class="sheet-sluit" id="tempsheet-sluit">×</button>
+    </div>
+    <p class="sheet-hint">Sleep beide punten — de receptenlijst past zich meteen aan.</p>
+    <div class="bereikval" id="sheet-bereikval">165–195°C</div>
+    <div class="kp-range">
+      <div class="kp-rail"></div>
+      <div class="kp-fill" id="sheet-fill"></div>
+      <input type="range" id="s-tmin" min="80" max="250" step="5" value="165" aria-label="minimum temperatuur">
+      <input type="range" id="s-tmax" min="80" max="250" step="5" value="195" aria-label="maximum temperatuur">
+    </div>
+    <div class="ticks"><span>80</span><span>120</span><span>165</span><span>210</span><span>250</span></div>
+    <div class="presets" id="sheet-presets"></div>
+    <button class="klaar-knop" id="tempsheet-klaar">Klaar</button>
+  </div>
+</div>
+
+<!-- EIGEN RECEPT SHEET -->
+<div class="overlay" id="nieuw-ov">
+  <div class="sheet">
+    <div class="grip"></div>
+    <div class="sheet-kop">
+      <h3 class="sheet-titel">Eigen recept toevoegen</h3>
+      <button class="sheet-sluit" id="nieuw-sluit">×</button>
+    </div>
+    <p class="sheet-hint">Wordt op dit toestel bewaard.</p>
+    <label class="f-veld-label">Naam *</label>
+    <input class="f-veld" id="f_naam" placeholder="bijv. Oma's beercan chicken">
+    <label class="f-veld-label">Korte omschrijving (smaak)</label>
+    <input class="f-veld" id="f_besch" placeholder="bijv. Zoet-pittige kip met knoflook en citroen">
+    <label class="f-veld-label">Link naar recept (mag leeg)</label>
+    <input class="f-veld" id="f_url" type="url" placeholder="https://...">
+    <div class="f-rij">
+      <div>
+        <label class="f-veld-label">Gang</label>
+        <select class="f-veld" id="f_gang">
           <option value="voor">Voorgerecht</option>
           <option value="bij">Bijgerecht</option>
           <option value="hoofd" selected>Hoofdgerecht</option>
           <option value="na">Nagerecht</option>
-        </select></div>
-      <div><label>Soort</label>
-        <select id="f_soort">
+        </select>
+      </div>
+      <div>
+        <label class="f-veld-label">Soort</label>
+        <select class="f-veld" id="f_soort">
           <option value="rund">Rund</option>
           <option value="varken">Varken</option>
-          <option value="kip">Kip &amp; gevogelte</option>
+          <option value="kip">Kip</option>
           <option value="vis">Vis</option>
           <option value="lam">Lam</option>
           <option value="wild">Wild</option>
           <option value="groente">Groente / vega</option>
           <option value="zoet">Zoet</option>
           <option value="overig">Overig</option>
-        </select></div>
+        </select>
+      </div>
     </div>
-    <div class="twee">
-      <div><label>BBQ-temperatuur &deg;C *</label><input id="f_t1" type="number" min="80" max="350" placeholder="180"></div>
-      <div><label>Tot &deg;C (optioneel)</label><input id="f_t2" type="number" min="80" max="350"></div>
+    <div class="f-rij">
+      <div>
+        <label class="f-veld-label">BBQ-temp °C *</label>
+        <input class="f-veld" id="f_t1" type="number" min="80" max="350" placeholder="180">
+      </div>
+      <div>
+        <label class="f-veld-label">Tot °C (optioneel)</label>
+        <input class="f-veld" id="f_t2" type="number" min="80" max="350">
+      </div>
     </div>
-    <div class="twee">
-      <div><label>Bereidingstijd</label><input id="f_tijd" placeholder="bijv. 1u30 of 45m"></div>
-      <div><label>Methode</label>
-        <select id="f_m">
+    <div class="f-rij">
+      <div>
+        <label class="f-veld-label">Bereidingstijd</label>
+        <input class="f-veld" id="f_tijd" placeholder="bijv. 1u30 of 45m">
+      </div>
+      <div>
+        <label class="f-veld-label">Methode</label>
+        <select class="f-veld" id="f_m">
           <option value="indirect">Indirect</option>
           <option value="direct">Direct</option>
           <option value="">Onbekend</option>
-        </select></div>
+        </select>
+      </div>
     </div>
-    <div class="acties">
-      <button class="secundair" data-sluit="dlg">Annuleren</button>
-      <button class="primair" id="bewaarknop">Opslaan</button>
+    <div class="f-knoppen">
+      <button class="f-knop sec" id="nieuw-annuleer">Annuleren</button>
+      <button class="f-knop primair" id="nieuw-bewaar">Opslaan</button>
     </div>
   </div>
 </div>
 
-<div id="info" class="overlay">
+<!-- SPIEKBRIEFJE SHEET -->
+<div class="overlay" id="spiek-ov">
   <div class="sheet">
-    <h3>Zo werkt het <button class="sluit" data-sluit="info">&times;</button></h3>
-    <p>Een kamado houdt &eacute;&eacute;n temperatuur urenlang vast, maar wisselen is lastig. Deze app vindt <b>voor-, bij-, hoofd- en nagerechten die allemaal op dezelfde dome-temperatuur</b> bereid worden &mdash; zo hoeft je BBQ niet te wisselen. Bij elk recept staat of het <b>direct</b> (boven de kolen) of <b>indirect</b> (met plaatsetter) is.</p>
-    <p>De app volgt het verloop van je BBQ-avond: opstoken kan altijd, afkoelen bijna niet. Daarom zie je <b>voorgerechten t/m jouw temperatuur</b> (je kamado warmt nog op), <b>hoofd- en bijgerechten rond jouw temperatuur</b>, en <b>nagerechten vanaf jouw temperatuur</b> (na het eten stook je door).</p>
-    <h4>&#11088; Favorieten &amp; eigen recepten</h4>
-    <p>Favorieten en eigen recepten worden <b>op dit toestel</b> bewaard (niets wordt ge&uuml;pload). Filter met de <b>&#11088; Favorieten</b>-knop bovenaan; favorieten en eigen recepten staan altijd bovenaan hun gang.</p>
-    <h4>&#128241; Op je beginscherm</h4>
-    <p>Zet de app op je telefoon: <b>iPhone</b> &rarr; deelknop in Safari &rarr; "Zet op beginscherm". <b>Android</b> &rarr; menu in Chrome &rarr; "App installeren".</p>
-    <div class="acties"><button class="primair" data-sluit="info">Aan de slag &#128293;</button></div>
+    <div class="grip"></div>
+    <div class="sheet-kop">
+      <h3 class="sheet-titel">🌡️ Kerntemperaturen</h3>
+      <button class="sheet-sluit" id="spiek-sluit">×</button>
+    </div>
+    <table class="spiek-tbl">
+      <tr class="kop"><td>🐄 Rund</td><td></td></tr>
+      <tr><td>Steak rare / medium rare</td><td>48–52°C</td></tr>
+      <tr><td>Steak medium</td><td>55–58°C</td></tr>
+      <tr><td>Brisket / pulled beef / short ribs</td><td>92–96°C</td></tr>
+      <tr><td>Gehakt / burgers</td><td>68–71°C</td></tr>
+      <tr class="kop"><td>🐖 Varken</td><td></td></tr>
+      <tr><td>Varkenshaas / karbonade (rosé)</td><td>60–63°C</td></tr>
+      <tr><td>Pulled pork</td><td>88–95°C</td></tr>
+      <tr><td>Spareribs (bend test)</td><td>±90°C</td></tr>
+      <tr class="kop"><td>🐔 Gevogelte</td><td></td></tr>
+      <tr><td>Kipfilet</td><td>72–74°C</td></tr>
+      <tr><td>Kippendij / -poot / wings</td><td>78–85°C</td></tr>
+      <tr class="kop"><td>🐟 Vis</td><td></td></tr>
+      <tr><td>Zalm (glazig)</td><td>45–50°C</td></tr>
+      <tr><td>Witvis</td><td>55–60°C</td></tr>
+      <tr class="kop"><td>🐑 Lam</td><td></td></tr>
+      <tr><td>Lamsrack (rosé)</td><td>54–58°C</td></tr>
+    </table>
   </div>
 </div>
 
@@ -250,274 +374,410 @@
 <script src="recepten.js"></script>
 <script>
 "use strict";
-// r = {g: voor|bij|hoofd|na, n, t:[min,max] °C, tijd, m: direct|indirect|"", s: soort, b: J|N|E, u: url, d: omschrijving}
+
+// ── DATA ──
 const BASIS = window.RECEPTEN || [];
-
 const GANGEN = [
-  {id:"voor",  naam:"Voorgerechten", kort:"Voor",  kleur:"var(--voor)"},
-  {id:"bij",   naam:"Bijgerechten",  kort:"Bij",   kleur:"var(--bij)"},
-  {id:"hoofd", naam:"Hoofdgerechten",kort:"Hoofd", kleur:"var(--hoofd)"},
-  {id:"na",    naam:"Nagerechten",   kort:"Na",    kleur:"var(--na)"}
+  {id:'voor',  naam:'Voorgerechten',  kort:'Voor',  kleur:'#3A8FB5', sub:'je kamado warmt nog op — lager mag ook'},
+  {id:'bij',   naam:'Bijgerechten',   kort:'Bij',   kleur:'#557E35', sub:'gaart naast je hoofdgerecht binnen jouw bereik'},
+  {id:'hoofd', naam:'Hoofdgerechten', kort:'Hoofd', kleur:'#D14A18', sub:'binnen jouw gekozen bereik'},
+  {id:'na',    naam:'Nagerechten',    kort:'Na',    kleur:'#A049AB', sub:'na het hoofd stook je makkelijk door'},
 ];
-const BRON = {J:"bbq-junkie.nl", N:"bbq-nl.com", E:"eigen recept"};
 const SOORT = {
-  rund:{l:"Rund", e:"\u{1F404}"}, varken:{l:"Varken", e:"\u{1F416}"}, kip:{l:"Kip", e:"\u{1F414}"},
-  vis:{l:"Vis", e:"\u{1F41F}"}, lam:{l:"Lam", e:"\u{1F411}"}, wild:{l:"Wild", e:"\u{1F98C}"},
-  groente:{l:"Groente", e:"\u{1F966}"}, zoet:{l:"Zoet", e:"\u{1F370}"}, overig:{l:"Overig", e:"\u{1F374}"}
+  rund:{l:'Rund',e:'🐄'},varken:{l:'Varken',e:'🐖'},kip:{l:'Kip',e:'🐔'},
+  vis:{l:'Vis',e:'🐟'},lam:{l:'Lam',e:'🐑'},wild:{l:'Wild',e:'🦌'},
+  groente:{l:'Groente',e:'🥦'},zoet:{l:'Zoet',e:'🍰'},overig:{l:'Overig',e:'🍴'}
 };
-const TIJDOPTIES = [
-  {id:30,  l:"⏱ ≤ 30 min"},
-  {id:60,  l:"⏱ ≤ 1 uur"},
-  {id:120, l:"⏱ ≤ 2 uur"},
-  {id:-1,  l:"⏱ > 2 uur (low & slow)"}
+const BRON = {J:'bbq-junkie.nl', N:'bbq-nl.com', E:'eigen recept'};
+const PRESETS = [
+  {min:100,max:135,label:'Low & slow'},
+  {min:135,max:165,label:'135–165°'},
+  {min:165,max:195,label:'165–195°'},
+  {min:195,max:220,label:'195–220°'},
+  {min:220,max:250,label:'Grillen'},
 ];
-const TOL = 15, MAX_TONEN = 25;
+const TIJDOPTIES = [
+  {id:30,l:'≤ 30 min'},{id:60,l:'≤ 1 uur'},{id:120,l:'≤ 2 uur'},{id:-1,l:'> 2 uur'},
+];
+const PER_PAGINA = 30;
 
-const lees = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
-const zet = (k, v) => localStorage.setItem(k, JSON.stringify(v));
-let eigen = lees("kamado_eigen", []);
-let favorieten = new Set(lees("kamado_fav", []));
+// ── STATE ──
+const lees = (k,d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+const sla  = (k,v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
 
-let temp = 180, zoekterm = "";
-let soortFilter = new Set(), alleenFav = false, tijdFilter = null;
-let toonAlles = {};
+const [_tMin, _tMax] = lees('kamado_bereik', [165,195]);
+let tMin = _tMin, tMax = _tMax;
+let activeCourse = 'hoofd';
+let zoekterm = '';
+let soortFilter = new Set();
+let tijdFilter = null;
+let methodeFilter = null;
+let alleenFav = false;
+let filtersOpen = false;
+let paginering = {};        // gang → aantal getoonde recepten
+let eigen = lees('kamado_eigen', []);
+let favorieten = new Set(lees('kamado_fav', []));
 
 const $ = id => document.getElementById(id);
-const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-const alleRecepten = () => BASIS.concat(eigen);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-function toast(msg){
-  const t = $("toast");
-  t.innerHTML = msg;
-  t.classList.add("show");
-  clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.classList.remove("show"), 2600);
-}
+function bereikLabel() { return tMin===tMax ? `${tMin}°C` : `${tMin}–${tMax}°C`; }
 
-function tempLabel(r){ return r.t[0] === r.t[1] ? r.t[0] + "°" : r.t[0] + "–" + r.t[1] + "°"; }
-function matchTemp(r, t){ return r.t[0] <= t + TOL && r.t[1] >= t - TOL; }
-function minuten(tijd){
-  if(!tijd) return null;
-  let m = String(tijd).match(/(\d+)\s*u\s*(\d+)?/);
-  if(m) return parseInt(m[1],10)*60 + (parseInt(m[2],10)||0);
-  m = String(tijd).match(/(\d+)\s*m/);
-  if(m) return parseInt(m[1],10);
+function parseMin(t) {
+  if(!t) return null;
+  let m = String(t).match(/(\d+)\s*u\s*(\d+)?/); if(m) return +m[1]*60+(+m[2]||0);
+  m = String(t).match(/(\d+)\s*m/); if(m) return +m[1];
   return null;
 }
-function zichtbaar(r){
-  if(alleenFav && !favorieten.has(r.u)) return false;
-  if(soortFilter.size && !soortFilter.has(r.s || "overig")) return false;
-  if(tijdFilter !== null){
-    const m = minuten(r.tijd);
-    if(m === null) return false;
-    if(tijdFilter === -1 ? m <= 120 : m > tijdFilter) return false;
-  }
-  if(zoekterm){
-    const doel = (r.n + " " + (r.d||"")).toLowerCase();
-    if(!doel.includes(zoekterm) && !(BRON[r.b]||"").includes(zoekterm)) return false;
-  }
-  return true;
+
+function matchGang(r, gId) {
+  if(gId==='voor') return r.t[0] <= tMax;
+  if(gId==='na')   return r.t[1] >= tMin;
+  return r.t[0] <= tMax && r.t[1] >= tMin;
 }
-// Het verloop van een BBQ-avond: de kamado warmt op (voorgerecht mag lager),
-// het hoofd- en bijgerecht bepalen de temperatuur, daarna stook je door (nagerecht mag hoger).
-function matchGangTemp(r, gangId){
-  if(gangId === "voor") return r.t[0] <= temp + TOL;   // op of onder de gekozen temp
-  if(gangId === "na") return r.t[1] >= temp - TOL;     // op of boven de gekozen temp
-  return matchTemp(r, temp);
-}
-function gefilterd(gangId){
-  // bij zoeken doorzoek je álle temperaturen; anders volgens het avond-verloop
-  let lijst = alleRecepten().filter(r => r.g === gangId && zichtbaar(r) && (zoekterm || matchGangTemp(r, gangId)));
-  const rang = r => (r.b === "E" ? 0 : favorieten.has(r.u) ? 1 : 2);
-  if(gangId === "voor" && !zoekterm){
-    // dichtst bij de gekozen temperatuur eerst, dan steeds lager
-    lijst.sort((a,b) => rang(a) - rang(b) || b.t[0] - a.t[0] || a.n.localeCompare(b.n));
-  } else {
-    lijst.sort((a,b) => rang(a) - rang(b) || a.t[0] - b.t[0] || a.n.localeCompare(b.n));
-  }
+
+function alleRec() { return BASIS.concat(eigen); }
+
+function gangLijst(gId) {
+  const mid = (tMin+tMax)/2;
+  const lijst = alleRec().filter(r => {
+    if(r.g !== gId) return false;
+    if(!zoekterm && !matchGang(r, gId)) return false;
+    if(alleenFav && !favorieten.has(r.u)) return false;
+    if(methodeFilter && r.m && r.m !== methodeFilter) return false;
+    if(soortFilter.size && !soortFilter.has(r.s||'overig')) return false;
+    if(tijdFilter !== null) {
+      const m = parseMin(r.tijd); if(m===null) return false;
+      if(tijdFilter===-1 ? m<=120 : m>tijdFilter) return false;
+    }
+    if(zoekterm) {
+      const doel = (r.n+' '+(r.d||'')+' '+(BRON[r.b]||'')).toLowerCase();
+      if(!doel.includes(zoekterm)) return false;
+    }
+    return true;
+  });
+  lijst.sort((a,b) => {
+    const fa=favorieten.has(a.u)?0:1, fb=favorieten.has(b.u)?0:1;
+    if(fa!==fb) return fa-fb;
+    return Math.abs((a.t[0]+a.t[1])/2-mid) - Math.abs((b.t[0]+b.t[1])/2-mid);
+  });
   return lijst;
 }
 
-// ---------- filters ----------
-function renderFilters(){
-  const f = $("filters");
-  let html = `<button id="ffav" class="${alleenFav?"active":""}">⭐ Favorieten</button>`;
-  for(const [id,s] of Object.entries(SOORT)){
-    html += `<button data-s="${id}" class="${soortFilter.has(id)?"active":""}">${s.e} ${s.l}</button>`;
-  }
-  f.innerHTML = html;
-  $("ffav").onclick = () => {
-    alleenFav = !alleenFav;
-    if(alleenFav && favorieten.size === 0) toast("Nog geen favorieten — tik bij een recept op ☆");
-    renderFilters(); render();
-  };
-  f.querySelectorAll("[data-s]").forEach(b => b.onclick = () => {
-    const s = b.dataset.s;
-    soortFilter.has(s) ? soortFilter.delete(s) : soortFilter.add(s);
-    renderFilters(); render();
-  });
+function filterCount() {
+  return soortFilter.size + (tijdFilter!==null?1:0) + (alleenFav?1:0) + (methodeFilter?1:0);
+}
 
-  const tf = $("tijdfilters");
-  tf.innerHTML = TIJDOPTIES.map(o =>
-    `<button data-tijd="${o.id}" class="${tijdFilter === o.id ? "active" : ""}">${o.l}</button>`).join("");
-  tf.querySelectorAll("[data-tijd]").forEach(b => b.onclick = () => {
-    const v = parseInt(b.dataset.tijd, 10);
-    tijdFilter = (tijdFilter === v) ? null : v;
-    renderFilters(); render();
+// ── TOAST ──
+let toastTimer;
+function toast(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+// ── OVERLAYS ──
+function openOv(id)  { $(id).classList.add('open'); document.body.style.overflow='hidden'; }
+function sluitOv(id) { $(id).classList.remove('open'); document.body.style.overflow=''; }
+
+// ── RENDER SLIDER (in sheet) ──
+function renderSlider() {
+  $('sheet-bereikval').textContent = bereikLabel();
+  $('s-tmin').value = tMin; $('s-tmax').value = tMax;
+  const lo = (tMin-80)/(250-80)*100;
+  const hi = (tMax-80)/(250-80)*100;
+  $('sheet-fill').style.left  = lo + '%';
+  $('sheet-fill').style.right = (100-hi) + '%';
+  document.querySelectorAll('.preset-chip').forEach(b =>
+    b.classList.toggle('actief', +b.dataset.min===tMin && +b.dataset.max===tMax));
+}
+
+// ── RENDER TEMPCARD ──
+function renderTempCard() {
+  $('tc-bereik').textContent = bereikLabel();
+}
+
+// ── RENDER GANGTABS ──
+function renderGangTabs() {
+  const tabs = $('gangtabs');
+  tabs.innerHTML = GANGEN.map(g => {
+    const cnt = gangLijst(g.id).length;
+    const on = g.id === activeCourse;
+    return `<button class="gang-tab${on?' actief':''}" data-gang="${g.id}"
+      style="${on?'border-color:'+g.kleur:''}">
+      <span class="gang-dot" style="background:${g.kleur}"></span>
+      <span class="gang-naam">${g.kort}</span>
+      <span class="gang-cnt" style="${on?'color:'+g.kleur:''}">${cnt}</span>
+    </button>`;
+  }).join('');
+  tabs.querySelectorAll('.gang-tab').forEach(b =>
+    b.addEventListener('click', ()=>{
+      activeCourse = b.dataset.gang;
+      paginering = {};
+      render();
+      // scroll naar receptenlijst (net onder de sticky balk)
+      const sh = $('stickyheader');
+      window.scrollTo({ top: sh ? sh.offsetHeight : 0, behavior: 'smooth' });
+    }));
+}
+
+// ── RENDER FILTERPANEEL ──
+function renderFilterPaneel() {
+  const fc = filterCount();
+  $('filterknop-tekst').textContent = fc>0 ? `Filters (${fc})` : 'Filters';
+  $('filterknop').classList.toggle('actief', fc>0);
+
+  const paneel = $('filterpaneel');
+  paneel.classList.toggle('open', filtersOpen);
+  if(!filtersOpen) { paneel.innerHTML=''; return; }
+
+  paneel.innerHTML = `
+    <div class="f-label">Favorieten</div>
+    <button class="chip chip-fav${alleenFav?' aan':''}" id="chip-fav">⭐ Alleen favorieten</button>
+
+    <div class="f-label" style="margin-top:10px">Soort</div>
+    <div class="f-chips">
+      ${Object.entries(SOORT).map(([k,s])=>`
+        <button class="chip${soortFilter.has(k)?' aan':''}" data-soort="${k}">${s.e} ${s.l}</button>
+      `).join('')}
+    </div>
+
+    <div class="f-label">Methode</div>
+    <div class="f-chips">
+      <button class="chip chip-direct${methodeFilter==='direct'?' aan':''}" data-methode="direct">🔥 Direct</button>
+      <button class="chip chip-indirect${methodeFilter==='indirect'?' aan':''}" data-methode="indirect">🌀 Indirect</button>
+    </div>
+
+    <div class="f-label">Bereidingstijd</div>
+    <div class="f-chips">
+      ${TIJDOPTIES.map(t=>`
+        <button class="chip${tijdFilter===t.id?' aan':''}" data-tijd="${t.id}">${t.l}</button>
+      `).join('')}
+    </div>
+    ${fc>0?'<button id="filterwis" style="display:block;margin-top:10px;font-size:12.5px;color:#B23A12;background:none;border:none;cursor:pointer;font-weight:700;padding:4px 0">✕ Alles wissen</button>':''}
+  `;
+
+  $('chip-fav').addEventListener('click', ()=>{ alleenFav=!alleenFav; paginering={}; render(); });
+  paneel.querySelectorAll('[data-soort]').forEach(b=>b.addEventListener('click', ()=>{
+    const k=b.dataset.soort; soortFilter.has(k)?soortFilter.delete(k):soortFilter.add(k);
+    paginering={}; render();
+  }));
+  paneel.querySelectorAll('[data-methode]').forEach(b=>b.addEventListener('click', ()=>{
+    const m=b.dataset.methode; methodeFilter=methodeFilter===m?null:m; paginering={}; render();
+  }));
+  paneel.querySelectorAll('[data-tijd]').forEach(b=>b.addEventListener('click', ()=>{
+    const id=+b.dataset.tijd; tijdFilter=tijdFilter===id?null:id; paginering={}; render();
+  }));
+  const wis = $('filterwis');
+  if(wis) wis.addEventListener('click', ()=>{
+    soortFilter.clear(); tijdFilter=null; methodeFilter=null; alleenFav=false;
+    paginering={}; render();
   });
 }
 
-// ---------- lijst ----------
-function kaart(r){
+// ── RECEPTKAART HTML ──
+function kaartHtml(r) {
+  const s = SOORT[r.s||'overig'];
   const fav = favorieten.has(r.u);
-  const so = SOORT[r.s || "overig"];
-  const du = encodeURIComponent(r.u);
-  const link = r.u.startsWith("http")
-    ? `<a href="${esc(r.u)}" target="_blank" rel="noopener">&#128279; Recept</a>`
-    : `<span style="opacity:.4">&#128279; Geen link</span>`;
-  const wis = r.b === "E" ? `<button class="wis" data-act="wis" data-u="${du}">&#128465;</button>` : "";
-  const besch = r.d ? `<div class="besch">${esc(r.d)}</div>` : "";
-  return `<div class="card">
-    <div class="bovenste">
-      <div class="info">
-        <div class="title">${so.e} ${esc(r.n)}</div>
-        ${besch}
-        <div class="meta">⏱ ${r.tijd || "tijd onbekend"} · ${BRON[r.b]}</div>
+  const tempTxt = r.t[0]===r.t[1] ? r.t[0]+'°' : r.t[0]+'–'+r.t[1]+'°';
+  const isEigen = r.b==='E';
+  const heeftUrl = r.u && r.u.startsWith('http');
+  return `<div class="kaart">
+    <div class="kaart-rij">
+      <div class="kaart-icoon">${s.e}</div>
+      <div class="kaart-tekst">
+        <div class="kaart-naam">${esc(r.n)}</div>
+        ${r.d?`<div class="kaart-besch">${esc(r.d)}</div>`:''}
+        <div class="kaart-meta">⏱ ${r.tijd||'onbekend'} · ${BRON[r.b]||'eigen'}</div>
       </div>
-      <div class="temp">${tempLabel(r)}<small>${r.m || "&nbsp;"}</small></div>
+      <div class="kaart-rechts">
+        <div class="kaart-temp">${tempTxt}</div>
+        ${r.m?`<div class="kaart-methode">${r.m}</div>`:''}
+        <button class="kaart-ster${fav?' aan':''}" data-url="${esc(r.u)}">${fav?'★':'☆'}</button>
+      </div>
     </div>
-    <div class="acties">
-      ${link}
-      <button class="fav${fav?" aan":""}" data-act="fav" data-u="${du}">${fav?"★":"☆"} Favoriet</button>
-      ${wis}
+    <div class="kaart-acties">
+      ${heeftUrl
+        ? `<a href="${esc(r.u)}" target="_blank" rel="noopener" class="kaart-actie">🔗 Recept</a>`
+        : `<span class="kaart-actie" style="opacity:.4;pointer-events:none">Eigen recept</span>`}
+      ${isEigen?`<button class="kaart-actie wis" data-wis="${esc(r.u)}">🗑</button>`:''}
     </div>
   </div>`;
 }
 
-function render(){
-  $("gangnav").innerHTML = GANGEN.map(g => {
-    const n = gefilterd(g.id).length;
-    return `<a href="#sec-${g.id}"><span style="color:${g.kleur}">&#9679;</span> ${g.kort} <b>${n}</b></a>`;
-  }).join("");
+// ── RENDER RECEPTENLIJST ──
+function renderRecepten() {
+  const g = GANGEN.find(g=>g.id===activeCourse);
+  const lijst = gangLijst(activeCourse);
+  const max = paginering[activeCourse] || PER_PAGINA;
+  const zichtbaar = lijst.slice(0, max);
+  const meer = lijst.length > max;
 
-  let html = "";
-  const UITLEG = {
-    voor: {bereik: t => `t/m ${t}°`, sub: "je kamado is nog aan het opwarmen, dus lager mag ook"},
-    bij:  {bereik: t => `rond ${t}°`, sub: "gaart naast je hoofdgerecht op dezelfde temperatuur"},
-    hoofd:{bereik: t => `rond ${t}°`, sub: "jouw gekozen temperatuur"},
-    na:   {bereik: t => `vanaf ${t}°`, sub: "na het hoofdgerecht stook je makkelijk door"}
-  };
-  GANGEN.forEach(gang => {
-    const lijst = gefilterd(gang.id);
-    const u = UITLEG[gang.id];
-    const bereik = zoekterm ? "alle temperaturen" : u.bereik(temp);
-    html += `<h2 class="gang" id="sec-${gang.id}"><span class="dot" style="background:${gang.kleur}"></span>${gang.naam} <span class="count">(${lijst.length})</span><span class="bereik">${bereik}</span></h2>`;
-    html += `<p class="gangsub">${zoekterm ? "zoekresultaten voor “" + esc(zoekterm) + "”" : u.sub}</p>`;
-    if(lijst.length === 0){
-      html += `<p class="empty">Geen ${gang.naam.toLowerCase()} ${bereik} — schuif de temperatuur of pas je filters aan.</p>`;
-    } else {
-      const tonen = toonAlles[gang.id] ? lijst : lijst.slice(0, MAX_TONEN);
-      html += `<div class="cards">` + tonen.map(kaart).join("") + `</div>`;
-      if(lijst.length > tonen.length){
-        html += `<button class="meer" data-act="meer" data-g="${gang.id}">Toon alle ${lijst.length} ${gang.naam.toLowerCase()} ▾</button>`;
-      }
-    }
+  const kaarten = zichtbaar.length===0
+    ? `<div class="leeg">Geen ${g.naam.toLowerCase()} gevonden — pas je bereik of filters aan.</div>`
+    : zichtbaar.map(kaartHtml).join('');
+
+  $('receptenlijst').innerHTML = `
+    <div class="gang-kop">
+      <h2 style="color:${g.kleur}">${g.naam}</h2>
+      <span class="gang-kop-cnt">${lijst.length}</span>
+    </div>
+    <p class="gang-sub">${zoekterm ? 'zoekresultaten' : g.sub}</p>
+    <div class="kaarten">${kaarten}</div>
+    ${meer?`<button class="meer-knop" id="meer-knop">Toon meer (${lijst.length-max} resterende)</button>`:''}
+    <button class="spiekknop" id="spiekknop">🌡️ Spiekbriefje kerntemperaturen</button>
+  `;
+
+  $('receptenlijst').querySelectorAll('.kaart-ster').forEach(b=>
+    b.addEventListener('click', e=>{
+      e.stopPropagation();
+      const url = b.dataset.url;
+      if(favorieten.has(url)) { favorieten.delete(url); toast('Verwijderd uit favorieten'); }
+      else { favorieten.add(url); toast('⭐ Toegevoegd aan favorieten'); }
+      sla('kamado_fav', [...favorieten]);
+      render();
+    }));
+
+  $('receptenlijst').querySelectorAll('[data-wis]').forEach(b=>
+    b.addEventListener('click', e=>{
+      e.stopPropagation();
+      eigen = eigen.filter(r=>r.u!==b.dataset.wis);
+      sla('kamado_eigen', eigen);
+      render();
+    }));
+
+  const meerKnop = $('meer-knop');
+  if(meerKnop) meerKnop.addEventListener('click', ()=>{
+    paginering[activeCourse] = (paginering[activeCourse]||PER_PAGINA) + PER_PAGINA;
+    render();
   });
-  $("result").innerHTML = html;
-  updateGangSpy();
+
+  $('spiekknop').addEventListener('click', ()=>openOv('spiek-ov'));
 }
 
-$("result").addEventListener("click", e => {
-  const el = e.target.closest("[data-act]");
-  if(!el) return;
-  const u = el.dataset.u ? decodeURIComponent(el.dataset.u) : null;
-  if(el.dataset.act === "meer"){ toonAlles[el.dataset.g] = true; render(); }
-  if(el.dataset.act === "fav"){
-    favorieten.has(u) ? favorieten.delete(u) : favorieten.add(u);
-    zet("kamado_fav", [...favorieten]);
-    toast(favorieten.has(u) ? "⭐ Toegevoegd aan favorieten" : "Verwijderd uit favorieten");
-    render();
-  }
-  if(el.dataset.act === "wis"){
-    if(!confirm("Dit eigen recept verwijderen?")) return;
-    eigen = eigen.filter(r => r.u !== u);
-    zet("kamado_eigen", eigen);
-    toast("Eigen recept verwijderd");
-    render();
-  }
+// ── HOOFD RENDER ──
+function render() {
+  renderTempCard();
+  renderSlider();
+  renderGangTabs();
+  renderFilterPaneel();
+  renderRecepten();
+  refreshTopHoogte();
+}
+
+// ── TEMP SHEET EVENTS ──
+$('tempcard').addEventListener('click', ()=>openOv('tempsheet-ov'));
+$('tempsheet-sluit').addEventListener('click', ()=>sluitOv('tempsheet-ov'));
+$('tempsheet-klaar').addEventListener('click', ()=>sluitOv('tempsheet-ov'));
+$('tempsheet-ov').addEventListener('click', e=>{ if(e.target===$('tempsheet-ov')) sluitOv('tempsheet-ov'); });
+
+$('s-tmin').addEventListener('input', e=>{
+  const v = Math.min(+e.target.value, tMax);
+  e.target.value = v; tMin = v;
+  sla('kamado_bereik',[tMin,tMax]); paginering={}; render();
+});
+$('s-tmax').addEventListener('input', e=>{
+  const v = Math.max(+e.target.value, tMin);
+  e.target.value = v; tMax = v;
+  sla('kamado_bereik',[tMin,tMax]); paginering={}; render();
 });
 
-// ---------- dialogen ----------
-document.querySelectorAll("[data-sluit]").forEach(b => b.onclick = () => $(b.dataset.sluit).classList.remove("show"));
-document.querySelectorAll(".overlay").forEach(o => o.addEventListener("click", e => { if(e.target === o) o.classList.remove("show"); }));
-$("nieuw").onclick = () => $("dlg").classList.add("show");
-$("infoknop").onclick = () => $("info").classList.add("show");
+// Presets (eenmalig renderen)
+const presetsCont = $('sheet-presets');
+presetsCont.innerHTML = PRESETS.map(p=>
+  `<button class="preset-chip${tMin===p.min&&tMax===p.max?' actief':''}" data-min="${p.min}" data-max="${p.max}">${p.label}</button>`
+).join('');
+presetsCont.querySelectorAll('.preset-chip').forEach(b=>
+  b.addEventListener('click', ()=>{
+    tMin=+b.dataset.min; tMax=+b.dataset.max;
+    sla('kamado_bereik',[tMin,tMax]); paginering={}; render();
+  }));
 
-$("bewaarknop").onclick = () => {
-  const naam = $("f_naam").value.trim();
-  const t1 = parseInt($("f_t1").value, 10);
-  if(!naam || !t1){ toast("Vul minimaal een naam en temperatuur in"); return; }
-  const t2 = parseInt($("f_t2").value, 10) || t1;
-  const url = $("f_url").value.trim() || ("eigen:" + Date.now());
-  eigen.push({ g:$("f_gang").value, n:naam, d:$("f_besch").value.trim(), s:$("f_soort").value,
-    t:[Math.min(t1,t2), Math.max(t1,t2)], tijd:$("f_tijd").value.trim(),
-    m:$("f_m").value, b:"E", u:url });
-  zet("kamado_eigen", eigen);
-  ["f_naam","f_besch","f_url","f_t1","f_t2","f_tijd"].forEach(id => $(id).value = "");
-  $("dlg").classList.remove("show");
-  const past = Math.min(t1,t2) <= temp + TOL && Math.max(t1,t2) >= temp - TOL;
-  toast(past ? "✓ Recept opgeslagen — staat bovenaan zijn gang" : `✓ Opgeslagen — zichtbaar rond ${t1}°C`);
+// ── ZOEK ──
+$('zoek').addEventListener('input', e=>{
+  zoekterm = e.target.value.toLowerCase().trim();
+  $('zoekwis').style.display = zoekterm ? 'block' : 'none';
+  paginering={}; render();
+});
+$('zoekwis').addEventListener('click', ()=>{
+  $('zoek').value=''; zoekterm='';
+  $('zoekwis').style.display='none';
+  paginering={}; render();
+});
+
+// ── FILTERS ──
+$('filterknop').addEventListener('click', ()=>{ filtersOpen=!filtersOpen; render(); });
+
+// ── EIGEN RECEPT ──
+$('nieuwknop').addEventListener('click', ()=>openOv('nieuw-ov'));
+$('nieuw-sluit').addEventListener('click', ()=>sluitOv('nieuw-ov'));
+$('nieuw-annuleer').addEventListener('click', ()=>sluitOv('nieuw-ov'));
+$('nieuw-ov').addEventListener('click', e=>{ if(e.target===$('nieuw-ov')) sluitOv('nieuw-ov'); });
+$('nieuw-bewaar').addEventListener('click', ()=>{
+  const naam=$('f_naam').value.trim();
+  const t1=+$('f_t1').value;
+  if(!naam||!t1){ toast('Vul naam en temperatuur in'); return; }
+  const t2=+$('f_t2').value||t1;
+  const rec={
+    g:$('f_gang').value, n:naam,
+    t:[Math.min(t1,t2),Math.max(t1,t2)],
+    tijd:$('f_tijd').value.trim()||null,
+    m:$('f_m').value||'',
+    s:$('f_soort').value, b:'E',
+    u:'eigen-'+Date.now(),
+    d:$('f_besch').value.trim()||''
+  };
+  eigen.unshift(rec);
+  sla('kamado_eigen', eigen);
+  ['f_naam','f_besch','f_url','f_t1','f_t2','f_tijd'].forEach(id=>$(id).value='');
+  sluitOv('nieuw-ov');
+  activeCourse=rec.g; paginering={};
+  toast(matchGang(rec,rec.g)?'✓ Recept opgeslagen — staat bovenaan':`✓ Opgeslagen — zichtbaar rond ${t1}°C`);
   render();
-};
+});
 
-// ---------- temperatuur ----------
-function renderVerloop(){
-  $("verloop").innerHTML =
-    `<div class="stap"><b>t/m ${temp}°</b>🥗 voorgerecht</div>
-     <span class="pijl">›</span>
-     <div class="stap"><b>${temp}°</b>🍖 hoofd &amp; bij</div>
-     <span class="pijl">›</span>
-     <div class="stap"><b>vanaf ${temp}°</b>🍰 nagerecht</div>`;
-}
-function setTemp(t){
-  temp = t;
-  $("tval").textContent = t;
-  $("tslider").value = t;
-  document.querySelectorAll(".presets button").forEach(b => b.classList.toggle("active", +b.dataset.t === t));
-  toonAlles = {};
-  renderVerloop();
-  render();
-}
-$("tslider").addEventListener("input", e => setTemp(+e.target.value));
-document.querySelectorAll(".presets button").forEach(b => b.addEventListener("click", () => setTemp(+b.dataset.t)));
-$("zoek").addEventListener("input", e => { zoekterm = e.target.value.toLowerCase().trim(); toonAlles = {}; render(); });
+// ── SPIEKBRIEFJE ──
+$('spiek-sluit').addEventListener('click', ()=>sluitOv('spiek-ov'));
+$('spiek-ov').addEventListener('click', e=>{ if(e.target===$('spiek-ov')) sluitOv('spiek-ov'); });
 
-// ---------- scroll-feedback: markeer de gang die je nu bekijkt ----------
-let spyTimer = null;
-function updateGangSpy(){
-  const grens = ($("subhead").getBoundingClientRect().bottom || 170) + 10;
-  let actief = GANGEN[0].id;
-  GANGEN.forEach(g => {
-    const sec = $("sec-" + g.id);
-    if(sec && sec.getBoundingClientRect().top <= grens) actief = g.id;
-  });
-  document.querySelectorAll("#gangnav a").forEach(a =>
-    a.classList.toggle("active", a.getAttribute("href") === "#sec-" + actief));
-}
-window.addEventListener("scroll", () => {
-  if(spyTimer) return;
-  spyTimer = requestAnimationFrame(() => { spyTimer = null; updateGangSpy(); });
-}, {passive:true});
+// ── SCROLL: brand/zoek/filter verbergen bij scrollen omlaag, tonen bij omhoog ──
+const topwrapEl = $('topwrap');
+let topVerborgen = false;
+let vorigeScrollY = 0;
+let scrollTimer = null;
 
-// ---------- start ----------
-$("dbinfo").textContent = `${BASIS.length} recepten in de database`;
-renderFilters();
-renderVerloop();
+function updateScrollHeader() {
+  const cur = window.scrollY;
+  const delta = cur - vorigeScrollY;
+  vorigeScrollY = cur;
+
+  if (delta > 4 && !topVerborgen && cur > 50) {
+    // naar beneden → verberg topwrap
+    topVerborgen = true;
+    topwrapEl.classList.add('verborgen');
+  } else if (delta < -4 && topVerborgen) {
+    // naar boven → toon topwrap
+    topVerborgen = false;
+    topwrapEl.style.maxHeight = topwrapEl.scrollHeight + 'px';
+    topwrapEl.classList.remove('verborgen');
+  }
+}
+
+window.addEventListener('scroll', () => {
+  if (scrollTimer) return;
+  scrollTimer = requestAnimationFrame(() => { scrollTimer = null; updateScrollHeader(); });
+}, { passive: true });
+
+function refreshTopHoogte() {
+  if (!topVerborgen) topwrapEl.style.maxHeight = topwrapEl.scrollHeight + 'px';
+}
+
+// ── START ──
+$('dbinfo').textContent = `${BASIS.length} recepten in de database`;
 render();
-if(!lees("kamado_intro2", false)){
-  zet("kamado_intro2", true);
-  setTimeout(() => $("info").classList.add("show"), 600);
-}
+refreshTopHoogte();
 </script>
 </body>
 </html>
