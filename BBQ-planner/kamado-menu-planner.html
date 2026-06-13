@@ -390,7 +390,7 @@ const SOORT = {
   vis:{l:'Vis',e:'🐟'},lam:{l:'Lam',e:'🐑'},wild:{l:'Wild',e:'🦌'},
   groente:{l:'Groente',e:'🥦'},zoet:{l:'Zoet',e:'🍰'},overig:{l:'Overig',e:'🍴'}
 };
-const BRON = {J:'bbq-junkie.nl', N:'bbq-nl.com', E:'eigen recept'};
+const BRON = {J:'bbq-junkie.nl', N:'bbq-nl.com', H:'bbq-helden.nl', P:'bbqproof.nl', E:'eigen recept'};
 const PRESETS = [
   {min:100,max:135,label:'Low & slow'},
   {min:135,max:165,label:'135–165°'},
@@ -412,6 +412,7 @@ let tMin = _tMin, tMax = _tMax;
 let activeCourse = 'hoofd';
 let zoekterm = '';
 let soortFilter = new Set();
+let bronFilter = new Set();
 let tijdFilter = null;
 let methodeFilter = null;
 let alleenFav = false;
@@ -448,6 +449,7 @@ function gangLijst(gId) {
     if(alleenFav && !favorieten.has(r.u)) return false;
     if(methodeFilter && r.m && r.m !== methodeFilter) return false;
     if(soortFilter.size && !soortFilter.has(r.s||'overig')) return false;
+    if(bronFilter.size && !bronFilter.has(r.b)) return false;
     if(tijdFilter !== null) {
       const m = parseMin(r.tijd); if(m===null) return false;
       if(tijdFilter===-1 ? m<=120 : m>tijdFilter) return false;
@@ -467,7 +469,13 @@ function gangLijst(gId) {
 }
 
 function filterCount() {
-  return soortFilter.size + (tijdFilter!==null?1:0) + (alleenFav?1:0) + (methodeFilter?1:0);
+  return soortFilter.size + bronFilter.size + (tijdFilter!==null?1:0) + (alleenFav?1:0) + (methodeFilter?1:0);
+}
+
+// bronnen die echt in de data voorkomen, in vaste volgorde
+function beschikbareBronnen() {
+  const aanwezig = new Set(alleRec().map(r=>r.b));
+  return Object.keys(BRON).filter(b=>aanwezig.has(b));
 }
 
 // ── TOAST ──
@@ -552,6 +560,13 @@ function renderFilterPaneel() {
       <button class="chip chip-indirect${methodeFilter==='indirect'?' aan':''}" data-methode="indirect">🌀 Indirect</button>
     </div>
 
+    <div class="f-label">Bron</div>
+    <div class="f-chips">
+      ${beschikbareBronnen().map(b=>`
+        <button class="chip${bronFilter.has(b)?' aan':''}" data-bron="${b}">${BRON[b]}</button>
+      `).join('')}
+    </div>
+
     <div class="f-label">Bereidingstijd</div>
     <div class="f-chips">
       ${TIJDOPTIES.map(t=>`
@@ -569,12 +584,16 @@ function renderFilterPaneel() {
   paneel.querySelectorAll('[data-methode]').forEach(b=>b.addEventListener('click', ()=>{
     const m=b.dataset.methode; methodeFilter=methodeFilter===m?null:m; paginering={}; render();
   }));
+  paneel.querySelectorAll('[data-bron]').forEach(b=>b.addEventListener('click', ()=>{
+    const k=b.dataset.bron; bronFilter.has(k)?bronFilter.delete(k):bronFilter.add(k);
+    paginering={}; render();
+  }));
   paneel.querySelectorAll('[data-tijd]').forEach(b=>b.addEventListener('click', ()=>{
     const id=+b.dataset.tijd; tijdFilter=tijdFilter===id?null:id; paginering={}; render();
   }));
   const wis = $('filterwis');
   if(wis) wis.addEventListener('click', ()=>{
-    soortFilter.clear(); tijdFilter=null; methodeFilter=null; alleenFav=false;
+    soortFilter.clear(); bronFilter.clear(); tijdFilter=null; methodeFilter=null; alleenFav=false;
     paginering={}; render();
   });
 }
