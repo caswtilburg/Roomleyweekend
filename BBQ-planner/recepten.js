@@ -1,4 +1,4 @@
-// Gegenereerd door bouw_recepten.py op 2026-06-13 12:26
+// Gegenereerd door bouw_recepten.py op 2026-06-13 20:56
 window.RECEPTEN = [
  {
   "g": "voor",
@@ -5423,6 +5423,21 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
+  "n": "Gegrilde pompoenpuree met limoen en rode peper",
+  "t": [
+   150,
+   175
+  ],
+  "tijd": "",
+  "m": "direct",
+  "e": 1,
+  "b": "P",
+  "u": "https://www.bbqproof.nl/recepten/gegrilde-pompoenpuree-met-limoen-en-rode-peper/",
+  "d": "Een zachte pompoenpuree met heerlijke grillsmaak. Door nog limoen en rode peper toe te voegen krijg je een zoete puree die fris en pittig is.",
+  "s": "groente"
+ },
+ {
+  "g": "bij",
   "n": "Gegrilde witte asperges van de BBQ - super lekker!",
   "t": [
    150,
@@ -6314,7 +6329,7 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/bloemkool-steak-met-chimichurri/",
   "d": "Bij het woord steak denk je waarschijnlijk niet zo snel aan een vegetarisch BBQ gerecht en misschien vind je het woord steak ook wel ongepast voor…",
-  "s": "rund"
+  "s": "groente"
  },
  {
   "g": "bij",
@@ -7084,7 +7099,7 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/gegrilde-knolselderij/",
   "d": "Vandaag het meest simpele, maar o zo lekkere bijgerecht van de BBQ dat je maar kunt bedenken. De herfst is weer van start gegaan en dus komen de…",
-  "s": "overig"
+  "s": "groente"
  },
  {
   "g": "bij",
@@ -7532,7 +7547,7 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/knolselderij-met-olijventapenade/",
   "d": "Eerder grilde ik al eens mooie plakken knolselderij op de BBQ en ik doe het ook regelmatig op de Quoco. Simpelweg met wat olie, peper en zout en ze…",
-  "s": "overig"
+  "s": "groente"
  },
  {
   "g": "bij",
@@ -8030,21 +8045,6 @@ window.RECEPTEN = [
   "u": "https://www.bbqproof.nl/recepten/de-lekkerste-zelfgemaakte-hamburgersaus/",
   "d": "Een goede burger kan niet zonder een heerlijke burgersaus. Deze zelfgemaakte burgersaus zet je binnen no-time op tafel.",
   "s": "rund"
- },
- {
-  "g": "bij",
-  "n": "Gegrilde pompoenpuree met limoen en rode peper",
-  "t": [
-   225,
-   250
-  ],
-  "tijd": "",
-  "m": "direct",
-  "e": 1,
-  "b": "P",
-  "u": "https://www.bbqproof.nl/recepten/gegrilde-pompoenpuree-met-limoen-en-rode-peper/",
-  "d": "Een zachte pompoenpuree met heerlijke grillsmaak. Door nog limoen en rode peper toe te voegen krijg je een zoete puree die fris en pittig is.",
-  "s": "wild"
  },
  {
   "g": "bij",
@@ -10213,7 +10213,7 @@ window.RECEPTEN = [
   "b": "H",
   "u": "https://bbq-helden.nl/recepten/gerookte-bloemkoolschotel-kaas-bacon/",
   "d": "Bloemkool is één van de saaiere groenten maar dat kan je na het eten van deze gerookte bloemkoolschotel echt niet meer zeggen.",
-  "s": "varken"
+  "s": "groente"
  },
  {
   "g": "hoofd",
@@ -11720,6 +11720,21 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Bloemkoolsteaks met kaas en spek",
+  "t": [
+   150,
+   175
+  ],
+  "tijd": "30m",
+  "m": "direct",
+  "e": 1,
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/bloemkoolsteaks-met-kaas-en-spek/",
+  "d": "Bloemkoolsteaks zijn een geweldige manier om eens wat anders te doen met bloemkool. Zonder de spek is het een goed vegetarisch gerecht.",
+  "s": "groente"
+ },
+ {
+  "g": "hoofd",
   "n": "Bourbon Glazed Beenham BBQ Recept",
   "t": [
    150,
@@ -12083,6 +12098,21 @@ window.RECEPTEN = [
   "u": "https://www.bbqproof.nl/recepten/cote-de-boeuf-van-de-bbq/",
   "d": "De Côte de Boeuf is een fantastisch groot stuk vlees met een waanzinnige smaak. Ideaal om met een speciale gelegenheid te bereiden op de BBQ.",
   "s": "rund"
+ },
+ {
+  "g": "hoofd",
+  "n": "Courgette burgers van de grillplaat",
+  "t": [
+   150,
+   175
+  ],
+  "tijd": "30m",
+  "m": "direct",
+  "e": 1,
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/courgette-burgers-van-de-grillplaat/",
+  "d": "We kwamen op social media regelmatig courgette koekjes tegen die we verbouwd hebben naar lekkere burgers.",
+  "s": "groente"
  },
  {
   "g": "hoofd",
@@ -13120,7 +13150,7 @@ window.RECEPTEN = [
   "b": "H",
   "u": "https://bbq-helden.nl/recepten/pittige-vegetarische-bonenschotel/",
   "d": "Dit is een heerlijk vegetarisch alternatief voor de traditionele chili con carne. Erg veelzijdig en lekker voor vegetariërs en vleeseters.",
-  "s": "overig"
+  "s": "groente"
  },
  {
   "g": "hoofd",
@@ -15520,21 +15550,6 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
-  "n": "Bloemkoolsteaks met kaas en spek",
-  "t": [
-   175,
-   200
-  ],
-  "tijd": "30m",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/bloemkoolsteaks-met-kaas-en-spek/",
-  "d": "Bloemkoolsteaks zijn een geweldige manier om eens wat anders te doen met bloemkool. Zonder de spek is het een goed vegetarisch gerecht.",
-  "s": "varken"
- },
- {
-  "g": "hoofd",
   "n": "Braadslee met Appel, Aardappel en Gerookte Worst",
   "t": [
    175,
@@ -16880,7 +16895,7 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/knolselderij-shoarma/",
   "d": "Een tijdje terug kwam ik via Facebook een recept van Ralph de Kok tegen, waarbij hij shoarma bereidde van knolselderij. De knolselderij sneed hij in…",
-  "s": "overig"
+  "s": "groente"
  },
  {
   "g": "hoofd",
@@ -18916,7 +18931,7 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/halloumi-burgers/",
   "d": "Een tijdje terug schafte ik Fire Food aan, het nieuwe BBQ boek van DJ BBQ. DJ BBQ ken je wellicht van de dingen die hij met Jamie Oliver heeft gedaan…",
-  "s": "rund"
+  "s": "groente"
  },
  {
   "g": "hoofd",
@@ -22704,21 +22719,6 @@ window.RECEPTEN = [
   "b": "H",
   "u": "https://bbq-helden.nl/recepten/cola-pulled-beef/",
   "d": "Wij maakten geweldige pulled beef in een zoete en licht pittige cola saus. Je hebt waarschijnlijk nog nooit zulke lekkere pulled beef gegeten.",
-  "s": "rund"
- },
- {
-  "g": "hoofd",
-  "n": "Courgette burgers van de grillplaat",
-  "t": [
-   225,
-   250
-  ],
-  "tijd": "30m",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/courgette-burgers-van-de-grillplaat/",
-  "d": "We kwamen op social media regelmatig courgette koekjes tegen die we verbouwd hebben naar lekkere burgers.",
   "s": "rund"
  },
  {
