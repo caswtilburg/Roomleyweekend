@@ -750,12 +750,17 @@ let topVerborgen = false;
 let vorigeScrollY = Math.max(0, window.scrollY || 0);
 let topwrapHoogte = 0;
 let rAfPending = false;
+let accum = 0;            // opgetelde scroll-afstand in dezelfde richting
+let vergrendeldTot = 0;   // toggles geblokkeerd tot dit tijdstip (anti-trip)
+const DREMPEL = 12;       // px in één richting voordat we togglen (hysteresis)
+const SLOT_MS = 360;      // iets langer dan de CSS-transitie (.28s)
 
 function toonTopwrap() {
   if (!topVerborgen) return;
   topVerborgen = false;
   topwrapEl.style.maxHeight = (topwrapHoogte || 400) + 'px';
   topwrapEl.classList.remove('verborgen');
+  vergrendeldTot = performance.now() + SLOT_MS;
 }
 function verbergTopwrap() {
   if (topVerborgen) return;
@@ -763,15 +768,24 @@ function verbergTopwrap() {
   if (h > 0) topwrapHoogte = h; // sla op vóór collapse; iOS geeft 0 na collapse
   topVerborgen = true;
   topwrapEl.classList.add('verborgen');
+  vergrendeldTot = performance.now() + SLOT_MS;
 }
 
 function onScroll() {
   const cur = Math.max(0, window.scrollY || 0); // clamp: iOS rubber-band geeft negatief
   const delta = cur - vorigeScrollY;
   vorigeScrollY = cur;
-  if (Math.abs(delta) < 2) return; // negeer micro-bewegingen (iOS URL-balk)
-  if (delta > 0 && cur > 60) verbergTopwrap();
-  else if (delta < 0) toonTopwrap();
+  if (delta === 0) return;
+
+  // tijdens het slot na een toggle: niets doen en teller resetten
+  // (voorkomt trippen door de layout-shift van het in/uitklappen)
+  if (performance.now() < vergrendeldTot) { accum = 0; return; }
+
+  // tel op in dezelfde richting, reset bij richtingomslag
+  accum = (delta > 0) === (accum > 0) ? accum + delta : delta;
+
+  if (accum > DREMPEL && cur > 60) { verbergTopwrap(); accum = 0; }
+  else if (accum < -DREMPEL) { toonTopwrap(); accum = 0; }
 }
 
 window.addEventListener('scroll', () => {
