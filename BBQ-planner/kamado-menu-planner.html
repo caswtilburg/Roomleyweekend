@@ -33,12 +33,12 @@ button{font-family:inherit;cursor:pointer}
 input,select{font-family:inherit}
 svg{display:block}
 
-/* ── WRAPPER (niet zelf sticky — tempbalk is dat wel) ── */
-#stickyheader{background:var(--paper-50)}
+/* ── BRAND HEADER WRAP (scrollt weg, inklapbaar) ── */
 #topwrap{
   overflow:hidden;
   max-height:400px;
   padding-top:env(safe-area-inset-top);
+  background:var(--paper-50);
   transition:max-height .28s cubic-bezier(.2,.8,.2,1), opacity .22s
 }
 #topwrap.verborgen{max-height:0 !important;opacity:0}
@@ -182,7 +182,6 @@ footer a{color:var(--ember-600)}
 </head>
 <body>
 
-<div id="stickyheader">
 <div id="topwrap">
 <!-- BRAND HEADER -->
 <div id="brand">
@@ -234,7 +233,6 @@ footer a{color:var(--ember-600)}
   </div>
   <div id="gangtabs"></div>
 </div><!-- /tempbalk -->
-</div><!-- /stickyheader -->
 
 <!-- RECEPTENLIJST -->
 <div id="receptenlijst"></div>
@@ -516,7 +514,7 @@ function renderGangTabs() {
       paginering = {};
       render();
       // scroll naar receptenlijst (net onder de sticky balk)
-      const sh = $('stickyheader');
+      const sh = $('tempbalk');
       window.scrollTo({ top: sh ? sh.offsetHeight : 0, behavior: 'smooth' });
     }));
 }
@@ -752,11 +750,9 @@ function updateScrollHeader() {
   vorigeScrollY = cur;
 
   if (delta > 4 && !topVerborgen && cur > 50) {
-    // naar beneden → verberg topwrap
     topVerborgen = true;
     topwrapEl.classList.add('verborgen');
-  } else if (delta < -4 && topVerborgen) {
-    // naar boven → toon topwrap
+  } else if (delta < -2 && topVerborgen) {
     topVerborgen = false;
     topwrapEl.style.maxHeight = topwrapEl.scrollHeight + 'px';
     topwrapEl.classList.remove('verborgen');
