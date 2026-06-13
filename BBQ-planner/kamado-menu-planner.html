@@ -67,12 +67,11 @@ svg{display:block}
 #zoek::placeholder{color:var(--sand-500)}
 #zoekwis{border:none;background:none;color:var(--sand-500);font-size:18px;line-height:1;padding:0;display:none}
 
-/* ── FILTERPANEEL (scrollt weg, inklapbaar) ── */
-#filterpaneel{display:none;padding:8px 18px 12px;border-bottom:1px solid var(--paper-200);background:var(--white)}
-#filterpaneel.open{display:block}
+/* ── FILTERPANEEL (in de filter-bottomsheet) ── */
+#filterpaneel{padding:2px 0 4px}
 .f-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--sand-600);margin:10px 0 6px}
 .f-label:first-child{margin-top:0}
-.f-chips{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.f-chips{display:flex;gap:7px;flex-wrap:wrap;padding-bottom:2px}
 .f-chips::-webkit-scrollbar{display:none}
 .chip{flex-shrink:0;padding:8px 13px;border-radius:999px;font-size:13px;font-weight:600;white-space:nowrap;cursor:pointer;border:1px solid var(--paper-300);background:var(--white);color:var(--char-700)}
 .chip.aan{background:var(--char-900);border-color:var(--char-900);color:var(--paper-50);font-weight:700}
@@ -123,13 +122,17 @@ svg{display:block}
 .kaart-meta{font-family:var(--fm);font-size:10.5px;color:var(--sand-500);margin-top:5px}
 .kaart-rechts{text-align:right;flex-shrink:0}
 .kaart-temp{font-family:var(--fm);font-weight:700;font-size:13.5px;color:var(--ember-700)}
+.kaart-temp.geschat{color:var(--sand-600)}
 .kaart-methode{font-size:8.5px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--sand-500);margin-top:2px}
 .kaart-ster{border:none;background:none;cursor:pointer;font-size:18px;line-height:1;padding:0;margin-top:8px;display:block;margin-left:auto;color:var(--sand-500)}
 .kaart-ster.aan{color:#E3A21C}
 .kaart-acties{display:flex;gap:8px;margin-top:10px}
 .kaart-actie{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 4px;border-radius:10px;border:1px solid var(--paper-200);background:var(--paper-50);color:var(--char-700);font-size:13px;font-weight:600;text-decoration:none;cursor:pointer}
 .kaart-actie.wis{flex:0 0 44px;color:#C0341D;border-color:#FBE3D3;background:#FFF5F2}
-.leeg{font-size:13px;color:var(--sand-600);padding:14px 4px;text-align:center}
+.leeg{font-size:13px;color:var(--sand-600);padding:20px 4px;text-align:center}
+.leeg-knoppen{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.leeg-knop{padding:10px 16px;border-radius:999px;font-size:13px;font-weight:700;border:none;background:var(--ember-600);color:#fff;cursor:pointer}
+.leeg-knop.sec{background:var(--white);border:1px solid var(--paper-300);color:var(--char-700)}
 .meer-knop{width:100%;margin-top:10px;padding:12px;border-radius:12px;border:1px solid var(--paper-300);background:var(--white);color:var(--char-700);font-size:13px;font-weight:600}
 .spiekknop{width:100%;margin-top:16px;padding:13px;border-radius:14px;border:1.5px dashed var(--paper-300);background:var(--white);color:var(--char-700);font-weight:600;font-size:13.5px;display:flex;align-items:center;justify-content:center;gap:8px}
 
@@ -217,8 +220,6 @@ footer a{color:var(--ember-600)}
   </div>
 </div>
 
-<!-- FILTERPANEEL (inklapbaar) -->
-<div id="filterpaneel"></div>
 </div><!-- /topwrap -->
 
 <!-- TEMPBALK + GANGTABS -->
@@ -244,9 +245,23 @@ footer a{color:var(--ember-600)}
 <div id="receptenlijst"></div>
 
 <footer>
-  Recepten © <a href="https://bbq-junkie.nl" target="_blank" rel="noopener">bbq-junkie.nl</a> &amp; <a href="https://www.bbq-nl.com" target="_blank" rel="noopener">bbq-nl.com</a> — tik op 🔗 Recept voor de volledige bereiding.<br>
+  Recepten © <a href="https://bbq-junkie.nl" target="_blank" rel="noopener">bbq-junkie.nl</a>, <a href="https://www.bbq-nl.com" target="_blank" rel="noopener">bbq-nl.com</a>, <a href="https://bbq-helden.nl" target="_blank" rel="noopener">bbq-helden.nl</a> &amp; <a href="https://www.bbqproof.nl" target="_blank" rel="noopener">bbqproof.nl</a> — tik op 🔗 Recept voor de volledige bereiding.<br>
+  <span style="opacity:.8">~ = geschatte dome-temp bij grillen zonder vermelde temperatuur.</span><br>
   <span id="dbinfo"></span>
 </footer>
+
+<!-- FILTER SHEET -->
+<div class="overlay" id="filter-ov">
+  <div class="sheet">
+    <div class="grip"></div>
+    <div class="sheet-kop">
+      <h3 class="sheet-titel">Filters</h3>
+      <button class="sheet-sluit" id="filter-sluit">×</button>
+    </div>
+    <div id="filterpaneel"></div>
+    <button class="klaar-knop" id="filter-klaar">Toon recepten</button>
+  </div>
+</div>
 
 <!-- TEMP SHEET -->
 <div class="overlay" id="tempsheet-ov">
@@ -373,7 +388,7 @@ footer a{color:var(--ember-600)}
 
 <div id="toast"></div>
 
-<script src="recepten.js?v=20260613b"></script>
+<script src="recepten.js?v=20260613e"></script>
 <script>
 "use strict";
 
@@ -416,7 +431,6 @@ let bronFilter = new Set();
 let tijdFilter = null;
 let methodeFilter = null;
 let alleenFav = false;
-let filtersOpen = false;
 let paginering = {};        // gang → aantal getoonde recepten
 let eigen = lees('kamado_eigen', []);
 let favorieten = new Set(lees('kamado_fav', []));
@@ -445,7 +459,7 @@ function gangLijst(gId) {
   const mid = (tMin+tMax)/2;
   const lijst = alleRec().filter(r => {
     if(r.g !== gId) return false;
-    if(!zoekterm && !matchGang(r, gId)) return false;
+    if(!matchGang(r, gId)) return false;   // temperatuurbereik geldt altijd, óók tijdens zoeken
     if(alleenFav && !favorieten.has(r.u)) return false;
     if(methodeFilter && r.m && r.m !== methodeFilter) return false;
     if(soortFilter.size && !soortFilter.has(r.s||'overig')) return false;
@@ -540,9 +554,6 @@ function renderFilterPaneel() {
   $('filterknop').classList.toggle('actief', fc>0);
 
   const paneel = $('filterpaneel');
-  paneel.classList.toggle('open', filtersOpen);
-  if(!filtersOpen) { paneel.innerHTML=''; return; }
-
   paneel.innerHTML = `
     <div class="f-label">Favorieten</div>
     <button class="chip chip-fav${alleenFav?' aan':''}" id="chip-fav">⭐ Alleen favorieten</button>
@@ -602,7 +613,8 @@ function renderFilterPaneel() {
 function kaartHtml(r) {
   const s = SOORT[r.s||'overig'];
   const fav = favorieten.has(r.u);
-  const tempTxt = r.t[0]===r.t[1] ? r.t[0]+'°' : r.t[0]+'–'+r.t[1]+'°';
+  const geschat = !!r.e;
+  const tempTxt = (geschat?'~':'') + (r.t[0]===r.t[1] ? r.t[0]+'°' : r.t[0]+'–'+r.t[1]+'°');
   const isEigen = r.b==='E';
   const heeftUrl = r.u && r.u.startsWith('http');
   return `<div class="kaart">
@@ -614,8 +626,8 @@ function kaartHtml(r) {
         <div class="kaart-meta">⏱ ${r.tijd||'onbekend'} · ${BRON[r.b]||'eigen'}</div>
       </div>
       <div class="kaart-rechts">
-        <div class="kaart-temp">${tempTxt}</div>
-        ${r.m?`<div class="kaart-methode">${r.m}</div>`:''}
+        <div class="kaart-temp${geschat?' geschat':''}">${tempTxt}</div>
+        ${r.m?`<div class="kaart-methode">${r.m}</div>`:geschat?`<div class="kaart-methode">geschat</div>`:''}
         <button class="kaart-ster${fav?' aan':''}" data-url="${esc(r.u)}">${fav?'★':'☆'}</button>
       </div>
     </div>
@@ -637,8 +649,17 @@ function renderRecepten() {
   const meer = lijst.length > max;
 
   const kaarten = zichtbaar.length===0
-    ? `<div class="leeg">Geen ${g.naam.toLowerCase()} gevonden — pas je bereik of filters aan.</div>`
+    ? `<div class="leeg">Geen ${g.naam.toLowerCase()} gevonden — pas je bereik of filters aan.
+        <div class="leeg-knoppen">
+          <button class="leeg-knop" id="leeg-filter">Filters aanpassen</button>
+          ${filterCount()>0?`<button class="leeg-knop sec" id="leeg-wis">Filters wissen</button>`:''}
+        </div>
+      </div>`
     : zichtbaar.map(kaartHtml).join('');
+
+  // bij een lege lijst valt er niets te scrollen; toon de header weer zodat
+  // de zoekbalk en Filters-knop bovenin bereikbaar blijven
+  if(zichtbaar.length===0 && typeof toonTopwrap==='function') toonTopwrap();
 
   $('receptenlijst').innerHTML = `
     <div class="gang-kop">
@@ -668,6 +689,14 @@ function renderRecepten() {
       sla('kamado_eigen', eigen);
       render();
     }));
+
+  const leegFilter = $('leeg-filter');
+  if(leegFilter) leegFilter.addEventListener('click', ()=>{ renderFilterPaneel(); openOv('filter-ov'); });
+  const leegWis = $('leeg-wis');
+  if(leegWis) leegWis.addEventListener('click', ()=>{
+    soortFilter.clear(); bronFilter.clear(); tijdFilter=null; methodeFilter=null; alleenFav=false;
+    paginering={}; render();
+  });
 
   const meerKnop = $('meer-knop');
   if(meerKnop) meerKnop.addEventListener('click', ()=>{
@@ -729,7 +758,10 @@ $('zoekwis').addEventListener('click', ()=>{
 });
 
 // ── FILTERS ──
-$('filterknop').addEventListener('click', ()=>{ filtersOpen=!filtersOpen; render(); });
+$('filterknop').addEventListener('click', ()=>{ renderFilterPaneel(); openOv('filter-ov'); });
+$('filter-sluit').addEventListener('click', ()=>sluitOv('filter-ov'));
+$('filter-klaar').addEventListener('click', ()=>sluitOv('filter-ov'));
+$('filter-ov').addEventListener('click', e=>{ if(e.target===$('filter-ov')) sluitOv('filter-ov'); });
 
 // ── EIGEN RECEPT ──
 $('nieuwknop').addEventListener('click', ()=>openOv('nieuw-ov'));
@@ -783,8 +815,6 @@ function toonTopwrap() {
 }
 function verbergTopwrap() {
   if (topVerborgen) return;
-  // openstaand filterpaneel dichtklappen zodra je naar de gerechten scrollt
-  if (filtersOpen) { filtersOpen = false; renderFilterPaneel(); }
   const h = topwrapEl.scrollHeight;
   if (h > 0) topwrapHoogte = h; // sla op vóór collapse; iOS geeft 0 na collapse
   topVerborgen = true;
