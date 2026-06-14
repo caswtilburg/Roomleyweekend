@@ -1,4 +1,4 @@
-// Gegenereerd door bouw_recepten.py op 2026-06-14 08:19
+// Gegenereerd door bouw_recepten.py op 2026-06-14 08:28
 window.RECEPTEN = [
  {
   "g": "voor",
@@ -1810,6 +1810,20 @@ window.RECEPTEN = [
   "u": "https://www.bbqproof.nl/recepten/oosterse-oesters-met-wasabi-gember-en-ketjap/",
   "d": "De combinatie van Zeeuwse oesters en de Oosterse dressing is een groot feest. De oester gaar je eerst kort op de BBQ waardoor de schelp makkelijk…",
   "s": "vis"
+ },
+ {
+  "g": "voor",
+  "n": "Paddenstoelen Taartjes",
+  "t": [
+   175,
+   175
+  ],
+  "tijd": "1u",
+  "m": "direct",
+  "b": "J",
+  "u": "https://bbq-junkie.nl/bbq-recepten/paddenstoelen-taartjes/",
+  "d": "Een avond met hapjes van de BBQ op de planning? Of op zoek naar een lekker voorgerecht van de BBQ? Dan kan ik je deze paddenstoelentaartjes van harte…",
+  "s": "groente"
  },
  {
   "g": "voor",
@@ -26371,20 +26385,6 @@ window.RECEPTEN = [
   "b": "N",
   "u": "https://www.bbq-nl.com/gevulde-appels/",
   "d": "Een simpel maar erg lekker recept voor gevulde appels van de berbecue. Echt een dessert dat goed past bij de herfst BBQ.",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Paddenstoelen Taartjes",
-  "t": [
-   175,
-   175
-  ],
-  "tijd": "1u",
-  "m": "direct",
-  "b": "J",
-  "u": "https://bbq-junkie.nl/bbq-recepten/paddenstoelen-taartjes/",
-  "d": "Een avond met hapjes van de BBQ op de planning? Of op zoek naar een lekker voorgerecht van de BBQ? Dan kan ik je deze paddenstoelentaartjes van harte…",
   "s": "zoet"
  },
  {
