@@ -1,4 +1,4 @@
-// Gegenereerd door bouw_recepten.py op 2026-06-14 08:28
+// Gegenereerd door bouw_recepten.py op 2026-06-14 13:13
 window.RECEPTEN = [
  {
   "g": "voor",
@@ -5327,21 +5327,6 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
-  "n": "Champignon pepersaus",
-  "t": [
-   150,
-   175
-  ],
-  "tijd": "30m",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/champignon-pepersaus/",
-  "d": "Deze pepersaus is op zoek naar een dikke steak, een paar gebakken aardappeltjes, een lekkere pasta of gewoon een stuk brood.",
-  "s": "groente"
- },
- {
-  "g": "bij",
   "n": "Chili Bacon Jam",
   "t": [
    150,
@@ -5353,21 +5338,6 @@ window.RECEPTEN = [
   "u": "https://bbq-junkie.nl/bbq-recepten/chili-bacon-jam/",
   "d": "Alweer een hele tijd geleden deelde ik een recept voor bacon jam en dat viel bij velen goed in de smaak. Hier bereidde ik hem ook regelmatig om te…",
   "s": "varken"
- },
- {
-  "g": "bij",
-  "n": "Chili knoflookboter",
-  "t": [
-   150,
-   175
-  ],
-  "tijd": "2u",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/chili-knoflookboter/",
-  "d": "Deze chili knoflookboter is een lekker basisrecept om je gerechten mee op smaak te brengen of om gewoon op een broodje te smeren.",
-  "s": "groente"
  },
  {
   "g": "bij",
@@ -5654,21 +5624,6 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
-  "n": "Kaas roomsaus",
-  "t": [
-   150,
-   175
-  ],
-  "tijd": "30m",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/kaas-roomsaus/",
-  "d": "Deze kaas roomsaus is gemaakt met een basis van boter en knoflook en witte wijn. De Parmezaanse kaas zorgt voor een rijke en hartige smaak.",
-  "s": "groente"
- },
- {
-  "g": "bij",
   "n": "Kipkerrie Sandwich van de BBQ - met sappige pulled chicken",
   "t": [
    150,
@@ -5694,21 +5649,6 @@ window.RECEPTEN = [
   "b": "H",
   "u": "https://bbq-helden.nl/recepten/komkommer-munt-salade/",
   "d": "Deze komkommersalade met munt is een perfect bijgerecht bij de barbecue bij oosterse gerechten maar ook bij een dikke bonenschotel.",
-  "s": "groente"
- },
- {
-  "g": "bij",
-  "n": "Kruidenboter met verse kruiden, knoflook en roomboter",
-  "t": [
-   150,
-   175
-  ],
-  "tijd": "",
-  "m": "direct",
-  "e": 1,
-  "b": "P",
-  "u": "https://www.bbqproof.nl/recepten/kruidenboter-met-verse-kruiden/",
-  "d": "Combineer deze zelfgemaakte kruidenboter lekker met een steak van de BBQ, gepofte aardappel of stokbrood. Lees hier hoe snel je deze verse…",
   "s": "groente"
  },
  {
@@ -5754,21 +5694,6 @@ window.RECEPTEN = [
   "b": "H",
   "u": "https://bbq-helden.nl/recepten/mais-beignets/",
   "d": "Deze mais beignets zijn hartig zonder vlees en heerlijk met een salsa. Weliswaar geen echt barbecue recept maar we smokkelen graag een beetje.",
-  "s": "groente"
- },
- {
-  "g": "bij",
-  "n": "Makkelijke pindasaus van pindakaas",
-  "t": [
-   150,
-   175
-  ],
-  "tijd": "30m",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/makkelijke-pindasaus-van-pindakaas/",
-  "d": "De lekkerste pindakaas maak je zelf van pindakaas. Met een paar extra ingredienten wordt dit een geweldige saus.",
   "s": "groente"
  },
  {
@@ -5891,36 +5816,6 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
-  "n": "Pittige makreel in sambalsaus",
-  "t": [
-   150,
-   175
-  ],
-  "tijd": "30m",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/pittige-makreel-in-sambalsaus/",
-  "d": "Pittige makreel is een Indisch gerecht dat je kan vinden bij elke Indonesische toko en bij sommige Chinese restaurants.",
-  "s": "vis"
- },
- {
-  "g": "bij",
-  "n": "Pittige paprikasaus",
-  "t": [
-   150,
-   175
-  ],
-  "tijd": "30m",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/pittige-paprika-saus/",
-  "d": "Deze pittige paprika saus is een heerlijke frisse saus voor een zomerse barbecue. Het smaakt heerlijk bij alle gegrilde gerechten.",
-  "s": "groente"
- },
- {
-  "g": "bij",
   "n": "Puree van zoete aardappel",
   "t": [
    150,
@@ -5961,21 +5856,6 @@ window.RECEPTEN = [
   "b": "H",
   "u": "https://bbq-helden.nl/recepten/rode-kool-salade-met-granaatappel/",
   "d": "Deze frisse salade van rode kool en wortel wordt afgemaakt met een lichtzoete dressing en kleine knapperige explosies van granaatappel.",
-  "s": "groente"
- },
- {
-  "g": "bij",
-  "n": "Roodbaars in tomatensaus",
-  "t": [
-   150,
-   175
-  ],
-  "tijd": "1u",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/roodbaars-tomatensaus/",
-  "d": "Roodbaars is perfect voor op de barbecue. Het is een vis met een mooi stevige, vlezige structuur. De smaak heeft iets weg van garnalen",
   "s": "groente"
  },
  {
@@ -6066,36 +5946,6 @@ window.RECEPTEN = [
   "b": "P",
   "u": "https://www.bbqproof.nl/recepten/zelfgemaakte-coleslaw-met-venkel/",
   "d": "Deze coleslaw met venkel past perfect bij een vis of varkensvlees van de BBQ. De coleslaw is fris en verrassend lekker van smaak.",
-  "s": "groente"
- },
- {
-  "g": "bij",
-  "n": "Zelfgemaakte knoflooksaus - perfect voor bij de BBQ",
-  "t": [
-   150,
-   175
-  ],
-  "tijd": "",
-  "m": "direct",
-  "e": 1,
-  "b": "P",
-  "u": "https://www.bbqproof.nl/recepten/zelfgemaakte-knoflooksaus/",
-  "d": "De lekkerste knoflooksaus maak je natuurlijk zelf. Met dit simpele recept zet je binnen een paar stappen een geweldige knoflooksaus op tafel.",
-  "s": "groente"
- },
- {
-  "g": "bij",
-  "n": "Zelfgemaakte pizzasaus voor de lekkerste pizza's",
-  "t": [
-   150,
-   175
-  ],
-  "tijd": "",
-  "m": "direct",
-  "e": 1,
-  "b": "P",
-  "u": "https://www.bbqproof.nl/recepten/de-lekkerste-zelfgemaakte-pizzasaus/",
-  "d": "Check ons favoriete pizzasaus recept. Met een paar ingredienten zet je een heerlijke pizzasaus op tafel. Vol smaak en eenvoudig te maken.",
   "s": "groente"
  },
  {
@@ -6284,21 +6134,6 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
-  "n": "Mango rode peper - laksaus - lekker bij o.a. kip van de bbq",
-  "t": [
-   175,
-   200
-  ],
-  "tijd": "",
-  "m": "direct",
-  "e": 1,
-  "b": "P",
-  "u": "https://www.bbqproof.nl/recepten/mango-rode-peper-laksaus/",
-  "d": "Deze verrassende laksaus van mango is een perfecte smaakmaker bij een BBQ gerecht. De mango heeft de eigenschap om perfect te karamelliseren.",
-  "s": "kip"
- },
- {
-  "g": "bij",
   "n": "Tortilla de Patata",
   "t": [
    175,
@@ -6324,21 +6159,6 @@ window.RECEPTEN = [
   "u": "https://www.bbq-nl.com/wafels-van-aardappelkroketjes/",
   "d": "Wafels van aardappelkroketjes zijn zo gemaakt en een heerlijk bijgerecht van de BBQ!",
   "s": "groente"
- },
- {
-  "g": "bij",
-  "n": "saté van varkenshaas zonder satésaus",
-  "t": [
-   175,
-   200
-  ],
-  "tijd": "15m",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/sate-van-varkenshaas-zonder-satesaus/",
-  "d": "Saté hoor je te serveren met een dikke laag satésaus. Maar wat als het vlees al zo lekker is dat je die saus helemaal niet nodig hebt.",
-  "s": "varken"
  },
  {
   "g": "bij",
@@ -8138,36 +7958,6 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
-  "n": "De lekkerste zelfgemaakte burgersaus",
-  "t": [
-   225,
-   250
-  ],
-  "tijd": "",
-  "m": "direct",
-  "e": 1,
-  "b": "P",
-  "u": "https://www.bbqproof.nl/recepten/de-lekkerste-zelfgemaakte-hamburgersaus/",
-  "d": "Een goede burger kan niet zonder een heerlijke burgersaus. Deze zelfgemaakte burgersaus zet je binnen no-time op tafel.",
-  "s": "rund"
- },
- {
-  "g": "bij",
-  "n": "Gerookte gehaktballen in bier-kaassaus",
-  "t": [
-   225,
-   250
-  ],
-  "tijd": "3u",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/gerookte-gehaktballen-in-bier-kaassaus/",
-  "d": "Ben je wel een beetje klaar met de doorsnee gehaktbal? Dan hebben we hier de gerookte gehaktbal in een pittige kaassaus.",
-  "s": "rund"
- },
- {
-  "g": "bij",
   "n": "Groenteburger",
   "t": [
    225,
@@ -8183,36 +7973,6 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
-  "n": "Italiaanse involtini van bavette in tomatensaus",
-  "t": [
-   225,
-   250
-  ],
-  "tijd": "2u",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/italiaanse-involtini-bavette/",
-  "d": "involtini zijn Italiaanse rolletjes rundvlees gevuld met een smakelijke vulling. Wij maakten ze met bavette en een heerlijke tomatensaus.",
-  "s": "rund"
- },
- {
-  "g": "bij",
-  "n": "Jalapeño hamburgersaus",
-  "t": [
-   225,
-   250
-  ],
-  "tijd": "15m",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/jalapeno-hamburgersaus/",
-  "d": "Deze hamburgersaus is minder pittig dan je denkt. Deze burgersaus is lekker fris en past geweldig bij een vette hamburger.",
-  "s": "rund"
- },
- {
-  "g": "bij",
   "n": "Koreaanse steak salade, een zomerse salade met een oosters tintje",
   "t": [
    225,
@@ -8224,21 +7984,6 @@ window.RECEPTEN = [
   "b": "N",
   "u": "https://www.bbq-nl.com/koreaanse-steak-salade/",
   "d": "Makkelijk, snel en zomers, dat is deze Koreaanse steak salade. Frisse sla met een heerlijke steak en een pittige dressing. Nu alleen nog een cocktail.",
-  "s": "rund"
- },
- {
-  "g": "bij",
-  "n": "Pulled beef pastasaus",
-  "t": [
-   225,
-   250
-  ],
-  "tijd": "",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/pulled-beef-pastasaus/",
-  "d": "Deze pulled beef pasta is eigenlijk een soort Ragù alla Bolognese maar net even anders omdat wij het vlees eerst roken.",
   "s": "rund"
  },
  {
@@ -24955,21 +24700,6 @@ window.RECEPTEN = [
   "u": "https://www.bbq-nl.com/wildzwijnhaas-pinwheels/",
   "d": "Rolletjes wildzwijnhaas met bosvruchtenjam en prosciutto. Een heerlijk herfstgerecht!",
   "s": "wild"
- },
- {
-  "g": "hoofd",
-  "n": "Zelfgemaakte Amerikaanse hamburger kruiden",
-  "t": [
-   225,
-   250
-  ],
-  "tijd": "15m",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/zelfgemaakte-amerikaanse-hamburger-kruiden/",
-  "d": "Soms zoek je gewoon de beste hamburger kruiden. Met deze kruidenmix en een paar goeie tips ben je verzekert van heerlijk sappige hamburgers.",
-  "s": "rund"
  },
  {
   "g": "hoofd",
