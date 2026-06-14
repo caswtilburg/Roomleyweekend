@@ -1,4 +1,4 @@
-// Gegenereerd door bouw_recepten.py op 2026-06-13 21:06
+// Gegenereerd door bouw_recepten.py op 2026-06-14 08:14
 window.RECEPTEN = [
  {
   "g": "voor",
@@ -769,6 +769,20 @@ window.RECEPTEN = [
   "u": "https://bbq-helden.nl/recepten/pikante-tijgergarnalen/",
   "d": "Een garnaal heeft niet zo veel nodig. Een beetje knoflook, citroen en wat hete peper. En daarna lekker pellen.",
   "s": "vis"
+ },
+ {
+  "g": "voor",
+  "n": "Pittige kippenvleugels met sinaasappel sambal saus",
+  "t": [
+   150,
+   150
+  ],
+  "tijd": "2u",
+  "m": "indirect",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/sinaasappel-sambal-kippenvleugels/",
+  "d": "Kippenvleugels van de barbecue met sinaasappel en sambal. Fris, licht pittig en perfect als snack of borrelhap.",
+  "s": "kip"
  },
  {
   "g": "voor",
@@ -1782,20 +1796,6 @@ window.RECEPTEN = [
   "u": "https://bbq-helden.nl/recepten/nachos-met-gerookte-worst/",
   "d": "Voor de meeste mensen zijn nachos de perfecte snack. En als je goeie nachos maakt dan hoef je ook geen avondeten te maken.",
   "s": "varken"
- },
- {
-  "g": "voor",
-  "n": "Oesters van de barbecue met een Aziatische twist",
-  "t": [
-   175,
-   200
-  ],
-  "tijd": "",
-  "m": "direct",
-  "b": "N",
-  "u": "https://www.bbq-nl.com/oesters-van-de-barbecue/",
-  "d": "Doe eens iets anders met oesters dan zo wegslurpen. Je kunt ook oesters van de barbecue maken, lekker met een Aziatische garnering.",
-  "s": "vis"
  },
  {
   "g": "voor",
@@ -2871,6 +2871,20 @@ window.RECEPTEN = [
  },
  {
   "g": "voor",
+  "n": "Spinazie-brietaartjes, simpele bladerdeeg hapjes",
+  "t": [
+   180,
+   180
+  ],
+  "tijd": "",
+  "m": "indirect",
+  "b": "N",
+  "u": "https://www.bbq-nl.com/spinazie-brietaartjes/",
+  "d": "Recept voor vegetarische spinazie-brietaartjes van de barbecue. Een leuk gerechtje, dat je makkelijk kunt maken en als voor- of bijgerecht kunt…",
+  "s": "groente"
+ },
+ {
+  "g": "voor",
   "n": "Street Corn Nacho's",
   "t": [
    180,
@@ -3749,6 +3763,20 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/pastinaak-friet/",
   "d": "Op zoek naar een leuk bijgerecht met winterse groenten? Deze pastinaak frietjes zijn precies wat je zoekt! Knapperig, makkelijk en super lekker!",
+  "s": "groente"
+ },
+ {
+  "g": "voor",
+  "n": "Pesto Uientaartjes, een leuke snack van de barbecue",
+  "t": [
+   200,
+   200
+  ],
+  "tijd": "",
+  "m": "indirect",
+  "b": "N",
+  "u": "https://www.bbq-nl.com/pesto-uientaartjes-van-de-barbecue/",
+  "d": "Pesto uientaartjes zijn een heerlijke snack van de barbecue, als je de uien ook nog eerst even in de kolen roostert dan zijn ze heerlijk zoet.",
   "s": "groente"
  },
  {
@@ -5099,20 +5127,6 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
-  "n": "Rack van speenvarken met salsa verde",
-  "t": [
-   110,
-   110
-  ],
-  "tijd": "1u",
-  "m": "",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/rack-van-speenvarken-salsa-verde/",
-  "d": "Een varkensrack ziet er altijd geweldig uit op tafel. Dit rack van speenvarken bereiden we met verse Italiaanse kruiden en een frisse salsa verde.",
-  "s": "varken"
- },
- {
-  "g": "bij",
   "n": "Rode Chimichurri als salsa of marinade",
   "t": [
    110,
@@ -5152,20 +5166,6 @@ window.RECEPTEN = [
   "u": "https://www.bbq-nl.com/bbq-beans/",
   "d": "Eén van de klassieke Amerikaanse bijgerechten voor de barbecue.",
   "s": "overig"
- },
- {
-  "g": "bij",
-  "n": "Broodje runderwang met mosterd barbecuesaus",
-  "t": [
-   120,
-   120
-  ],
-  "tijd": "",
-  "m": "indirect",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/broodje-runderwang-mosterd-barbecuesaus/",
-  "d": "Dit is het ultieme bbq broodje. Heerlijk zachte runderwangen op een paar vers gegrilde plakken brood.",
-  "s": "rund"
  },
  {
   "g": "bij",
@@ -5235,6 +5235,20 @@ window.RECEPTEN = [
   "b": "H",
   "u": "https://bbq-helden.nl/recepten/koffie-rub-ribeye/",
   "d": "Een koffie dry rub moet je zeker eens geprobeerd hebben. Een mooie warme smaak die goed past bij een mooi stuk rundvlees.",
+  "s": "rund"
+ },
+ {
+  "g": "bij",
+  "n": "Runderwang in Guinness appelstroop saus",
+  "t": [
+   140,
+   140
+  ],
+  "tijd": "",
+  "m": "indirect",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/runderwang-in-guinness-appelstroop-saus/",
+  "d": "Runderwang is zo’n perfect stukje vlees voor echte barbecue. Na een paar uur low and slow is het een geweldig mals en smaakvol hapje.",
   "s": "rund"
  },
  {
@@ -5357,21 +5371,6 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
-  "n": "Chili vis tortilla met kersen salsa",
-  "t": [
-   150,
-   175
-  ],
-  "tijd": "15m",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/chili-vis-tortilla-gegrilde-kersen-salsa/",
-  "d": "Chili vis tortilla is een licht en pittig gerecht voor een warme zomeravond. De kabeljauw krijgt een lekkere kick van de rub en de salsa.",
-  "s": "vis"
- },
- {
-  "g": "bij",
   "n": "Chimichurri met basilicum en zongedroogde tomaatjes",
   "t": [
    150,
@@ -5461,21 +5460,6 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
-  "n": "Gegrilde feta met salade",
-  "t": [
-   150,
-   175
-  ],
-  "tijd": "15m",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/gegrilde-feta-salade/",
-  "d": "Maak je barbecuefeestje compleet met een deze frisse gegrilde feta met Griekse salade.",
-  "s": "groente"
- },
- {
-  "g": "bij",
   "n": "Gegrilde groenten met mosterd dressing",
   "t": [
    150,
@@ -5547,20 +5531,6 @@ window.RECEPTEN = [
   "u": "https://www.bbqproof.nl/recepten/gegrilde-witte-asperges-van-de-bbq/",
   "d": "Asperges zijn zeer geschikt voor een bereiding op de BBQ. De subtiele grilsmaak gaat perfect samen met de aardse smaak van de asperges.",
   "s": "groente"
- },
- {
-  "g": "bij",
-  "n": "Gegrilde zalmzijde met bramensaus",
-  "t": [
-   150,
-   200
-  ],
-  "tijd": "1u",
-  "m": "",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/gegrilde-zalmzijde-bramensaus/",
-  "d": "Niets stoerders dan met open vuur je eten bereiden. Deze hale zalm gaarden wij op een Finse rookplank met een heerlijke saus van bramen.",
-  "s": "vis"
  },
  {
   "g": "bij",
@@ -5951,17 +5921,17 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
-  "n": "Pittige zalm met honing limoen saus",
+  "n": "Puree van zoete aardappel",
   "t": [
    150,
    150
   ],
-  "tijd": "30m",
-  "m": "direct",
+  "tijd": "2u",
+  "m": "",
   "b": "H",
-  "u": "https://bbq-helden.nl/recepten/pittige-zalm-honing-limoen-saus/",
-  "d": "Pittige zalm maak je af met een lekkere honing limoensaus waarmee je de zalm regelmatig insmeert. Deze zalm is heerlijk op een toastje.",
-  "s": "vis"
+  "u": "https://bbq-helden.nl/recepten/puree-zoete-aardappel/",
+  "d": "Puree van zoete aardappel is een simpel bijgerecht bij de wat chiquere barbecuegerechtjes",
+  "s": "wild"
  },
  {
   "g": "bij",
@@ -6144,20 +6114,6 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
-  "n": "Beenham met honing-mosterdsaus van de BBQ!",
-  "t": [
-   160,
-   160
-  ],
-  "tijd": "1u45",
-  "m": "indirect",
-  "b": "N",
-  "u": "https://www.bbq-nl.com/beenham-honing-mosterdsaus/",
-  "d": "Gerookte beenham van de barbecue met een heerlijke zelfgemaakte honing-mosterdsaus. Fantastisch voor op een broodje!",
-  "s": "varken"
- },
- {
-  "g": "bij",
   "n": "Gegrilde Watermeloen met Feta",
   "t": [
    160,
@@ -6172,45 +6128,17 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
-  "n": "Kalfs spareribs met cola basting saus",
+  "n": "In de kolen geroosterde zoete aardappel met chipotle-ahornboter",
   "t": [
    160,
-   160
+   180
   ],
-  "tijd": "",
-  "m": "indirect",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/kalfs-spareribs-cola-basting-saus/",
-  "d": "Kalfsvlees is van zichzelf mager vlees. Maar de spareribs zijn vet genoeg voor een low and slow bereiding. Afgelakt met een cola saus zet je…",
-  "s": "varken"
- },
- {
-  "g": "bij",
-  "n": "Wildzwijn boutstuk met pruimensaus en krautsalad",
-  "t": [
-   160,
-   160
-  ],
-  "tijd": "",
+  "tijd": "55m",
   "m": "direct",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/wild-zwijn-boutstuk-pruimensaus-krautsalad/",
-  "d": "Na een vakantie en een bezoek aan een wildpark in Duitsland wilden we zelf ook een keer wild zwijn boutstuk bereiden. En dan echt op z'n Duits.",
-  "s": "wild"
- },
- {
-  "g": "bij",
-  "n": "spaghetti met ribeye en pastasaus",
-  "t": [
-   160,
-   160
-  ],
-  "tijd": "3u",
-  "m": "indirect",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/spaghetti-ribeye-pastasaus/",
-  "d": "De lekkerste pasta saus is degene die je zelf hebt gemaakt. Je weet precies wat je er in stopt. Tomaten, uien, knoflook en verse kruiden.",
-  "s": "rund"
+  "b": "N",
+  "u": "https://www.bbq-nl.com/kolen-geroosterde-zoete-aardappel/",
+  "d": "Weer eens wat anders van de barbecue deze tussen de kolen geroosterde zoete aardappel. Je serveert ze met een pittige chipotle-ahornboter en yoghurt.",
+  "s": "groente"
  },
  {
   "g": "bij",
@@ -6224,22 +6152,7 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/boerenkool-collard-greens/",
   "d": "Collard Greens ken je wellicht wel van de typische BBQ keuken uit de zuidelijke staten van de Verenigde Staten. Het wordt gemaakt met onder andere de…",
-  "s": "overig"
- },
- {
-  "g": "bij",
-  "n": "Broodje gegrilde kip met sriracha-honing saus",
-  "t": [
-   175,
-   200
-  ],
-  "tijd": "30m",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/broodje-gegrilde-kip-sriracha-honing-saus/",
-  "d": "Een perfect gegrild stukje kipfilet met een geweldige zoet pittige saus op een broodje. Dit broodje schreeuwt om gemaakt te worden.",
-  "s": "kip"
+  "s": "groente"
  },
  {
   "g": "bij",
@@ -6267,6 +6180,20 @@ window.RECEPTEN = [
   "b": "N",
   "u": "https://www.bbq-nl.com/elote-mexicaanse-mais/",
   "d": "Recept voor Elote. Elote is heerlijke Mexicaanse mais van de barbecue met een pittig kruidenmengsel, mayonaise en geraspte kaas.",
+  "s": "groente"
+ },
+ {
+  "g": "bij",
+  "n": "Geblakerde prei met gegrilde Romesco-saus",
+  "t": [
+   175,
+   200
+  ],
+  "tijd": "",
+  "m": "direct",
+  "b": "N",
+  "u": "https://www.bbq-nl.com/geblakerde-prei/",
+  "d": "Bij deze geblakerde prei van de barbecue gaar je de prei in de kolen. Geserveerd met een gegrilde Romesco-saus heb je een heerlijke vegetarische…",
   "s": "groente"
  },
  {
@@ -6329,33 +6256,31 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
-  "n": "Gegrilde kippendij met aspergesaus",
+  "n": "Gegrilde radijs met salie en honing van de BBQ",
   "t": [
    175,
-   200
+   175
   ],
-  "tijd": "2u",
+  "tijd": "",
   "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/gegrilde-kip-aspergesaus/",
-  "d": "De aspergesaus geeft een geconcentreerde aspergesmaak waar we zo gek op zijn. Hij past geweldig bij vis, gerookte ham of kippendijen.",
-  "s": "kip"
+  "b": "N",
+  "u": "https://www.bbq-nl.com/gegrilde-radijs-salie-en-honing-bbq/",
+  "d": "Maak eens iets heel anders op je barbecue en verras iedereen met deze heerlijke gegrilde radijs. Lekker als bijgerecht, maar ook als snack.",
+  "s": "groente"
  },
  {
   "g": "bij",
-  "n": "Hele kip met honing sojasaus marinade",
+  "n": "Gerookte aardappelsalade van de barbecue",
   "t": [
    175,
-   200
+   175
   ],
-  "tijd": "2u",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/hele-kip-honing-sojasaus-marinade/",
-  "d": "Wij vlinderden een hele kip en maakten een makkelijke marinade van honing en sojasaus. Dit is een geweldig basis barbecue recept.",
-  "s": "kip"
+  "tijd": "1u55",
+  "m": "indirect",
+  "b": "N",
+  "u": "https://www.bbq-nl.com/gerookte-aardappelsalade-barbecue/",
+  "d": "Een heerlijke gerookte aardappelsalade die bij geen enkele barbecue mag ontbreken!",
+  "s": "groente"
  },
  {
   "g": "bij",
@@ -6374,21 +6299,6 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
-  "n": "Panzanella met gegrilde kip (Italiaanse broodsalade)",
-  "t": [
-   175,
-   200
-  ],
-  "tijd": "30m",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/broodsalade-met-gegrilde-kip/",
-  "d": "Panzanella met gegrilde kip. Italiaanse broodsalade waarin oud brood alle smaken opneemt en zorgt voor een verrassend lekker gerecht.",
-  "s": "kip"
- },
- {
-  "g": "bij",
   "n": "Tortilla de Patata",
   "t": [
    175,
@@ -6399,6 +6309,20 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/compleet-tapas-menu/",
   "d": "Hoewel er inmiddels steeds meer landen zijn om op vakantie te gaan, kies jij er wellicht nog voor om het vakantiegevoel naar je eigen tuin te halen…",
+  "s": "groente"
+ },
+ {
+  "g": "bij",
+  "n": "Wafels van aardappelkroketjes van de barbecue!",
+  "t": [
+   175,
+   200
+  ],
+  "tijd": "20m",
+  "m": "direct",
+  "b": "N",
+  "u": "https://www.bbq-nl.com/wafels-van-aardappelkroketjes/",
+  "d": "Wafels van aardappelkroketjes zijn zo gemaakt en een heerlijk bijgerecht van de BBQ!",
   "s": "groente"
  },
  {
@@ -6736,7 +6660,7 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/geroosterde-spruiten-met-parmezaan/",
   "d": "Hoewel je met BBQ recepten flink kan uitpakken, is het lang niet altijd nodig. Soms kan een heel eenvoudig gerecht van de BBQ zó lekker zijn! En dat…",
-  "s": "overig"
+  "s": "groente"
  },
  {
   "g": "bij",
@@ -6988,6 +6912,20 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/soja-sesam-courgette/",
   "d": "Een mooi hoofdgerecht bereiden op de BBQ is natuurlijk leuk, maar persoonlijk vind ik het nóg leuker als ook de bijgerechten van de BBQ komen. Dat…",
+  "s": "groente"
+ },
+ {
+  "g": "bij",
+  "n": "Aardappel burnt ends",
+  "t": [
+   200,
+   200
+  ],
+  "tijd": "2u",
+  "m": "",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/aardappel-burnt-ends/",
+  "d": "Deze aardappel burnt ends zijn zeker geen vervanger voor het echte werk maar zijn wel gruwelijk lekker als snack bij een lekker biertje.",
   "s": "groente"
  },
  {
@@ -7342,6 +7280,34 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
+  "n": "Gepofte aardappel en braadworst",
+  "t": [
+   200,
+   200
+  ],
+  "tijd": "2u",
+  "m": "direct",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/gepofte-aardappel-en-braadworst/",
+  "d": "Een gepofte aardappel met worst is bijna een complete maaltijd als je er nog een lekkere salade naast zet of wat gegrilde groenten.",
+  "s": "varken"
+ },
+ {
+  "g": "bij",
+  "n": "Gepofte aardappel met pulled pork van de barbecue",
+  "t": [
+   200,
+   225
+  ],
+  "tijd": "1u35",
+  "m": "indirect",
+  "b": "N",
+  "u": "https://www.bbq-nl.com/gepofte-aardappel-met-pulled-pork/",
+  "d": "Als je pulled pork maakt hou je bijna altijd over. Daarmee kun je heerlijke andere gerechten maken zoals deze gepofte aardappel met pulled pork.",
+  "s": "varken"
+ },
+ {
+  "g": "bij",
   "n": "Gerookte Aardappelsalade van de BBQ",
   "t": [
    200,
@@ -7436,7 +7402,7 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/geroosterde-venkel/",
   "d": "Venkel is misschien niet het eerste ingrediënt waar je aan denkt bij het smeden van de BBQ plannen, maar deze geroosterde venkel met citroen en…",
-  "s": "overig"
+  "s": "groente"
  },
  {
   "g": "bij",
@@ -7450,7 +7416,7 @@ window.RECEPTEN = [
   "b": "P",
   "u": "https://www.bbqproof.nl/recepten/geroosterde-en-gerookte-kikkererwten/",
   "d": "Door kikkererwten te roosteren krijg je een heerlijk krokant nootje. Wij roken ze ook nog eens licht voor die heerlijke BBQ smaak.",
-  "s": "overig"
+  "s": "groente"
  },
  {
   "g": "bij",
@@ -7464,6 +7430,34 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/gevulde-tomaten/",
   "d": "Zoals al vaker gezegd kan een BBQ niet zonder bijgerechten. En ja, daarvoor kan je in de supermarkt een stokbrood, een bak aardappelsalade en ander…",
+  "s": "groente"
+ },
+ {
+  "g": "bij",
+  "n": "Gevulde zoete aardappel met pulled pork",
+  "t": [
+   200,
+   200
+  ],
+  "tijd": "2u",
+  "m": "indirect",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/gevulde-zoete-aardappel-pulled-pork/",
+  "d": "Zoete aardappels zijn gezonder dan gewone aardappels. Dat heffen we op door ze te vullen met spek en kaas en te beleggen met pulled pork.",
+  "s": "varken"
+ },
+ {
+  "g": "bij",
+  "n": "Griekse aardappeltjes uit de folie",
+  "t": [
+   200,
+   200
+  ],
+  "tijd": "1u",
+  "m": "indirect",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/griekse-aardappeltjes-uit-de-folie/",
+  "d": "Deze Griekse aardappeltjes zijn geweldig als side dish bij elk barbecuefeestje. Vooral bij een grote kom tzatziki of andere Griekse gerechten.",
   "s": "groente"
  },
  {
@@ -7902,6 +7896,20 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
+  "n": "Twice Baked Potatoes - dubbel gepofte aardappels",
+  "t": [
+   200,
+   200
+  ],
+  "tijd": "",
+  "m": "indirect",
+  "b": "N",
+  "u": "https://www.bbq-nl.com/dubbel-gepofte-aardappels/",
+  "d": "Twice baked potatoes zijn dubbel gepofte aardappels zoals je ze in veel steakhouses in de VS vindt, gevuld met kaas, bacon en zure room.",
+  "s": "groente"
+ },
+ {
+  "g": "bij",
   "n": "Vloerbrood gevuld met gekruid gehakt",
   "t": [
    200,
@@ -7930,17 +7938,17 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
-  "n": "kwartel met honing mosterd saus",
+  "n": "chili zoete aardappels",
   "t": [
    200,
-   200
+   250
   ],
-  "tijd": "15m",
-  "m": "direct",
+  "tijd": "1u",
+  "m": "",
   "b": "H",
-  "u": "https://bbq-helden.nl/recepten/kwartel-honing-mosterd-saus/",
-  "d": "Kwartel met honing mosterd saus is een makkelijk gerecht voor deze minikip. Je krijgt er meteen een makkelijke bereiding bij.",
-  "s": "overig"
+  "u": "https://bbq-helden.nl/recepten/chili-zoete-aardappels/",
+  "d": "Zoete aardappel is een populair bijgerecht bij onze barbecuefeestjes. Deze blokjes zoete aardappel geven we een klein beetje extra pit met wat…",
+  "s": "groente"
  },
  {
   "g": "bij",
@@ -7982,7 +7990,7 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/geblakerde-prei/",
   "d": "Ik heb even getwijfeld of ik dit recept wel zou delen, want makkelijker dan deze geblakerde prei wordt het niet. Slechts 1 ingrediënt heb je nodig en…",
-  "s": "overig"
+  "s": "groente"
  },
  {
   "g": "bij",
@@ -7996,7 +8004,7 @@ window.RECEPTEN = [
   "b": "P",
   "u": "https://www.bbqproof.nl/recepten/gegrilde-prei/",
   "d": "Laat je niet afschrikken door het zwartgeblakerde uiterlijk van deze prachtige prei! Je weet niet wat je proeft. Daarbij is het super snel klaar!",
-  "s": "overig"
+  "s": "groente"
  },
  {
   "g": "bij",
@@ -8100,21 +8108,6 @@ window.RECEPTEN = [
  },
  {
   "g": "bij",
-  "n": "Broodje gehakt met kaas en gegrilde groente",
-  "t": [
-   225,
-   250
-  ],
-  "tijd": "30m",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/broodje-gehakt-kaas-gegrilde-groente/",
-  "d": "Een broodje gehakt is de makkelijkste manier om een smakelijk broodje vlees te maken. Wij maakten ze met gegrilde groenten en kaas.",
-  "s": "rund"
- },
- {
-  "g": "bij",
   "n": "Burger Buns",
   "t": [
    225,
@@ -8141,21 +8134,6 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/burger-salsa/",
   "d": "Het klinkt misschien een beetje gek, maar in dit recept wordt er geen gebruik gemaakt van de BBQ. Wat? Ja je leest het goed. In dit recept gaan we…",
-  "s": "rund"
- },
- {
-  "g": "bij",
-  "n": "Carne asada met geroosterde salsa",
-  "t": [
-   225,
-   250
-  ],
-  "tijd": "30m",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/carne-asada-geroosterde-salsa/",
-  "d": "Carna asada betekent geroosterd vlees en wordt vaak geserveerd als tortilla. We hebben er een geroosterde salsa bij gemaakt.",
   "s": "rund"
  },
  {
@@ -8246,21 +8224,6 @@ window.RECEPTEN = [
   "b": "N",
   "u": "https://www.bbq-nl.com/koreaanse-steak-salade/",
   "d": "Makkelijk, snel en zomers, dat is deze Koreaanse steak salade. Frisse sla met een heerlijke steak en een pittige dressing. Nu alleen nog een cocktail.",
-  "s": "rund"
- },
- {
-  "g": "bij",
-  "n": "Picanha steaks met geroosterde tomatensaus",
-  "t": [
-   225,
-   250
-  ],
-  "tijd": "30m",
-  "m": "direct",
-  "e": 1,
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/picanha-steaks-geroosterde-tomatensaus/",
-  "d": "Picanha is één van de smakelijkste stukjes rundvlees. En met deze marinade en saus maak je er helemaal iets geweldigs van.",
   "s": "rund"
  },
  {
@@ -8394,20 +8357,6 @@ window.RECEPTEN = [
   "u": "https://bbq-junkie.nl/bbq-recepten/zoete-aardappel-friet/",
   "d": "Je hebt ongetwijfeld wel eens zoete aardappel frietjes op tijdens een etentje. Ze smaken anders dan friet van ‘gewone’ aardappelen en hebben een…",
   "s": "groente"
- },
- {
-  "g": "bij",
-  "n": "Gegrilde karbonade met chimichurri mayonaise",
-  "t": [
-   250,
-   250
-  ],
-  "tijd": "30m",
-  "m": "",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/karbonade-chimichurri-mayonaise/",
-  "d": "Deze karbonades hebben een Argentijns smaakje door de marinade van sinaasappelsap en knoflook. We maken hem Hollands af met een chimi mayo.",
-  "s": "varken"
  },
  {
   "g": "bij",
@@ -9783,6 +9732,20 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Rack van speenvarken met salsa verde",
+  "t": [
+   110,
+   110
+  ],
+  "tijd": "1u",
+  "m": "",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/rack-van-speenvarken-salsa-verde/",
+  "d": "Een varkensrack ziet er altijd geweldig uit op tafel. Dit rack van speenvarken bereiden we met verse Italiaanse kruiden en een frisse salsa verde.",
+  "s": "varken"
+ },
+ {
+  "g": "hoofd",
   "n": "Red Eye Ribs met Cafe au Lait Barbecue Saus",
   "t": [
    110,
@@ -10130,6 +10093,20 @@ window.RECEPTEN = [
   "u": "https://bbq-junkie.nl/bbq-recepten/broodje-gerookte-bal-met-bourbon-kaassaus/",
   "d": "Het broodje bal is natuurlijk een Hollandse Klassieker. Maar ik vond het wel eens tijd om dat broodje een BBQ jasje aan te trekken. Die gehaktballen…",
   "s": "overig"
+ },
+ {
+  "g": "hoofd",
+  "n": "Broodje runderwang met mosterd barbecuesaus",
+  "t": [
+   120,
+   120
+  ],
+  "tijd": "",
+  "m": "indirect",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/broodje-runderwang-mosterd-barbecuesaus/",
+  "d": "Dit is het ultieme bbq broodje. Heerlijk zachte runderwangen op een paar vers gegrilde plakken brood.",
+  "s": "rund"
  },
  {
   "g": "hoofd",
@@ -10648,6 +10625,20 @@ window.RECEPTEN = [
   "u": "https://bbq-junkie.nl/bbq-recepten/over-the-top-chili/",
   "d": "Chili con Carne is natuurlijk al een heerlijk gerecht op zichzelf, maar met deze over the top chili ga je helemaal punten scoren. Het gehakt voor…",
   "s": "overig"
+ },
+ {
+  "g": "hoofd",
+  "n": "Patatje stoofvlees van ossenstaart",
+  "t": [
+   120,
+   150
+  ],
+  "tijd": "",
+  "m": "indirect",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/patatje-stoofvlees-van-ossenstaart/",
+  "d": "Een patatje stoofvlees is niet te versmaden maar als dat stoofvlees nou ook nog van ossenstaart komt dan weet je helemaal niet wat je proeft.",
+  "s": "rund"
  },
  {
   "g": "hoofd",
@@ -11323,6 +11314,20 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Parijs buikspek, buikspek als brisket bereid op de BBQ",
+  "t": [
+   130,
+   130
+  ],
+  "tijd": "5u55",
+  "m": "indirect",
+  "b": "N",
+  "u": "https://www.bbq-nl.com/parijs-buikspek/",
+  "d": "Buikspek als brisket bereid van de barbecue. Hartig, rokerig en vooral ontzettend lekker!",
+  "s": "varken"
+ },
+ {
+  "g": "hoofd",
   "n": "Picanha van de BBQ met Chimichurri",
   "t": [
    130,
@@ -11544,6 +11549,34 @@ window.RECEPTEN = [
   "u": "https://www.bbqproof.nl/recepten/langzaam-gegaarde-texelse-lamsbout/",
   "d": "Heerlijk mals lamsvlees uit ons eigen land. Wij hebben een lamsbout van Texel tot in de perfectie bereid op de BBQ.",
   "s": "lam"
+ },
+ {
+  "g": "hoofd",
+  "n": "Hele kip in Sinaasappel mosterd marinade",
+  "t": [
+   140,
+   150
+  ],
+  "tijd": "2u",
+  "m": "direct",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/hele-kip-sinaasappel-mosterd-marinade/",
+  "d": "Een hele kip op tafel zetten is zo lekker en mooi om te zien. En met de sinaasappel, mosterd marinade wordt hij helemaal lekker.",
+  "s": "kip"
+ },
+ {
+  "g": "hoofd",
+  "n": "Hollandsche spareribs met appelstroop bbq saus",
+  "t": [
+   140,
+   140
+  ],
+  "tijd": "",
+  "m": "indirect",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/spareribs-appelstroop-bbq-saus/",
+  "d": "Wij hebben geweldige Hollandsche spareribs gemaakt. Deze spareribs zijn lekker zoet door de appelstroop met een fijne kick van de chipotle.",
+  "s": "varken"
  },
  {
   "g": "hoofd",
@@ -12184,6 +12217,21 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Chili vis tortilla met kersen salsa",
+  "t": [
+   150,
+   175
+  ],
+  "tijd": "15m",
+  "m": "direct",
+  "e": 1,
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/chili-vis-tortilla-gegrilde-kersen-salsa/",
+  "d": "Chili vis tortilla is een licht en pittig gerecht voor een warme zomeravond. De kabeljauw krijgt een lekkere kick van de rub en de salsa.",
+  "s": "vis"
+ },
+ {
+  "g": "hoofd",
   "n": "Chimichurri Chicken van het Spit",
   "t": [
    150,
@@ -12470,6 +12518,21 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Gegrilde feta met salade",
+  "t": [
+   150,
+   175
+  ],
+  "tijd": "15m",
+  "m": "direct",
+  "e": 1,
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/gegrilde-feta-salade/",
+  "d": "Maak je barbecuefeestje compleet met een deze frisse gegrilde feta met Griekse salade.",
+  "s": "groente"
+ },
+ {
+  "g": "hoofd",
   "n": "Gegrilde gans met gebakken aardappeltjes",
   "t": [
    150,
@@ -12600,6 +12663,20 @@ window.RECEPTEN = [
   "u": "https://www.bbqproof.nl/recepten/gegrilde-tomatensalsa/",
   "d": "Voor mij één van de lekkerste sauzen die er is: gegrilde tomatensalsa! Een salsa die je als basis voor veel gerechten kan gebruiken. Ik gebruik deze…",
   "s": "groente"
+ },
+ {
+  "g": "hoofd",
+  "n": "Gegrilde zalmzijde met bramensaus",
+  "t": [
+   150,
+   200
+  ],
+  "tijd": "1u",
+  "m": "",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/gegrilde-zalmzijde-bramensaus/",
+  "d": "Niets stoerders dan met open vuur je eten bereiden. Deze hale zalm gaarden wij op een Finse rookplank met een heerlijke saus van bramen.",
+  "s": "vis"
  },
  {
   "g": "hoofd",
@@ -13108,6 +13185,20 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Lamsrack in sinaasappel marinade",
+  "t": [
+   150,
+   150
+  ],
+  "tijd": "30m",
+  "m": "",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/lamsrack-sinaasappel-marinade/",
+  "d": "Wist je dat lamsvlees en sinaasappel een geweldige combinatie is? Wij nu wel. Deze marinade geeft een lekkere frisse smaak aan het al heerlijke…",
+  "s": "lam"
+ },
+ {
+  "g": "hoofd",
   "n": "Lamsrack met tijm en rozemarijn",
   "t": [
    150,
@@ -13134,6 +13225,20 @@ window.RECEPTEN = [
   "u": "https://www.bbq-nl.com/langoest-van-de-barbecue/",
   "d": "Je kunt hier bij de groothandel een familielid van de kreeft vinden, de langoest. Een kreeftachtige zonder scharen. Laat langoust van de barbecue nou…",
   "s": "vis"
+ },
+ {
+  "g": "hoofd",
+  "n": "Loaf Pan Chicken, kip in een cakeblik van de BBQ",
+  "t": [
+   150,
+   150
+  ],
+  "tijd": "",
+  "m": "indirect",
+  "b": "N",
+  "u": "https://www.bbq-nl.com/loaf-pan-chicken/",
+  "d": "Weer eens heel wat anders dan kip op een bierblik is deze Loaf Pan Chicken. Bij dit recept gaar je je kip in een cakeblik op de barbecue.",
+  "s": "kip"
  },
  {
   "g": "hoofd",
@@ -13333,6 +13438,20 @@ window.RECEPTEN = [
   "u": "https://bbq-helden.nl/recepten/pittige-vegetarische-bonenschotel/",
   "d": "Dit is een heerlijk vegetarisch alternatief voor de traditionele chili con carne. Erg veelzijdig en lekker voor vegetariërs en vleeseters.",
   "s": "groente"
+ },
+ {
+  "g": "hoofd",
+  "n": "Pittige zalm met honing limoen saus",
+  "t": [
+   150,
+   150
+  ],
+  "tijd": "30m",
+  "m": "direct",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/pittige-zalm-honing-limoen-saus/",
+  "d": "Pittige zalm maak je af met een lekkere honing limoensaus waarmee je de zalm regelmatig insmeert. Deze zalm is heerlijk op een toastje.",
+  "s": "vis"
  },
  {
   "g": "hoofd",
@@ -14256,6 +14375,20 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Beenham met honing-mosterdsaus van de BBQ!",
+  "t": [
+   160,
+   160
+  ],
+  "tijd": "1u45",
+  "m": "indirect",
+  "b": "N",
+  "u": "https://www.bbq-nl.com/beenham-honing-mosterdsaus/",
+  "d": "Gerookte beenham van de barbecue met een heerlijke zelfgemaakte honing-mosterdsaus. Fantastisch voor op een broodje!",
+  "s": "varken"
+ },
+ {
+  "g": "hoofd",
   "n": "Beercan Burgers",
   "t": [
    160,
@@ -14774,6 +14907,20 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Kalfs spareribs met cola basting saus",
+  "t": [
+   160,
+   160
+  ],
+  "tijd": "",
+  "m": "indirect",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/kalfs-spareribs-cola-basting-saus/",
+  "d": "Kalfsvlees is van zichzelf mager vlees. Maar de spareribs zijn vet genoeg voor een low and slow bereiding. Afgelakt met een cola saus zet je…",
+  "s": "varken"
+ },
+ {
+  "g": "hoofd",
   "n": "Kalkoen met kleurrijke groentes",
   "t": [
    160,
@@ -15250,6 +15397,34 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Wildzwijn boutstuk met pruimensaus en krautsalad",
+  "t": [
+   160,
+   160
+  ],
+  "tijd": "",
+  "m": "direct",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/wild-zwijn-boutstuk-pruimensaus-krautsalad/",
+  "d": "Na een vakantie en een bezoek aan een wildpark in Duitsland wilden we zelf ook een keer wild zwijn boutstuk bereiden. En dan echt op z'n Duits.",
+  "s": "wild"
+ },
+ {
+  "g": "hoofd",
+  "n": "Worst met bier, ui en appel",
+  "t": [
+   160,
+   160
+  ],
+  "tijd": "30m",
+  "m": "direct",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/worst-bier-ui-appel/",
+  "d": "Gegrilde worst valt eigenlijk altijd tegen. Maar niet als je ze smoort in bier met ui en appel. Dan heb je echt een feestmaal",
+  "s": "varken"
+ },
+ {
+  "g": "hoofd",
   "n": "Zalm met mosterd en bruine suiker op de rookplank",
   "t": [
    160,
@@ -15261,6 +15436,34 @@ window.RECEPTEN = [
   "u": "https://www.bbqproof.nl/recepten/zalm-mosterd-en-suiker-op-de-rookplank/",
   "d": "Deze Amerikaanse klassieker met zalm die ingesmeerd wordt met mosterd en bruine suiker bereiden wij op een rookplank op een elektrische BBQ!",
   "s": "vis"
+ },
+ {
+  "g": "hoofd",
+  "n": "kip tortilla met mango ananas salsa",
+  "t": [
+   160,
+   160
+  ],
+  "tijd": "1u",
+  "m": "indirect",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/kip-tortilla-mango-ananas-salsa/",
+  "d": "Het zonnetje schijnt en je hebt een uur of 2 over om wat op de barbecue te gooien. Maak dan eens een tortilla. Deze met mango ananas salsa is erg…",
+  "s": "kip"
+ },
+ {
+  "g": "hoofd",
+  "n": "spaghetti met ribeye en pastasaus",
+  "t": [
+   160,
+   160
+  ],
+  "tijd": "3u",
+  "m": "indirect",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/spaghetti-ribeye-pastasaus/",
+  "d": "De lekkerste pasta saus is degene die je zelf hebt gemaakt. Je weet precies wat je er in stopt. Tomaten, uien, knoflook en verse kruiden.",
+  "s": "rund"
  },
  {
   "g": "hoofd",
@@ -15834,6 +16037,21 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Broodje gegrilde kip met sriracha-honing saus",
+  "t": [
+   175,
+   200
+  ],
+  "tijd": "30m",
+  "m": "direct",
+  "e": 1,
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/broodje-gegrilde-kip-sriracha-honing-saus/",
+  "d": "Een perfect gegrild stukje kipfilet met een geweldige zoet pittige saus op een broodje. Dit broodje schreeuwt om gemaakt te worden.",
+  "s": "kip"
+ },
+ {
+  "g": "hoofd",
   "n": "Broodje gegrilde kip met tomatensalsa",
   "t": [
    175,
@@ -16304,20 +16522,6 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
-  "n": "Geblakerde prei met gegrilde Romesco-saus",
-  "t": [
-   175,
-   200
-  ],
-  "tijd": "",
-  "m": "direct",
-  "b": "N",
-  "u": "https://www.bbq-nl.com/geblakerde-prei/",
-  "d": "Bij deze geblakerde prei van de barbecue gaar je de prei in de kolen. Geserveerd met een gegrilde Romesco-saus heb je een heerlijke vegetarische…",
-  "s": "overig"
- },
- {
-  "g": "hoofd",
   "n": "Gegrilde Caesar salad met kip",
   "t": [
    175,
@@ -16358,7 +16562,7 @@ window.RECEPTEN = [
   "b": "N",
   "u": "https://www.bbq-nl.com/gegrilde-little-gem/",
   "d": "Wist je dat je sla kunt grillen? Nee? Met dit recept voor gegrilde little gem laat ik het je zien. Dit gerecht past mooi bij een steak.",
-  "s": "overig"
+  "s": "groente"
  },
  {
   "g": "hoofd",
@@ -16387,6 +16591,21 @@ window.RECEPTEN = [
   "b": "H",
   "u": "https://bbq-helden.nl/recepten/gegrilde-kip-met-granaatappel-melasse/",
   "d": "De marinade van granaatappel melasse geeft deze kip een heerlijke zoet/bittere smaak en een glimmend laagje saus.",
+  "s": "kip"
+ },
+ {
+  "g": "hoofd",
+  "n": "Gegrilde kippendij met aspergesaus",
+  "t": [
+   175,
+   200
+  ],
+  "tijd": "2u",
+  "m": "direct",
+  "e": 1,
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/gegrilde-kip-aspergesaus/",
+  "d": "De aspergesaus geeft een geconcentreerde aspergesmaak waar we zo gek op zijn. Hij past geweldig bij vis, gerookte ham of kippendijen.",
   "s": "kip"
  },
  {
@@ -16664,6 +16883,21 @@ window.RECEPTEN = [
   "u": "https://bbq-helden.nl/recepten/hamburger-frambozen-spek-jam/",
   "d": "Soms ben je toe aan een echte flinke hamburger. Eentje waar je de rest van de dag genoeg aan hebt. Dat is een hamburger met frambozen-spek jam.",
   "s": "varken"
+ },
+ {
+  "g": "hoofd",
+  "n": "Hele kip met honing sojasaus marinade",
+  "t": [
+   175,
+   200
+  ],
+  "tijd": "2u",
+  "m": "direct",
+  "e": 1,
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/hele-kip-honing-sojasaus-marinade/",
+  "d": "Wij vlinderden een hele kip en maakten een makkelijke marinade van honing en sojasaus. Dit is een geweldig basis barbecue recept.",
+  "s": "kip"
  },
  {
   "g": "hoofd",
@@ -17400,6 +17634,20 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Oesters van de barbecue met een Aziatische twist",
+  "t": [
+   175,
+   200
+  ],
+  "tijd": "",
+  "m": "direct",
+  "b": "N",
+  "u": "https://www.bbq-nl.com/oesters-van-de-barbecue/",
+  "d": "Doe eens iets anders met oesters dan zo wegslurpen. Je kunt ook oesters van de barbecue maken, lekker met een Aziatische garnering.",
+  "s": "vis"
+ },
+ {
+  "g": "hoofd",
   "n": "Onze kebab grillworst",
   "t": [
    175,
@@ -17457,6 +17705,49 @@ window.RECEPTEN = [
   "u": "https://bbq-helden.nl/recepten/paella-van-de-barbecue/",
   "d": "Wij hebben in onze achtertuin op de barbecue een geweldige paella gemaakt met chorizo en garnalen en die is echt Spaans lekker.",
   "s": "varken"
+ },
+ {
+  "g": "hoofd",
+  "n": "Panzanella met gegrilde kip (Italiaanse broodsalade)",
+  "t": [
+   175,
+   200
+  ],
+  "tijd": "30m",
+  "m": "direct",
+  "e": 1,
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/broodsalade-met-gegrilde-kip/",
+  "d": "Panzanella met gegrilde kip. Italiaanse broodsalade waarin oud brood alle smaken opneemt en zorgt voor een verrassend lekker gerecht.",
+  "s": "kip"
+ },
+ {
+  "g": "hoofd",
+  "n": "Picanha - het staartstuk van het rund is heerlijk op de BBQ",
+  "t": [
+   175,
+   200
+  ],
+  "tijd": "",
+  "m": "indirect",
+  "b": "N",
+  "u": "https://www.bbq-nl.com/picanha/",
+  "d": "Recept voor de bereiding van picanha, het staartstuk van het rund, op de barbecue. Met deze bereiding is het ook een spectaculair stuk vlees door de…",
+  "s": "rund"
+ },
+ {
+  "g": "hoofd",
+  "n": "Picanha van het spit, zo bereid je staartstuk nog lekkerder",
+  "t": [
+   175,
+   200
+  ],
+  "tijd": "2u10",
+  "m": "indirect",
+  "b": "N",
+  "u": "https://www.bbq-nl.com/picanha-van-het-spit/",
+  "d": "Heerlijke steaks van het staartstuk van het rund, langzaam gegaard boven houtskool aan een grillspit.",
+  "s": "rund"
  },
  {
   "g": "hoofd",
@@ -21009,6 +21300,20 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Gevulde varkensrack met citroen aardappeltjes",
+  "t": [
+   200,
+   200
+  ],
+  "tijd": "3u",
+  "m": "indirect",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/varkensrack-citroen-aardappeltjes/",
+  "d": "Er zijn maar weinig grote stukken vlees zo indrukwekkend en betaalbaar dan een compleet varkensrack. En gevuld is het helemaal een feest.",
+  "s": "varken"
+ },
+ {
+  "g": "hoofd",
   "n": "Gorgonzola Burgers",
   "t": [
    200,
@@ -21457,6 +21762,20 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Mini kersentaart op de barbecue",
+  "t": [
+   200,
+   200
+  ],
+  "tijd": "30m",
+  "m": "indirect",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/mini-kersentaart-op-de-barbecue/",
+  "d": "Deze mini kersentaartje zijn een leuke afsluiting van een geweldig bbq feestje. Je kan alles voorbereiden en het is snel klaar.",
+  "s": "overig"
+ },
+ {
+  "g": "hoofd",
   "n": "Ossobuco uit de Dutch Oven",
   "t": [
    200,
@@ -21849,6 +22168,20 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Quesadilla met sweet chili sinaasappel saus",
+  "t": [
+   200,
+   200
+  ],
+  "tijd": "2u",
+  "m": "",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/quesadilla-sweet-chili-sinaasappel-saus/",
+  "d": "De sweet chilli sinaasappelsaus is de grote ster bij deze quesadilla. Een heerlijke frisse saus die geweldig past bij kip maar ook als dipsaus.",
+  "s": "groente"
+ },
+ {
+  "g": "hoofd",
   "n": "Rabo de Toro",
   "t": [
    200,
@@ -21958,6 +22291,20 @@ window.RECEPTEN = [
   "u": "https://bbq-junkie.nl/bbq-recepten/skirt-steak-pinwheels/",
   "d": "Eerder bereidde ik al eens fajitas met skirt steak, dus ik wist dat dit een smakelijk stukje vlees was. Deze keer ging ik voor een andere benadering…",
   "s": "rund"
+ },
+ {
+  "g": "hoofd",
+  "n": "Sla wraps met ananas salsa en hete pruimensaus",
+  "t": [
+   200,
+   200
+  ],
+  "tijd": "30m",
+  "m": "direct",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/sla-wraps-ananas-salsa-hete-pruimensaus/",
+  "d": "Deze frisse sla wrap met gegrilde bavette van varken en ananas salsa is een fris recept dat je serveert op een warme zomerdag.",
+  "s": "groente"
  },
  {
   "g": "hoofd",
@@ -22185,6 +22532,20 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Wild zwijn t-bone met appel sjalotsaus",
+  "t": [
+   200,
+   200
+  ],
+  "tijd": "30m",
+  "m": "",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/wild-zwijn-t-bone-appel-sjalotsaus/",
+  "d": "wild zwijn t-bone klinkt spannender dan het is. Het is een klein maar smaakvol stuk vlees dat aan een simpele bereiding genoeg heeft.",
+  "s": "wild"
+ },
+ {
+  "g": "hoofd",
   "n": "Winterburger",
   "t": [
    200,
@@ -22280,6 +22641,20 @@ window.RECEPTEN = [
   "u": "https://bbq-junkie.nl/bbq-recepten/zoet-pittige-zalm-van-de-rookplank/",
   "d": "Vandaag weer eens een receptje met vis. En wel voor een zalm op een plank. Hier in huis heb ik helaas weinig visliefhebbers, waardoor er eigenlijk…",
   "s": "vis"
+ },
+ {
+  "g": "hoofd",
+  "n": "kwartel met honing mosterd saus",
+  "t": [
+   200,
+   200
+  ],
+  "tijd": "15m",
+  "m": "direct",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/kwartel-honing-mosterd-saus/",
+  "d": "Kwartel met honing mosterd saus is een makkelijk gerecht voor deze minikip. Je krijgt er meteen een makkelijke bereiding bij.",
+  "s": "overig"
  },
  {
   "g": "hoofd",
@@ -22895,6 +23270,21 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Broodje gehakt met kaas en gegrilde groente",
+  "t": [
+   225,
+   250
+  ],
+  "tijd": "30m",
+  "m": "direct",
+  "e": 1,
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/broodje-gehakt-kaas-gegrilde-groente/",
+  "d": "Een broodje gehakt is de makkelijkste manier om een smakelijk broodje vlees te maken. Wij maakten ze met gegrilde groenten en kaas.",
+  "s": "rund"
+ },
+ {
+  "g": "hoofd",
   "n": "Broodje picanha van de grillplaat",
   "t": [
    225,
@@ -22936,6 +23326,21 @@ window.RECEPTEN = [
   "b": "N",
   "u": "https://www.bbq-nl.com/burnt-ends/",
   "d": "Burnt ends komen van de brisket point, kleine donkere blokjes rundvlees die smelten op je tong! En hoe je ze maakt laat ik je hier zien.",
+  "s": "rund"
+ },
+ {
+  "g": "hoofd",
+  "n": "Carne asada met geroosterde salsa",
+  "t": [
+   225,
+   250
+  ],
+  "tijd": "30m",
+  "m": "direct",
+  "e": 1,
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/carne-asada-geroosterde-salsa/",
+  "d": "Carna asada betekent geroosterd vlees en wordt vaak geserveerd als tortilla. We hebben er een geroosterde salsa bij gemaakt.",
   "s": "rund"
  },
  {
@@ -24015,6 +24420,21 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Picanha steaks met geroosterde tomatensaus",
+  "t": [
+   225,
+   250
+  ],
+  "tijd": "30m",
+  "m": "direct",
+  "e": 1,
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/picanha-steaks-geroosterde-tomatensaus/",
+  "d": "Picanha is één van de smakelijkste stukjes rundvlees. En met deze marinade en saus maak je er helemaal iets geweldigs van.",
+  "s": "rund"
+ },
+ {
+  "g": "hoofd",
   "n": "Pittige lam en auberginekebabs met hoisin en gember",
   "t": [
    225,
@@ -25059,6 +25479,20 @@ window.RECEPTEN = [
  },
  {
   "g": "hoofd",
+  "n": "Gegrilde karbonade met chimichurri mayonaise",
+  "t": [
+   250,
+   250
+  ],
+  "tijd": "30m",
+  "m": "",
+  "b": "H",
+  "u": "https://bbq-helden.nl/recepten/karbonade-chimichurri-mayonaise/",
+  "d": "Deze karbonades hebben een Argentijns smaakje door de marinade van sinaasappelsap en knoflook. We maken hem Hollands af met een chimi mayo.",
+  "s": "varken"
+ },
+ {
+  "g": "hoofd",
   "n": "Hot bbq pizza twister",
   "t": [
    250,
@@ -25647,76 +26081,6 @@ window.RECEPTEN = [
  },
  {
   "g": "na",
-  "n": "Patatje stoofvlees van ossenstaart",
-  "t": [
-   120,
-   150
-  ],
-  "tijd": "",
-  "m": "indirect",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/patatje-stoofvlees-van-ossenstaart/",
-  "d": "Een patatje stoofvlees is niet te versmaden maar als dat stoofvlees nou ook nog van ossenstaart komt dan weet je helemaal niet wat je proeft.",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Parijs buikspek, buikspek als brisket bereid op de BBQ",
-  "t": [
-   130,
-   130
-  ],
-  "tijd": "5u55",
-  "m": "indirect",
-  "b": "N",
-  "u": "https://www.bbq-nl.com/parijs-buikspek/",
-  "d": "Buikspek als brisket bereid van de barbecue. Hartig, rokerig en vooral ontzettend lekker!",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Hele kip in Sinaasappel mosterd marinade",
-  "t": [
-   140,
-   150
-  ],
-  "tijd": "2u",
-  "m": "direct",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/hele-kip-sinaasappel-mosterd-marinade/",
-  "d": "Een hele kip op tafel zetten is zo lekker en mooi om te zien. En met de sinaasappel, mosterd marinade wordt hij helemaal lekker.",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Hollandsche spareribs met appelstroop bbq saus",
-  "t": [
-   140,
-   140
-  ],
-  "tijd": "",
-  "m": "indirect",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/spareribs-appelstroop-bbq-saus/",
-  "d": "Wij hebben geweldige Hollandsche spareribs gemaakt. Deze spareribs zijn lekker zoet door de appelstroop met een fijne kick van de chipotle.",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Runderwang in Guinness appelstroop saus",
-  "t": [
-   140,
-   140
-  ],
-  "tijd": "",
-  "m": "indirect",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/runderwang-in-guinness-appelstroop-saus/",
-  "d": "Runderwang is zo’n perfect stukje vlees voor echte barbecue. Na een paar uur low and slow is het een geweldig mals en smaakvol hapje.",
-  "s": "zoet"
- },
- {
-  "g": "na",
   "n": "Aardbeienspiesen",
   "t": [
    150,
@@ -25787,62 +26151,6 @@ window.RECEPTEN = [
  },
  {
   "g": "na",
-  "n": "Lamsrack in sinaasappel marinade",
-  "t": [
-   150,
-   150
-  ],
-  "tijd": "30m",
-  "m": "",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/lamsrack-sinaasappel-marinade/",
-  "d": "Wist je dat lamsvlees en sinaasappel een geweldige combinatie is? Wij nu wel. Deze marinade geeft een lekkere frisse smaak aan het al heerlijke…",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Loaf Pan Chicken, kip in een cakeblik van de BBQ",
-  "t": [
-   150,
-   150
-  ],
-  "tijd": "",
-  "m": "indirect",
-  "b": "N",
-  "u": "https://www.bbq-nl.com/loaf-pan-chicken/",
-  "d": "Weer eens heel wat anders dan kip op een bierblik is deze Loaf Pan Chicken. Bij dit recept gaar je je kip in een cakeblik op de barbecue.",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Pittige kippenvleugels met sinaasappel sambal saus",
-  "t": [
-   150,
-   150
-  ],
-  "tijd": "2u",
-  "m": "indirect",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/sinaasappel-sambal-kippenvleugels/",
-  "d": "Kippenvleugels van de barbecue met sinaasappel en sambal. Fris, licht pittig en perfect als snack of borrelhap.",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Puree van zoete aardappel",
-  "t": [
-   150,
-   150
-  ],
-  "tijd": "2u",
-  "m": "",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/puree-zoete-aardappel/",
-  "d": "Puree van zoete aardappel is een simpel bijgerecht bij de wat chiquere barbecuegerechtjes",
-  "s": "zoet"
- },
- {
-  "g": "na",
   "n": "Appelbom met spek en bbq saus",
   "t": [
    160,
@@ -25899,20 +26207,6 @@ window.RECEPTEN = [
  },
  {
   "g": "na",
-  "n": "In de kolen geroosterde zoete aardappel met chipotle-ahornboter",
-  "t": [
-   160,
-   180
-  ],
-  "tijd": "55m",
-  "m": "direct",
-  "b": "N",
-  "u": "https://www.bbq-nl.com/kolen-geroosterde-zoete-aardappel/",
-  "d": "Weer eens wat anders van de barbecue deze tussen de kolen geroosterde zoete aardappel. Je serveert ze met een pittige chipotle-ahornboter en yoghurt.",
-  "s": "zoet"
- },
- {
-  "g": "na",
   "n": "S'mores quesadillas met nutella en marshmallows",
   "t": [
    160,
@@ -25937,34 +26231,6 @@ window.RECEPTEN = [
   "b": "N",
   "u": "https://www.bbq-nl.com/souffle-met-stoofpeertjes/",
   "d": "Soufflé met stoofpeertjes, een heerlijk, winters dessert van de barbecue. Dit toetje laat zien dat je werkelijk alles op de barbecue kunt maken!",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Worst met bier, ui en appel",
-  "t": [
-   160,
-   160
-  ],
-  "tijd": "30m",
-  "m": "direct",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/worst-bier-ui-appel/",
-  "d": "Gegrilde worst valt eigenlijk altijd tegen. Maar niet als je ze smoort in bier met ui en appel. Dan heb je echt een feestmaal",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "kip tortilla met mango ananas salsa",
-  "t": [
-   160,
-   160
-  ],
-  "tijd": "1u",
-  "m": "indirect",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/kip-tortilla-mango-ananas-salsa/",
-  "d": "Het zonnetje schijnt en je hebt een uur of 2 over om wat op de barbecue te gooien. Maak dan eens een tortilla. Deze met mango ananas salsa is erg…",
   "s": "zoet"
  },
  {
@@ -26123,34 +26389,6 @@ window.RECEPTEN = [
  },
  {
   "g": "na",
-  "n": "Gegrilde radijs met salie en honing van de BBQ",
-  "t": [
-   175,
-   175
-  ],
-  "tijd": "",
-  "m": "direct",
-  "b": "N",
-  "u": "https://www.bbq-nl.com/gegrilde-radijs-salie-en-honing-bbq/",
-  "d": "Maak eens iets heel anders op je barbecue en verras iedereen met deze heerlijke gegrilde radijs. Lekker als bijgerecht, maar ook als snack.",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Gerookte aardappelsalade van de barbecue",
-  "t": [
-   175,
-   175
-  ],
-  "tijd": "1u55",
-  "m": "indirect",
-  "b": "N",
-  "u": "https://www.bbq-nl.com/gerookte-aardappelsalade-barbecue/",
-  "d": "Een heerlijke gerookte aardappelsalade die bij geen enkele barbecue mag ontbreken!",
-  "s": "zoet"
- },
- {
-  "g": "na",
   "n": "Gevulde appels van de barbecue een heerlijk BBQ toetje!",
   "t": [
    175,
@@ -26193,34 +26431,6 @@ window.RECEPTEN = [
  },
  {
   "g": "na",
-  "n": "Picanha - het staartstuk van het rund is heerlijk op de BBQ",
-  "t": [
-   175,
-   200
-  ],
-  "tijd": "",
-  "m": "indirect",
-  "b": "N",
-  "u": "https://www.bbq-nl.com/picanha/",
-  "d": "Recept voor de bereiding van picanha, het staartstuk van het rund, op de barbecue. Met deze bereiding is het ook een spectaculair stuk vlees door de…",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Picanha van het spit, zo bereid je staartstuk nog lekkerder",
-  "t": [
-   175,
-   200
-  ],
-  "tijd": "2u10",
-  "m": "indirect",
-  "b": "N",
-  "u": "https://www.bbq-nl.com/picanha-van-het-spit/",
-  "d": "Heerlijke steaks van het staartstuk van het rund, langzaam gegaard boven houtskool aan een grillspit.",
-  "s": "zoet"
- },
- {
-  "g": "na",
   "n": "Rummy Bananas with Nutmeg Whipped Cream",
   "t": [
    175,
@@ -26231,20 +26441,6 @@ window.RECEPTEN = [
   "b": "N",
   "u": "https://www.bbq-nl.com/rummy-bananas-with-nutmeg-whipped-cream/",
   "d": "Rummy Bananas, bananen in een rumsiroop van de barbecue die je afmaakt met een nootmuskaatslagroom. Niet alledaags, wel erg lekker!",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Wafels van aardappelkroketjes van de barbecue!",
-  "t": [
-   175,
-   200
-  ],
-  "tijd": "20m",
-  "m": "direct",
-  "b": "N",
-  "u": "https://www.bbq-nl.com/wafels-van-aardappelkroketjes/",
-  "d": "Wafels van aardappelkroketjes zijn zo gemaakt en een heerlijk bijgerecht van de BBQ!",
   "s": "zoet"
  },
  {
@@ -26473,20 +26669,6 @@ window.RECEPTEN = [
  },
  {
   "g": "na",
-  "n": "Spinazie-brietaartjes, simpele bladerdeeg hapjes",
-  "t": [
-   180,
-   180
-  ],
-  "tijd": "",
-  "m": "indirect",
-  "b": "N",
-  "u": "https://www.bbq-nl.com/spinazie-brietaartjes/",
-  "d": "Recept voor vegetarische spinazie-brietaartjes van de barbecue. Een leuk gerechtje, dat je makkelijk kunt maken en als voor- of bijgerecht kunt…",
-  "s": "zoet"
- },
- {
-  "g": "na",
   "n": "Apfelstrudel van de BBQ",
   "t": [
    190,
@@ -26553,20 +26735,6 @@ window.RECEPTEN = [
   "b": "N",
   "u": "https://www.bbq-nl.com/zomerfruit-clafoutis/",
   "d": "Recept voor een zomerfruit clafoutis van de barbecue, maar deze clafoutis kan net zo makkelijk in de oven worden gemaakt.",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Aardappel burnt ends",
-  "t": [
-   200,
-   200
-  ],
-  "tijd": "2u",
-  "m": "",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/aardappel-burnt-ends/",
-  "d": "Deze aardappel burnt ends zijn zeker geen vervanger voor het echte werk maar zijn wel gruwelijk lekker als snack bij een lekker biertje.",
   "s": "zoet"
  },
  {
@@ -26823,34 +26991,6 @@ window.RECEPTEN = [
  },
  {
   "g": "na",
-  "n": "Gepofte aardappel en braadworst",
-  "t": [
-   200,
-   200
-  ],
-  "tijd": "2u",
-  "m": "direct",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/gepofte-aardappel-en-braadworst/",
-  "d": "Een gepofte aardappel met worst is bijna een complete maaltijd als je er nog een lekkere salade naast zet of wat gegrilde groenten.",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Gepofte aardappel met pulled pork van de barbecue",
-  "t": [
-   200,
-   225
-  ],
-  "tijd": "1u35",
-  "m": "indirect",
-  "b": "N",
-  "u": "https://www.bbq-nl.com/gepofte-aardappel-met-pulled-pork/",
-  "d": "Als je pulled pork maakt hou je bijna altijd over. Daarmee kun je heerlijke andere gerechten maken zoals deze gepofte aardappel met pulled pork.",
-  "s": "zoet"
- },
- {
-  "g": "na",
   "n": "Gevulde Appels in Bladerdeeg",
   "t": [
    200,
@@ -26879,48 +27019,6 @@ window.RECEPTEN = [
  },
  {
   "g": "na",
-  "n": "Gevulde varkensrack met citroen aardappeltjes",
-  "t": [
-   200,
-   200
-  ],
-  "tijd": "3u",
-  "m": "indirect",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/varkensrack-citroen-aardappeltjes/",
-  "d": "Er zijn maar weinig grote stukken vlees zo indrukwekkend en betaalbaar dan een compleet varkensrack. En gevuld is het helemaal een feest.",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Gevulde zoete aardappel met pulled pork",
-  "t": [
-   200,
-   200
-  ],
-  "tijd": "2u",
-  "m": "indirect",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/gevulde-zoete-aardappel-pulled-pork/",
-  "d": "Zoete aardappels zijn gezonder dan gewone aardappels. Dat heffen we op door ze te vullen met spek en kaas en te beleggen met pulled pork.",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Griekse aardappeltjes uit de folie",
-  "t": [
-   200,
-   200
-  ],
-  "tijd": "1u",
-  "m": "indirect",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/griekse-aardappeltjes-uit-de-folie/",
-  "d": "Deze Griekse aardappeltjes zijn geweldig als side dish bij elk barbecuefeestje. Vooral bij een grote kom tzatziki of andere Griekse gerechten.",
-  "s": "zoet"
- },
- {
-  "g": "na",
   "n": "Hasselback appels",
   "t": [
    200,
@@ -26945,20 +27043,6 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/karamel-fudge-brownie/",
   "d": "Als de BBQ hier aan gaat probeer ik altijd diverse gerechten te maken. Ik ben meestal van de voor-, hoofd- en bijgerechten en mijn vriendin komt met…",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Mini kersentaart op de barbecue",
-  "t": [
-   200,
-   200
-  ],
-  "tijd": "30m",
-  "m": "indirect",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/mini-kersentaart-op-de-barbecue/",
-  "d": "Deze mini kersentaartje zijn een leuke afsluiting van een geweldig bbq feestje. Je kan alles voorbereiden en het is snel klaar.",
   "s": "zoet"
  },
  {
@@ -27033,34 +27117,6 @@ window.RECEPTEN = [
  },
  {
   "g": "na",
-  "n": "Pesto Uientaartjes, een leuke snack van de barbecue",
-  "t": [
-   200,
-   200
-  ],
-  "tijd": "",
-  "m": "indirect",
-  "b": "N",
-  "u": "https://www.bbq-nl.com/pesto-uientaartjes-van-de-barbecue/",
-  "d": "Pesto uientaartjes zijn een heerlijke snack van de barbecue, als je de uien ook nog eerst even in de kolen roostert dan zijn ze heerlijk zoet.",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Quesadilla met sweet chili sinaasappel saus",
-  "t": [
-   200,
-   200
-  ],
-  "tijd": "2u",
-  "m": "",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/quesadilla-sweet-chili-sinaasappel-saus/",
-  "d": "De sweet chilli sinaasappelsaus is de grote ster bij deze quesadilla. Een heerlijke frisse saus die geweldig past bij kip maar ook als dipsaus.",
-  "s": "zoet"
- },
- {
-  "g": "na",
   "n": "Rabarber crumble met walnoot van de barbecue",
   "t": [
    200,
@@ -27089,20 +27145,6 @@ window.RECEPTEN = [
  },
  {
   "g": "na",
-  "n": "Sla wraps met ananas salsa en hete pruimensaus",
-  "t": [
-   200,
-   200
-  ],
-  "tijd": "30m",
-  "m": "direct",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/sla-wraps-ananas-salsa-hete-pruimensaus/",
-  "d": "Deze frisse sla wrap met gegrilde bavette van varken en ananas salsa is een fris recept dat je serveert op een warme zomerdag.",
-  "s": "zoet"
- },
- {
-  "g": "na",
   "n": "Speculaas Crumble",
   "t": [
    200,
@@ -27113,48 +27155,6 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/speculaas-crumble/",
   "d": "Maakte ik eerder al een apple crumble op de BBQ én een versie met gezouten karamel, is het nu tijd voor een speculaas variant met appel en peer. Door…",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Twice Baked Potatoes - dubbel gepofte aardappels",
-  "t": [
-   200,
-   200
-  ],
-  "tijd": "",
-  "m": "indirect",
-  "b": "N",
-  "u": "https://www.bbq-nl.com/dubbel-gepofte-aardappels/",
-  "d": "Twice baked potatoes zijn dubbel gepofte aardappels zoals je ze in veel steakhouses in de VS vindt, gevuld met kaas, bacon en zure room.",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "Wild zwijn t-bone met appel sjalotsaus",
-  "t": [
-   200,
-   200
-  ],
-  "tijd": "30m",
-  "m": "",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/wild-zwijn-t-bone-appel-sjalotsaus/",
-  "d": "wild zwijn t-bone klinkt spannender dan het is. Het is een klein maar smaakvol stuk vlees dat aan een simpele bereiding genoeg heeft.",
-  "s": "zoet"
- },
- {
-  "g": "na",
-  "n": "chili zoete aardappels",
-  "t": [
-   200,
-   250
-  ],
-  "tijd": "1u",
-  "m": "",
-  "b": "H",
-  "u": "https://bbq-helden.nl/recepten/chili-zoete-aardappels/",
-  "d": "Zoete aardappel is een populair bijgerecht bij onze barbecuefeestjes. Deze blokjes zoete aardappel geven we een klein beetje extra pit met wat…",
   "s": "zoet"
  },
  {
