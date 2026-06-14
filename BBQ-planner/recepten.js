@@ -1,4 +1,4 @@
-// Gegenereerd door bouw_recepten.py op 2026-06-14 08:14
+// Gegenereerd door bouw_recepten.py op 2026-06-14 08:19
 window.RECEPTEN = [
  {
   "g": "voor",
@@ -1606,7 +1606,7 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/gerookte-notenmix/",
   "d": "Hoewel we de BBQ voornamelijk gebruiken om maaltijden op te bereiden, hoeft dat natuurlijk niet. Vandaag daarom een heel eenvoudig recept, voor een…",
-  "s": "groente"
+  "s": "overig"
  },
  {
   "g": "voor",
@@ -3638,20 +3638,6 @@ window.RECEPTEN = [
   "u": "https://www.bbq-nl.com/krokante-kippenvleugels/",
   "d": "Super krokante kippenvleugels van de barbecue met een pittige Koreaanse saus. Heerlijk als snack van de barbecue.",
   "s": "kip"
- },
- {
-  "g": "voor",
-  "n": "Kruidnoten Brownie",
-  "t": [
-   200,
-   200
-  ],
-  "tijd": "",
-  "m": "indirect",
-  "b": "J",
-  "u": "https://bbq-junkie.nl/bbq-recepten/kruidnoten-brownie/",
-  "d": "Ook zoet bakken kan prima op de BBQ! Wat dacht je bijvoorbeeld van deze kruidnoten brownie Het perfecte excuus om op Sinterklaas avond de BBQ aan te…",
-  "s": "groente"
  },
  {
   "g": "voor",
@@ -7752,7 +7738,7 @@ window.RECEPTEN = [
   "b": "P",
   "u": "https://www.bbqproof.nl/recepten/pepernoten-van-de-bbq/",
   "d": "Wat is nou sinterklaas zonder pepernoten? Wij hebben ze gemaakt op de BBQ, super simpel en erg lekker! Check snel ons recept!",
-  "s": "groente"
+  "s": "overig"
  },
  {
   "g": "bij",
@@ -16662,7 +16648,7 @@ window.RECEPTEN = [
   "b": "N",
   "u": "https://www.bbq-nl.com/gerookte-thaise-noten/",
   "d": "Deze gerookte Thaise noten maak je lekker simpel op de BBQ en je hebt er een heerlijke snack aan!",
-  "s": "groente"
+  "s": "overig"
  },
  {
   "g": "hoofd",
@@ -21198,20 +21184,6 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/gerookte-tomatensoep/",
   "d": "Dat je van alles op de BBQ kunt bereiden hoe ik je waarschijnlijk niet meer te vertellen. Soep was hier echter nog niet voorbij gekomen, maar voor…",
-  "s": "groente"
- },
- {
-  "g": "hoofd",
-  "n": "Gerookte selderijsoep met gekaramelliseerde walnoten",
-  "t": [
-   200,
-   220
-  ],
-  "tijd": "1u50",
-  "m": "indirect",
-  "b": "N",
-  "u": "https://www.bbq-nl.com/gerookte-selderijsoep-met-gekaramelliseerde-walnoten/",
-  "d": "Een hartverwarmende, vegetarische selderijsoep van de barbecue.",
   "s": "groente"
  },
  {
@@ -26991,6 +26963,20 @@ window.RECEPTEN = [
  },
  {
   "g": "na",
+  "n": "Gerookte selderijsoep met gekaramelliseerde walnoten",
+  "t": [
+   200,
+   220
+  ],
+  "tijd": "1u50",
+  "m": "indirect",
+  "b": "N",
+  "u": "https://www.bbq-nl.com/gerookte-selderijsoep-met-gekaramelliseerde-walnoten/",
+  "d": "Een hartverwarmende, vegetarische selderijsoep van de barbecue.",
+  "s": "zoet"
+ },
+ {
+  "g": "na",
   "n": "Gevulde Appels in Bladerdeeg",
   "t": [
    200,
@@ -27043,6 +27029,20 @@ window.RECEPTEN = [
   "b": "J",
   "u": "https://bbq-junkie.nl/bbq-recepten/karamel-fudge-brownie/",
   "d": "Als de BBQ hier aan gaat probeer ik altijd diverse gerechten te maken. Ik ben meestal van de voor-, hoofd- en bijgerechten en mijn vriendin komt met…",
+  "s": "zoet"
+ },
+ {
+  "g": "na",
+  "n": "Kruidnoten Brownie",
+  "t": [
+   200,
+   200
+  ],
+  "tijd": "",
+  "m": "indirect",
+  "b": "J",
+  "u": "https://bbq-junkie.nl/bbq-recepten/kruidnoten-brownie/",
+  "d": "Ook zoet bakken kan prima op de BBQ! Wat dacht je bijvoorbeeld van deze kruidnoten brownie Het perfecte excuus om op Sinterklaas avond de BBQ aan te…",
   "s": "zoet"
  },
  {
