@@ -88,7 +88,7 @@ const NAV = [
   { key: 'home',          label: 'Home',            sub: 'Overzicht' },
   { key: 'programma',     label: 'Programma',        sub: '4 dagen, 3 nachten' },
   { key: 'paklijst',      label: 'Paklijst',         sub: 'Wat neem je mee' },
-  { key: 'weer',          label: 'Weersverwachting', sub: '30+ °C' },
+  { key: 'weer',          label: 'Weersverwachting', sub: '26+ °C' },
   { key: 'locatie',       label: 'Locatie',          sub: 'Adres & route' },
   { key: 'kamerindeling', label: 'Kamerindeling',    sub: 'Wie slaapt waar' },
   { key: 'betalingen',    label: 'Betalingen',       sub: '€ 480 p.p.' },
@@ -100,23 +100,23 @@ const NAMES = ['Daan','Cas','Bas','Hugo','Huub','Jordi','Bram','Lars','Max','Pep
 const MONTHS = ["Sep '25","Okt '25","Nov '25","Dec '25","Jan '26","Feb '26","Mrt '26","Apr '26","Mei '26","Jun '26"];
 const MONTH_KEYS = ['sep','okt','nov','dec','jan','feb','mrt','apr','mei','jun'];
 const PAYMENTS = [
+  { naam:'Bram',    sep:0,  okt:0,  nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:48, jun:0, totaal:336, open:144 },
+  { naam:'Hugo',    sep:48, okt:48, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:0,  jun:0, totaal:384, open:96  },
+  { naam:'Daan',    sep:0,  okt:0,  nov:0,  dec:0,  jan:240,feb:0,  mrt:0,  apr:0,  mei:0,  jun:0, totaal:240, open:240 },
+  { naam:'Lars',    sep:0,  okt:0,  nov:0,  dec:0,  jan:0,  feb:480,mrt:0,  apr:0,  mei:0,  jun:0, totaal:480, open:0   },
+  { naam:'Pepijn',  sep:0,  okt:0,  nov:0,  dec:0,  jan:240,feb:0,  mrt:0,  apr:0,  mei:0,  jun:0, totaal:240, open:240 },
+  { naam:'Sebas',   sep:0,  okt:0,  nov:0,  dec:0,  jan:480,feb:0,  mrt:0,  apr:0,  mei:0,  jun:0, totaal:480, open:0   },
+  { naam:'Sander',  sep:0,  okt:96, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:0,  jun:0, totaal:384, open:96  },
+  { naam:'Stijn',   sep:0,  okt:0,  nov:0,  dec:0,  jan:480,feb:0,  mrt:0,  apr:0,  mei:0,  jun:0, totaal:480, open:0   },
   { naam:'Cas',     sep:0,  okt:0,  nov:0,  dec:0,  jan:480,feb:0,  mrt:0,  apr:0,  mei:0,  jun:0, totaal:480, open:0   },
   { naam:'Jordi',   sep:48, okt:0,  nov:0,  dec:0,  jan:0,  feb:432,mrt:0,  apr:0,  mei:0,  jun:0, totaal:480, open:0   },
-  { naam:'Stijn',   sep:0,  okt:0,  nov:0,  dec:0,  jan:480,feb:0,  mrt:0,  apr:0,  mei:0,  jun:0, totaal:480, open:0   },
-  { naam:'Sebas',   sep:0,  okt:0,  nov:0,  dec:0,  jan:480,feb:0,  mrt:0,  apr:0,  mei:0,  jun:0, totaal:480, open:0   },
-  { naam:'Lars',    sep:0,  okt:0,  nov:0,  dec:0,  jan:0,  feb:480,mrt:0,  apr:0,  mei:0,  jun:0, totaal:480, open:0   },
   { naam:'Roel',    sep:48, okt:48, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:0,  jun:0, totaal:384, open:96  },
-  { naam:'Hugo',    sep:48, okt:48, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:0,  jun:0, totaal:384, open:96  },
   { naam:'Huub',    sep:48, okt:48, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:0,  jun:0, totaal:384, open:96  },
   { naam:'Robin',   sep:48, okt:48, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:0,  jun:0, totaal:384, open:96  },
   { naam:'Ruben',   sep:48, okt:48, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:0,  jun:0, totaal:384, open:96  },
-  { naam:'Sander',  sep:0,  okt:96, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:0,  jun:0, totaal:384, open:96  },
   { naam:'Voerbak', sep:0,  okt:96, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:0,  jun:0, totaal:384, open:96  },
   { naam:'Max',     sep:0,  okt:48, nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:48, jun:0, totaal:384, open:96  },
-  { naam:'Bram',    sep:0,  okt:0,  nov:48, dec:48, jan:48, feb:48, mrt:48, apr:48, mei:48, jun:0, totaal:336, open:144 },
-  { naam:'Daan',    sep:0,  okt:0,  nov:0,  dec:0,  jan:240,feb:0,  mrt:0,  apr:0,  mei:0,  jun:0, totaal:240, open:240 },
   { naam:'Bas',     sep:0,  okt:0,  nov:0,  dec:0,  jan:240,feb:0,  mrt:0,  apr:0,  mei:0,  jun:0, totaal:240, open:240 },
-  { naam:'Pepijn',  sep:0,  okt:0,  nov:0,  dec:0,  jan:240,feb:0,  mrt:0,  apr:0,  mei:0,  jun:0, totaal:240, open:240 },
 ];
 
 const ROOMS = NAMES.reduce((acc, n) => {
@@ -236,7 +236,18 @@ function useBetalingen() {
   const [data, setData] = React.useState(PAYMENTS);
   React.useEffect(() => {
     sb.from('betalingen').select('*').then(({ data: rows }) => {
-      if (rows && rows.length > 0) setData(rows);
+      if (rows && rows.length > 0) {
+        const volgorde = ['Bram','Hugo','Daan','Lars','Pepijn','Sebas','Sander','Stijn'];
+        rows.sort((a, b) => {
+          const ai = volgorde.indexOf(a.naam);
+          const bi = volgorde.indexOf(b.naam);
+          if (ai !== -1 && bi !== -1) return ai - bi;
+          if (ai !== -1) return -1;
+          if (bi !== -1) return 1;
+          return a.naam.localeCompare(b.naam);
+        });
+        setData(rows);
+      }
     });
   }, []);
   return [data, setData];
@@ -1360,12 +1371,12 @@ function WeerPage({ setCurrentPage, desktop }) {
   const [revealedIdx, setRevealedIdx] = React.useState(null);
 
   const stats = [
-    { value: '34', unit: '°C', label: 'OVERDAG' },
-    { value: '23', unit: '°C', label: "'S NACHTS" },
-    { value: '14', unit: 'u',  label: 'ZON' },
-    { value: '10', unit: '%',  label: 'REGENKANS' },
-    { value: '66', unit: '%',  label: 'VOCHTIGHEID' },
-    { value: '16', unit: 'u',  label: 'DAGLICHT' },
+    { value: '26+', unit: '°C', label: 'OVERDAG' },
+    { value: '19',  unit: '°C', label: "'S NACHTS" },
+    { value: '12',  unit: 'u',  label: 'ZON' },
+    { value: '25',  unit: '%',  label: 'REGENKANS' },
+    { value: '60',  unit: '%',  label: 'VOCHTIGHEID' },
+    { value: '16',  unit: 'u',  label: 'DAGLICHT' },
   ];
 
   const StatGrid = ({ cols }) => (
@@ -1394,17 +1405,6 @@ function WeerPage({ setCurrentPage, desktop }) {
 
   const AdviesBlock = ({ size }) => (
     <>
-      <div style={{
-        border: `1px solid ${TERRA}`, padding: '16px 20px', marginBottom: 32,
-        background: '#fdf0ed',
-      }}>
-        <p style={{
-          fontFamily: "'Fragment Mono', monospace",
-          fontSize: size, lineHeight: 1.65, color: BLACK, margin: 0,
-        }}>
-          Zonnebrand is geen optie maar een verplichting. Het wordt écht heet — korte broek overdag, 's avonds wat makkelijker. Regen hoef je nauwelijks rekening mee te houden.
-        </p>
-      </div>
       <InfoCard>
         <div style={{
           fontFamily: "'Fragment Mono', monospace",
