@@ -88,7 +88,7 @@ const NAV = [
   { key: 'home',          label: 'Home',            sub: 'Overzicht' },
   { key: 'programma',     label: 'Programma',        sub: '4 dagen, 3 nachten' },
   { key: 'paklijst',      label: 'Paklijst',         sub: 'Wat neem je mee' },
-  { key: 'weer',          label: 'Weersverwachting', sub: '± 25 °C' },
+  { key: 'weer',          label: 'Weersverwachting', sub: '30+ °C' },
   { key: 'locatie',       label: 'Locatie',          sub: 'Adres & route' },
   { key: 'kamerindeling', label: 'Kamerindeling',    sub: 'Wie slaapt waar' },
   { key: 'betalingen',    label: 'Betalingen',       sub: '€ 480 p.p.' },
@@ -157,7 +157,7 @@ const DEFAULT_TEKSTEN = {
 
 // ─── Secret Bril ─────────────────────────────────────────────────────────────
 // Zet op false om de popup voor iedereen te verbergen
-const BRIL_POPUP_ACTIVE = true;
+const BRIL_POPUP_ACTIVE = false;
 // Wie koopt voor wie? (Pas hieronder de namen aan)
 const BRIL_PAIRS = {
   'Cas':     'Sebas',
@@ -461,7 +461,7 @@ function BottomTabBar({ currentPage, setCurrentPage }) {
 }
 
 // ─── R Watermark ──────────────────────────────────────────────────────────────
-function RWatermark({ color, size }) {
+function RWatermark({ color, size, letter }) {
   const c = color || 'rgba(196,74,42,0.06)';
   const s = size || 380;
   return (
@@ -470,7 +470,7 @@ function RWatermark({ color, size }) {
       fontFamily: "'Bebas Neue', sans-serif",
       fontSize: s, lineHeight: 1, color: c,
       pointerEvents: 'none', userSelect: 'none', zIndex: 0,
-    }}>R</div>
+    }}>{letter || 'R'}</div>
   );
 }
 
@@ -597,7 +597,7 @@ function MobileNavButtons({ setCurrentPage, exclude }) {
 }
 
 // ─── MobilePhotoBackground ────────────────────────────────────────────────────
-function MobilePhotoBackground({ src }) {
+function MobilePhotoBackground({ src, letter }) {
   return (
     <div style={{
       position: 'fixed', top: 52, left: 0,
@@ -612,7 +612,7 @@ function MobilePhotoBackground({ src }) {
         fontSize: 390, lineHeight: 1,
         color: 'rgba(245,240,232,0.35)',
         pointerEvents: 'none', userSelect: 'none',
-      }}>R</div>
+      }}>{letter || 'R'}</div>
     </div>
   );
 }
@@ -667,13 +667,13 @@ function InfoCard({ children, style }) {
 }
 
 // ─── SubPage wrapper (desktop) ─────────────────────────────────────────────────
-function SubShell({ children, maxWidth }) {
+function SubShell({ children, maxWidth, letter }) {
   const mw = maxWidth || 860;
   return (
     <div style={{
       background: BEIGE, minHeight: '100%', position: 'relative', overflow: 'hidden',
     }}>
-      <RWatermark color="rgba(196,74,42,0.06)" size={380}/>
+      <RWatermark color="rgba(196,74,42,0.06)" size={380} letter={letter}/>
       <div style={{ maxWidth: mw, margin: '0 auto', padding: '52px 56px 80px', position: 'relative', zIndex: 1 }}>
         {children}
       </div>
@@ -874,55 +874,58 @@ function HomePage({ setCurrentPage, desktop, playerName, t }) {
   };
 
   const FAQBlock = ({ fontSize }) => (
-    <div style={{ background: PAPER, padding: desktop ? '52px 56px' : '32px 20px' }}>
-      <div style={{
-        fontFamily: "'Fragment Mono', monospace",
-        fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase',
-        color: 'rgba(17,17,17,0.50)', marginBottom: 20,
-        paddingBottom: 16, borderBottom: `1px solid rgba(17,17,17,0.10)`,
-      }}>━━ Veel Gestelde Vragen</div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-        {FAQ_ITEMS.map((item, i) => (
-          <div key={i} style={{
-            borderBottom: `1px solid rgba(17,17,17,0.07)`,
-            paddingBottom: 16,
-            marginBottom: 16,
-          }}>
-            <div
-              onClick={() => setOpenFAQIdx(openFAQIdx === i ? null : i)}
-              style={{
-                cursor: 'pointer',
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontSize: fontSize,
-                fontWeight: 900,
-                textTransform: 'uppercase',
-                letterSpacing: '0.04em',
-                color: BLACK,
-                paddingBottom: 12,
-                userSelect: 'none',
-                transition: 'color 100ms ease',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <span>{item.q}</span>
-              <span style={{ marginLeft: 12, color: TERRA, fontSize: fontSize * 0.7, transition: 'transform 200ms ease', transform: openFAQIdx === i ? 'rotate(45deg)' : 'rotate(0deg)' }}>+</span>
-            </div>
-            {openFAQIdx === i && (
-              <div style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: fontSize * 0.8,
-                lineHeight: 1.6,
-                color: 'rgba(17,17,17,0.85)',
-                paddingTop: 12,
-                paddingLeft: 0,
-                fontWeight: 300,
-              }}>
-                {item.a}
+    <div style={{ background: PAPER, padding: desktop ? '52px 56px' : '32px 20px', position: 'relative', overflow: 'hidden' }}>
+      <RWatermark color="rgba(196,74,42,0.06)" size={desktop ? 380 : 280} letter="B"/>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <div style={{
+          fontFamily: "'Fragment Mono', monospace",
+          fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase',
+          color: 'rgba(17,17,17,0.50)', marginBottom: 20,
+          paddingBottom: 16, borderBottom: `1px solid rgba(17,17,17,0.10)`,
+        }}>━━ Veel Gestelde Vragen</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+          {FAQ_ITEMS.map((item, i) => (
+            <div key={i} style={{
+              borderBottom: `1px solid rgba(17,17,17,0.07)`,
+              paddingBottom: 16,
+              marginBottom: 16,
+            }}>
+              <div
+                onClick={() => setOpenFAQIdx(openFAQIdx === i ? null : i)}
+                style={{
+                  cursor: 'pointer',
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontSize: fontSize,
+                  fontWeight: 900,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                  color: BLACK,
+                  paddingBottom: 12,
+                  userSelect: 'none',
+                  transition: 'color 100ms ease',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <span>{item.q}</span>
+                <span style={{ marginLeft: 12, color: TERRA, fontSize: fontSize * 0.7, transition: 'transform 200ms ease', transform: openFAQIdx === i ? 'rotate(45deg)' : 'rotate(0deg)' }}>+</span>
               </div>
-            )}
-          </div>
-        ))}
+              {openFAQIdx === i && (
+                <div style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: fontSize * 0.8,
+                  lineHeight: 1.6,
+                  color: 'rgba(17,17,17,0.85)',
+                  paddingTop: 12,
+                  paddingLeft: 0,
+                  fontWeight: 300,
+                }}>
+                  {item.a}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -943,7 +946,7 @@ function HomePage({ setCurrentPage, desktop, playerName, t }) {
               fontFamily: "'Bebas Neue', sans-serif",
               fontSize: 340, color: 'rgba(0,0,0,0.09)', lineHeight: 1,
               pointerEvents: 'none', userSelect: 'none',
-            }}>R</div>
+            }}>B</div>
             <div style={{ position: 'relative', zIndex: 1 }}>
               <div style={{
                 fontFamily: "'Fragment Mono', monospace",
@@ -999,7 +1002,7 @@ function HomePage({ setCurrentPage, desktop, playerName, t }) {
           fontFamily: "'Bebas Neue', sans-serif",
           fontSize: 280, color: 'rgba(0,0,0,0.08)', lineHeight: 1,
           pointerEvents: 'none', userSelect: 'none',
-        }}>R</div>
+        }}>B</div>
         <div style={{ position: 'relative', zIndex: 1 }}>
           <div style={{
             fontFamily: "'Fragment Mono', monospace",
@@ -1044,8 +1047,8 @@ function HomePage({ setCurrentPage, desktop, playerName, t }) {
 function ProgrammaPage({ setCurrentPage, desktop }) {
   const schedule = [
     { day: 'Donderdag 25 juni', events: [
-      { time: '05:45',      desc: 'Vertrek vanaf de Mac in Udenhout. Zorg dat je op tijd bent.' },
-      { time: '05:45–08:00', desc: 'Rit richting een vliegveld dat net wat verder weg ligt dan je hoopt. Reken op ongeveer 2,5 uur rijden.' },
+      { time: '05:30',      desc: 'Vertrek vanaf de Mac in Udenhout. Zorg dat je op tijd bent.' },
+      { time: '05:30–08:00', desc: 'Rit richting een vliegveld dat net wat verder weg ligt dan je hoopt. Reken op ongeveer 2,5 uur rijden.' },
       { time: '13:00',      desc: <span>Aankomst en vervoer naar het appartement. Niet zomaar vervoer. <a href="https://open.spotify.com/track/1uvyZBs4IZYRebHIB1747m?si=U2H609zMSCaM4VVn9QWsrQ" target="_blank" rel="noopener noreferrer" style={{ color: TERRA, textDecoration: 'none', borderBottom: `1px solid ${TERRA}` }}>🎵 Luister dit en vul zelf in</a></span> },
       { time: 'Middag',     desc: 'Inchecken, spullen droppen, oriënteren en doen alsof we een volwassen planning hebben.' },
       { time: 'Avond',      desc: 'Typisch lokaal eten. Verwacht vlees, kruiden, stevige porties en iemand die zegt dat we rustig aan moeten doen.' },
@@ -1104,7 +1107,7 @@ function ProgrammaPage({ setCurrentPage, desktop }) {
     return (
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 'calc(100vh - 60px)', alignItems: 'start' }}>
         <div style={{ background: BEIGE, padding: '52px 56px 80px', position: 'relative', overflow: 'hidden' }}>
-          <RWatermark color="rgba(196,74,42,0.06)" size={380}/>
+          <RWatermark color="rgba(196,74,42,0.06)" size={380} letter="U"/>
           <div style={{ position: 'relative', zIndex: 1 }}>
             <PageLabel>Programma</PageLabel>
             <h1 style={{
@@ -1133,7 +1136,7 @@ function ProgrammaPage({ setCurrentPage, desktop }) {
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
       {/* Foto fixed achtergrond */}
-      <MobilePhotoBackground src="Hero.jpg"/>
+      <MobilePhotoBackground src="Hero.jpg" letter="U"/>
       {/* Spacer: toont foto bij openen */}
       <div style={{ height: '42vh', position: 'relative', zIndex: 2 }}/>
       {/* Header blok */}
@@ -1175,6 +1178,7 @@ function PaklijstPage({ setCurrentPage, desktop }) {
   const meItems = [
     { title: 'Paspoort of ID',                desc: 'Check of je geldig is.' },
     { title: 'Meest rare bril die je (online) kunt vinden. Max €10,-', desc: 'Dit wordt leuk.' },
+    { title: 'Shirt Nederlands elftal',       desc: 'Mag natuurlijk niet ontbreken.' },
     { title: 'Zomerkleding',                  desc: "Korte broeken, shirts. Overdag zo'n 25 graden." },
     { title: 'Lange broek',                   desc: 'Voor als we ergens naar binnen gaan waar ze moeilijk doen.' },
     { title: 'Zonnebrand en zonnebril',       desc: '14 uur zon per dag. Je verbrand sneller dan je denkt.' },
@@ -1184,12 +1188,12 @@ function PaklijstPage({ setCurrentPage, desktop }) {
     { title: 'Paracetamol',                   desc: 'Niet voor als, maar voor wanneer.' },
     { title: 'Oordoppen',                     desc: 'Voor als je bij Hugo op de kamer ligt.' },
     { title: 'Slaapmasker',                   desc: 'Voor als je Roel heet.' },
-    { title: 'Zwembroek',                     desc: 'Wie weet.' },
+    { title: 'Ontbijtpakketje',               desc: 'Krijg je van de organisatie.' },
   ];
 
   const thuisItems = [
     { title: 'Drugs',               desc: 'Nee. Gewoon nee.' },
-    { title: 'Laptop of werktelefoon', desc: 'Werken doen we later weer.' },
+    { title: 'Laptop of werktelefoon', desc: 'Werken doen we later weer. Dit geldt ook voor Lars.' },
     { title: 'Slechte zin',         desc: 'Laat thuis.' },
     { title: 'Vrouwen',             desc: 'Op de heenreis niet. Terugreis is op eigen kosten en eigen verantwoordelijkheid.' },
     { title: 'Wapens',              desc: 'Die hebben ze daar genoeg.' },
@@ -1256,8 +1260,40 @@ function PaklijstPage({ setCurrentPage, desktop }) {
           fontFamily: "'Barlow Condensed', sans-serif",
           fontSize: desktop ? 36 : 28, fontWeight: 900,
           textTransform: 'uppercase', letterSpacing: '0.05em',
-          color: TERRA, marginBottom: 14,
+          color: TERRA, marginBottom: 8,
         }}>40 × 30 × 20 cm</div>
+        <div style={{
+          fontFamily: "'Fragment Mono', monospace",
+          fontSize: 11, color: 'rgba(17,17,17,0.65)', lineHeight: 1.6,
+          marginBottom: 16,
+        }}>
+          Dit is kleiner dan je denkt. Een gewone trolley past hier <strong style={{ color: TERRA }}>niet</strong> in. Denk aan een rugzak, duffelbag of een kleine underseater koffer. Voordeel: geen wachten bij de bagageband — dat scheelt makkelijk een halfuur. En wees eerlijk, wij hebben niet zoveel nodig.
+        </div>
+        <div style={{
+          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: 8, marginBottom: 16,
+        }}>
+          {[
+            { label: 'Rugzak', ok: true },
+            { label: 'Duffelbag', ok: true },
+            { label: 'Underseater', ok: true },
+            { label: 'Trolley', ok: false },
+          ].map(({ label, ok }) => (
+            <div key={label} style={{
+              textAlign: 'center', padding: '10px 4px',
+              background: ok ? 'rgba(31,138,91,0.08)' : 'rgba(196,74,42,0.08)',
+              border: `1px solid ${ok ? 'rgba(31,138,91,0.20)' : 'rgba(196,74,42,0.20)'}`,
+            }}>
+              <div style={{ fontSize: 20, marginBottom: 4 }}>{ok ? '✓' : '✕'}</div>
+              <div style={{
+                fontFamily: "'Fragment Mono', monospace",
+                fontSize: 9, letterSpacing: '0.08em',
+                color: ok ? '#1f8a5b' : TERRA,
+                textTransform: 'uppercase',
+              }}>{label}</div>
+            </div>
+          ))}
+        </div>
         <div style={{
           borderTop: '1px solid rgba(17,17,17,0.10)', paddingTop: 12,
           fontFamily: "'Fragment Mono', monospace",
@@ -1266,12 +1302,6 @@ function PaklijstPage({ setCurrentPage, desktop }) {
           <strong style={{ color: BLACK }}>Vloeistoffen:</strong> Alleen in verpakkingen van max 100 ml. Alles samen in één transparante, hersluitbare plastic zak van max 1 liter.
         </div>
       </InfoCard>
-
-      <p style={{
-        fontFamily: "'Fragment Mono', monospace",
-        fontSize: 12, lineHeight: 1.5, color: 'rgba(17,17,17,0.55)',
-        margin: '0 0 16px 0', fontStyle: 'italic',
-      }}>Let op, deze lijst kan nog aangevuld worden.</p>
 
       <div style={{
         display: desktop ? 'grid' : 'flex',
@@ -1291,7 +1321,7 @@ function PaklijstPage({ setCurrentPage, desktop }) {
     return (
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 'calc(100vh - 60px)', alignItems: 'start' }}>
         <div style={{ background: BEIGE, padding: '52px 56px 80px', position: 'relative', overflow: 'hidden' }}>
-          <RWatermark color="rgba(196,74,42,0.06)" size={380}/>
+          <RWatermark color="rgba(196,74,42,0.06)" size={380} letter="D"/>
           <div style={{ position: 'relative', zIndex: 1 }}>
             {content}
           </div>
@@ -1307,7 +1337,8 @@ function PaklijstPage({ setCurrentPage, desktop }) {
   // ── Mobiel: foto fixed, content scrolt eroverheen ─────────────────────────
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
-      <MobilePhotoBackground src="Paklijst.jpg"/>
+      <MobilePhotoBackground src="Paklijst.jpg" letter="D"/>
+
       <div style={{ height: '42vh', position: 'relative', zIndex: 2 }}/>
       <div style={{
         position: 'relative', zIndex: 10,
@@ -1329,10 +1360,10 @@ function WeerPage({ setCurrentPage, desktop }) {
   const [revealedIdx, setRevealedIdx] = React.useState(null);
 
   const stats = [
-    { value: '26', unit: '°C', label: 'OVERDAG' },
-    { value: '15', unit: '°C', label: "'S NACHTS" },
+    { value: '34', unit: '°C', label: 'OVERDAG' },
+    { value: '23', unit: '°C', label: "'S NACHTS" },
     { value: '14', unit: 'u',  label: 'ZON' },
-    { value: '22', unit: '%',  label: 'REGENKANS' },
+    { value: '10', unit: '%',  label: 'REGENKANS' },
     { value: '66', unit: '%',  label: 'VOCHTIGHEID' },
     { value: '16', unit: 'u',  label: 'DAGLICHT' },
   ];
@@ -1371,7 +1402,7 @@ function WeerPage({ setCurrentPage, desktop }) {
           fontFamily: "'Fragment Mono', monospace",
           fontSize: size, lineHeight: 1.65, color: BLACK, margin: 0,
         }}>
-          Korte broek overdag, vestje voor 's avonds. Kans op een buitje, dat heb je overal.
+          Zonnebrand is geen optie maar een verplichting. Het wordt écht heet — korte broek overdag, 's avonds wat makkelijker. Regen hoef je nauwelijks rekening mee te houden.
         </p>
       </div>
       <InfoCard>
@@ -1397,7 +1428,7 @@ function WeerPage({ setCurrentPage, desktop }) {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 'calc(100vh - 60px)', alignItems: 'start' }}>
         {/* Links: content */}
         <div style={{ background: BEIGE, padding: '52px 56px 80px', position: 'relative', overflow: 'hidden' }}>
-          <RWatermark color="rgba(196,74,42,0.06)" size={380}/>
+          <RWatermark color="rgba(196,74,42,0.06)" size={380} letter="A"/>
           <div style={{ position: 'relative', zIndex: 1 }}>
             <PageLabel>Weerbericht</PageLabel>
             <h1 style={{
@@ -1410,7 +1441,7 @@ function WeerPage({ setCurrentPage, desktop }) {
               fontSize: 15, lineHeight: 1.65, fontWeight: 300, color: 'rgba(17,17,17,0.6)',
               margin: '0 0 32px 0',
             }}>
-              We zeggen niet waar we heen gaan. We zeggen wel hoe warm het daar is. Gemiddelden eind juni.
+              We zeggen niet waar we heen gaan. We zeggen wel hoe warm het daar is. Voorspelling voor het weekend zelf.
             </p>
             <StatGrid cols={6}/>
             <AdviesBlock size={13}/>
@@ -1429,7 +1460,7 @@ function WeerPage({ setCurrentPage, desktop }) {
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
       {/* Foto fixed achtergrond */}
-      <MobilePhotoBackground src="Weersverwachting.jpg"/>
+      <MobilePhotoBackground src="Weersverwachting.jpg" letter="A"/>
       {/* Spacer: toont foto bij openen */}
       <div style={{ height: '42vh', position: 'relative', zIndex: 2 }}/>
       {/* Content scrolt over foto */}
@@ -1449,7 +1480,7 @@ function WeerPage({ setCurrentPage, desktop }) {
           fontSize: 15, lineHeight: 1.65, fontWeight: 300, color: 'rgba(17,17,17,0.6)',
           margin: '0 0 32px 0',
         }}>
-          We zeggen niet waar we heen gaan. We zeggen wel hoe warm het daar is. Gemiddelden eind juni.
+          We zeggen niet waar we heen gaan. We zeggen wel hoe warm het daar is. Voorspelling voor het weekend zelf.
         </p>
         <StatGrid cols={2}/>
         <AdviesBlock size={12}/>
@@ -1481,7 +1512,7 @@ function LocatiePage({ setCurrentPage, desktop }) {
         fontSize: desktop ? 40 : 34, fontWeight: 900, textTransform: 'uppercase',
         letterSpacing: '0.02em', lineHeight: 1.1, color: BLACK,
         margin: '0 0 20px 0',
-      }}>25 juni · <span style={{ color: TERRA }}>05:45</span></h2>
+      }}>25 juni · <span style={{ color: TERRA }}>05:30</span></h2>
       <p style={{
         fontSize: 15, lineHeight: 1.65, fontWeight: 300, color: 'rgba(17,17,17,0.65)',
         margin: '0 0 32px 0',
@@ -1549,7 +1580,7 @@ function LocatiePage({ setCurrentPage, desktop }) {
     return (
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 'calc(100vh - 60px)', alignItems: 'start' }}>
         <div style={{ background: BEIGE, padding: '52px 56px 80px', position: 'relative', overflow: 'hidden' }}>
-          <RWatermark color="rgba(196,74,42,0.06)" size={380}/>
+          <RWatermark color="rgba(196,74,42,0.06)" size={380} letter="P"/>
           <div style={{ position: 'relative', zIndex: 1 }}>
             {content}
           </div>
@@ -1568,7 +1599,7 @@ function LocatiePage({ setCurrentPage, desktop }) {
   // ── Mobiel: foto fixed, content scrolt eroverheen ─────────────────────────
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
-      <MobilePhotoBackground src="Locatie.jpg"/>
+      <MobilePhotoBackground src="Locatie.jpg" letter="P"/>
       <div style={{ height: '42vh', position: 'relative', zIndex: 2 }}/>
       <div style={{
         position: 'relative', zIndex: 10,
@@ -1647,7 +1678,7 @@ function KamerindelingPage({ setCurrentPage, desktop, playerName }) {
     return (
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 'calc(100vh - 60px)', alignItems: 'start' }}>
         <div style={{ background: BEIGE, padding: '52px 56px 80px', position: 'relative', overflow: 'hidden' }}>
-          <RWatermark color="rgba(196,74,42,0.06)" size={380}/>
+          <RWatermark color="rgba(196,74,42,0.06)" size={380} letter="E"/>
           <div style={{ position: 'relative', zIndex: 1 }}>
             {content}
           </div>
@@ -1658,7 +1689,7 @@ function KamerindelingPage({ setCurrentPage, desktop, playerName }) {
   }
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
-      <MobilePhotoBackground src="Slaapkamer.jpg"/>
+      <MobilePhotoBackground src="Slaapkamer.jpg" letter="E"/>
       <div style={{ height: '42vh', position: 'relative', zIndex: 2 }}/>
       <div style={{ position: 'relative', zIndex: 10, background: BEIGE, padding: '28px 20px 48px' }}>
         <MobileBack setCurrentPage={setCurrentPage}/>
@@ -1798,14 +1829,14 @@ function BetalingenPage({ setCurrentPage, desktop, playerName, betalingen, t }) 
 
   if (desktop) {
     return (
-      <SubShell maxWidth={1200}>
+      <SubShell maxWidth={1200} letter="S">
         {content}
       </SubShell>
     );
   }
   return (
     <div style={{ background: BEIGE, minHeight: '100vh', padding: '24px 20px 48px', position: 'relative', overflow: 'hidden' }}>
-      <RWatermark color="rgba(196,74,42,0.05)" size={280}/>
+      <RWatermark color="rgba(196,74,42,0.05)" size={280} letter="S"/>
       <div style={{ position: 'relative', zIndex: 1 }}>
         <MobileBack setCurrentPage={setCurrentPage}/>
         {content}
@@ -1820,7 +1851,7 @@ function BetalingenPage({ setCurrentPage, desktop, playerName, betalingen, t }) 
 // ─── PlaylistPage ─────────────────────────────────────────────────────────────
 function PlaylistPage({ setCurrentPage, desktop }) {
   const PLAYLIST_ID = '0ktwOluR4aaZT5pDPdbjEo';
-  const PLAYLIST_URL = 'https://open.spotify.com/playlist/0ktwOluR4aaZT5pDPdbjEo?si=azG4vgf9S2iHKARhcT7VFQ&pt=038ace3c42680af0f149bf1fd33a0a8a&pi=P_RjfACYRv6Cg';
+  const PLAYLIST_URL = 'https://open.spotify.com/playlist/0ktwOluR4aaZT5pDPdbjEo?si=qCLGIBrsQTeTgHZ79dv_Kw&pt=f3c9cae9b2130ce7a2fee0747f669da5&pi=sbX0-yIzRhmm-';
   const [refreshKey, setRefreshKey] = React.useState(() => Date.now());
   const [reloading, setReloading] = React.useState(false);
 
@@ -1914,14 +1945,14 @@ function PlaylistPage({ setCurrentPage, desktop }) {
 
   if (desktop) {
     return (
-      <SubShell maxWidth={860}>
+      <SubShell maxWidth={860} letter="T">
         {content}
       </SubShell>
     );
   }
   return (
     <div style={{ background: BEIGE, minHeight: '100vh', padding: '24px 20px 48px', position: 'relative', overflow: 'hidden' }}>
-      <RWatermark color="rgba(196,74,42,0.05)" size={280}/>
+      <RWatermark color="rgba(196,74,42,0.05)" size={280} letter="T"/>
       <div style={{ position: 'relative', zIndex: 1 }}>
         <MobileBack setCurrentPage={setCurrentPage}/>
         {content}
