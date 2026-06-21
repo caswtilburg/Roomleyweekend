@@ -88,7 +88,7 @@ const NAV = [
   { key: 'home',          label: 'Home',            sub: 'Overzicht' },
   { key: 'programma',     label: 'Programma',        sub: '4 dagen, 3 nachten' },
   { key: 'paklijst',      label: 'Paklijst',         sub: 'Wat neem je mee' },
-  { key: 'weer',          label: 'Weersverwachting', sub: '26+ °C' },
+  { key: 'weer',          label: 'Weersverwachting', sub: '29+ °C' },
   { key: 'locatie',       label: 'Locatie',          sub: 'Adres & route' },
   { key: 'kamerindeling', label: 'Kamerindeling',    sub: 'Wie slaapt waar' },
   { key: 'betalingen',    label: 'Betalingen',       sub: '€ 480 p.p.' },
@@ -1191,9 +1191,9 @@ function PaklijstPage({ setCurrentPage, desktop }) {
     { title: 'Paspoort of ID',                desc: 'Check of je geldig is.' },
     { title: 'Meest rare bril die je (online) kunt vinden. Max €10,-', desc: 'Dit wordt leuk.' },
     { title: 'Shirt Nederlands elftal',       desc: 'Mag natuurlijk niet ontbreken.' },
-    { title: 'Zomerkleding',                  desc: "Korte broeken, shirts. Overdag zo'n 25 graden." },
-    { title: 'Lange broek',                   desc: 'Voor als we ergens naar binnen gaan waar ze moeilijk doen.' },
+    { title: 'Zomerkleding',                  desc: 'Korte broeken, shirts. Het wordt 30+ graden.' },
     { title: 'Zonnebrand en zonnebril',       desc: '14 uur zon per dag. Je verbrand sneller dan je denkt.' },
+    { title: 'Toilettas',                     desc: 'Parfum, deo, gel, zonnebrand etc. Max 100 ml per flesje — handbagage.' },
     { title: 'Goede schoenen',                desc: 'Je gaat veel lopen.' },
     { title: 'Oplader en powerbank',          desc: 'Lange dagen.' },
     { title: 'Handbagage',                    desc: 'Iedereen reist met handbagage.' },
@@ -1372,7 +1372,7 @@ function WeerPage({ setCurrentPage, desktop }) {
   const [revealedIdx, setRevealedIdx] = React.useState(null);
 
   const stats = [
-    { value: '26+', unit: '°C', label: 'OVERDAG' },
+    { value: '29+', unit: '°C', label: 'OVERDAG' },
     { value: '19',  unit: '°C', label: "'S NACHTS" },
     { value: '12',  unit: 'u',  label: 'ZON' },
     { value: '25',  unit: '%',  label: 'REGENKANS' },
