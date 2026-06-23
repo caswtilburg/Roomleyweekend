@@ -1059,8 +1059,8 @@ function HomePage({ setCurrentPage, desktop, playerName, t }) {
 function ProgrammaPage({ setCurrentPage, desktop }) {
   const schedule = [
     { day: 'Donderdag 25 juni', events: [
-      { time: '05:30',      desc: 'We vertrekken om 05:30 vanaf de Mac in Udenhout. Zorg dat je op tijd bent.' },
-      { time: '05:30–08:00', desc: 'Rit richting een vliegveld dat net wat verder weg ligt dan je hoopt. Reken op ongeveer 2,5 uur rijden.' },
+      { time: '05:00',      desc: 'We vertrekken om 05:00 vanaf de Mac in Udenhout. Zorg dat je op tijd bent.' },
+      { time: '05:00–07:30', desc: 'Rit richting een vliegveld dat net wat verder weg ligt dan je hoopt. Reken op ongeveer 2,5 uur rijden.' },
       { time: '13:00',      desc: <span>Aankomst en vervoer naar het appartement. Niet zomaar vervoer. <a href="https://open.spotify.com/track/1uvyZBs4IZYRebHIB1747m?si=U2H609zMSCaM4VVn9QWsrQ" target="_blank" rel="noopener noreferrer" style={{ color: TERRA, textDecoration: 'none', borderBottom: `1px solid ${TERRA}` }}>🎵 Luister dit en vul zelf in</a></span> },
       { time: 'Middag',     desc: 'Inchecken, spullen droppen, oriënteren en doen alsof we een volwassen planning hebben.' },
       { time: 'Avond',      desc: 'Typisch lokaal eten. Verwacht vlees, kruiden, stevige porties en iemand die zegt dat we rustig aan moeten doen.' },
@@ -1192,6 +1192,7 @@ function PaklijstPage({ setCurrentPage, desktop }) {
     { title: 'Meest rare bril die je (online) kunt vinden. Max €10,-', desc: 'Dit wordt leuk.' },
     { title: 'Shirt Nederlands elftal',       desc: 'Mag natuurlijk niet ontbreken.' },
     { title: 'Zomerkleding',                  desc: 'Korte broeken, shirts. Het wordt 30+ graden.' },
+    { title: 'Zwembroek',                     desc: 'Voor het geval dat.' },
     { title: 'Zonnebrand en zonnebril',       desc: '14 uur zon per dag. Je verbrand sneller dan je denkt.' },
     { title: 'Toilettas',                     desc: 'Parfum, deo, gel, zonnebrand etc. Max 100 ml per flesje — handbagage.' },
     { title: 'Goede schoenen',                desc: 'Je gaat veel lopen.' },
@@ -1513,7 +1514,7 @@ function LocatiePage({ setCurrentPage, desktop }) {
         fontSize: desktop ? 40 : 34, fontWeight: 900, textTransform: 'uppercase',
         letterSpacing: '0.02em', lineHeight: 1.1, color: BLACK,
         margin: '0 0 20px 0',
-      }}>25 juni · <span style={{ color: TERRA }}>05:30</span></h2>
+      }}>25 juni · <span style={{ color: TERRA }}>05:00</span></h2>
       <p style={{
         fontSize: 15, lineHeight: 1.65, fontWeight: 300, color: 'rgba(17,17,17,0.65)',
         margin: '0 0 32px 0',
